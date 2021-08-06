@@ -1,7 +1,9 @@
 import React from "react";
 import { useParams } from "react-router";
+
 import moment from "moment";
 import { Button, Container, makeStyles } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 import GitHubIcon from "@material-ui/icons/GitHub";
 
 import ReactMarkdown from "react-markdown";
@@ -9,7 +11,10 @@ import gfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import format from "rehype-format";
 
+import { useMutation } from "@apollo/react-hooks";
 import PROJECT_QUERY from "../../queries/project";
+import PROJECT_MUTATION from "../../mutations/project";
+
 import Query from "../../components/Query";
 import Tag from "../../components/Tag";
 import IconLabel from "../../components/IconLabel";
@@ -18,9 +23,22 @@ import PageNotFound from "../../components/PageNotFound";
 const Project = () => {
   const { id } = useParams();
   const classes = useStyles();
+  const [mutateFunction, { error }] = useMutation(PROJECT_MUTATION);
+  if (error)
+    return <Alert severity="error">예기치 못한 에러가 발생했습니다.</Alert>;
 
   return (
-    <Query query={PROJECT_QUERY} slug={id}>
+    <Query
+      query={PROJECT_QUERY}
+      slug={id}
+      onCompleted={({ projects }) => {
+        if (projects.length) {
+          mutateFunction({
+            variables: { id, count: projects[0].view_count + 1 },
+          });
+        }
+      }}
+    >
       {({ data: { projects } }) => {
         if (!projects.length) return <PageNotFound />;
         const project = projects[0];

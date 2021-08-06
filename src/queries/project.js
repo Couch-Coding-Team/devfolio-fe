@@ -15,6 +15,7 @@ const PROJECT_QUERY = gql`
       thumbnail_url
       readme_code
       published_at
+      view_count
     }
   }
 `;

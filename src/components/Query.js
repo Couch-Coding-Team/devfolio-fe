@@ -2,9 +2,10 @@ import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { Container } from "@material-ui/core";
 
-const Query = ({ children, query, slug }) => {
+const Query = ({ children, query, slug, onCompleted }) => {
   const { data, loading, error } = useQuery(query, {
     variables: { slug: slug },
+    onCompleted,
   });
 
   if (loading)
