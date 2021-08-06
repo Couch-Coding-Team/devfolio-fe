@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import GitHubIcon from "@material-ui/icons/GitHub";
-// import VisibilityIcon from "@material-ui/icons/Visibility";
+import VisibilityIcon from "@material-ui/icons/Visibility";
 import Tag from "../../components/Tag";
 import IconLabel from "../../components/IconLabel";
 
@@ -41,13 +41,13 @@ const Project = ({ project }) => {
                 ? project.description.substring(0, 150) + "..."
                 : project.description}
             </p>
-            {project.tech_stacks.map((stack) => (
-              <Tag key={stack.name} label={stack.name} />
+            {project.tech_stacks.map((stack, index) => (
+              <Tag key={index} label={stack.name} />
             ))}
           </div>
           <div className={classes.cardFooter}>
             <IconLabel icon={<GitHubIcon />} label={project.owner_name} />
-            {/* <IconLabel icon={<VisibilityIcon />} label="12" /> */}
+            <IconLabel icon={<VisibilityIcon />} label={project.view_count} />
           </div>
         </CardContent>
       </Card>

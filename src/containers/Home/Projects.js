@@ -1,33 +1,42 @@
 import React from "react";
-import Project from "./Project";
 import { makeStyles } from "@material-ui/core";
-// import Tabs from "@material-ui/core/Tabs";
-// import Tab from "@material-ui/core/Tab";
+import { Tabs, Tab } from "@material-ui/core";
+import { orderBy } from "lodash";
+import Project from "./Project";
+
+const ORDER_BY = [
+  { label: "최신순", value: "published_at" },
+  { label: "인기순", value: "view_count" },
+];
 
 const Projects = ({ projects }) => {
   const classes = useStyles();
-  // const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(ORDER_BY[0].value);
+  const [orderedProjects, setProjects] = React.useState(projects);
 
-  // const handleChange = (event, newValue) => {
-  //   setValue(newValue);
-  // };
+  const handleChange = (event, newValue) => {
+    const orderedList = orderBy(projects, newValue, "desc");
+    setValue(newValue);
+    setProjects(orderedList);
+  };
   return (
     <>
-      {/* <Tabs
+      <div className={classes.banner}>
+        매주 새로운 포트폴리오가 업데이트 됩니다 👇👇👇
+      </div>
+      <Tabs
         value={value}
         indicatorColor="primary"
         textColor="primary"
         onChange={handleChange}
-        aria-label="disabled tabs example"
-        style={{ margin: "36px auto" }}
+        aria-label="project list order"
+        className={classes.tabs}
       >
-        <Tab label="최신순" />
-        <Tab label="인기순" />
-      </Tabs> */}
-      <div className={classes.banner}>
-        매주 새로운 포트폴리오가 업데이트 됩니다 👇👇👇
-      </div>
-      {projects.map((project, i) => {
+        {ORDER_BY.map((order) => (
+          <Tab key={order.value} label={order.label} value={order.value} />
+        ))}
+      </Tabs>
+      {orderedProjects.map((project, i) => {
         return <Project project={project} key={`project__${project.id}`} />;
       })}
     </>
@@ -46,5 +55,8 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       margin: "40px -50% 80px -50%",
     },
+  },
+  tabs: {
+    margin: "36px auto",
   },
 }));
