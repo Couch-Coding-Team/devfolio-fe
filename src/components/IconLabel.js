@@ -1,9 +1,9 @@
 import { makeStyles } from "@material-ui/core";
 
-const IconLabel = ({ icon, label }) => {
+const IconLabel = ({ icon, label, ...props }) => {
   const classes = useStyles();
   return (
-    <div className={classes.verticalAlign}>
+    <div className={classes.verticalAlign} {...props}>
       <div className={classes.icon}>{icon}</div>
       <div>{label}</div>
     </div>

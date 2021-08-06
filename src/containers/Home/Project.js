@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   makeStyles,
   Card,
@@ -7,20 +7,32 @@ import {
   CardMedia,
   Typography,
 } from "@material-ui/core";
+// import Alert from "@material-ui/lab/Alert";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import Tag from "../../components/Tag";
 import IconLabel from "../../components/IconLabel";
+import { useMutation } from "@apollo/react-hooks";
+import PROJECT_MUTATION from "../../mutations/project";
 
 const Project = ({ project }) => {
   const classes = useStyles();
+  const history = useHistory();
+  // TODO: Add error fallback
+  const [mutateFunction, { error }] = useMutation(PROJECT_MUTATION, {
+    onCompleted: (data) => {
+      history.push(`/project/${data.updateProject.project.id}`);
+    },
+  });
 
   return (
     <Link
-      to={`/project/${project.id}`}
-      onClick={() =>
-        window.gtag("event", "프로젝트 클릭", { project_id: project.id })
-      }
+      onClick={() => {
+        window.gtag("event", "프로젝트 클릭", { project_id: project.id });
+        mutateFunction({
+          variables: { id: project.id, count: project.view_count + 1 },
+        });
+      }}
     >
       <Card className={classes.card}>
         <CardMedia>
