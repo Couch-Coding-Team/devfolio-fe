@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   makeStyles,
   Card,
@@ -7,6 +7,7 @@ import {
   CardMedia,
   Typography,
 } from "@material-ui/core";
+// import Alert from "@material-ui/lab/Alert";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import Tag from "../../components/Tag";
@@ -16,54 +17,53 @@ import PROJECT_MUTATION from "../../mutations/project";
 
 const Project = ({ project }) => {
   const classes = useStyles();
-  const [mutateFunction, { data, loading, error }] = useMutation(
-    PROJECT_MUTATION,
-    { variables: { id: "4", count: 6 } }
-  );
-  console.log("data", data);
+  const history = useHistory();
+  // TODO: Add error fallback
+  const [mutateFunction, { error }] = useMutation(PROJECT_MUTATION, {
+    onCompleted: (data) => {
+      history.push(`/project/${data.updateProject.project.id}`);
+    },
+  });
+
   return (
-    // <Link
-    //   to={`/project/${project.id}`}
-    //   onClick={() =>
-    //     window.gtag("event", "프로젝트 클릭", { project_id: project.id })
-    //   }
-    // >
-    <Card className={classes.card}>
-      <CardMedia>
-        <img
-          src={project.thumbnail_url}
-          alt={project.thumbnail_url}
-          width="100%"
-          height="100%"
-        />
-      </CardMedia>
-      <CardContent>
-        <div>
-          <Typography variant="h4">
-            <strong>{project.title}</strong>
-          </Typography>
-          <p>
-            {project.description.length > 150
-              ? project.description.substring(0, 150) + "..."
-              : project.description}
-          </p>
-          {project.tech_stacks.map((stack) => (
-            <Tag key={stack.name} label={stack.name} />
-          ))}
-        </div>
-        <div className={classes.cardFooter}>
-          <IconLabel icon={<GitHubIcon />} label={project.owner_name} />
-          <IconLabel
-            icon={<VisibilityIcon />}
-            label={project.view_count}
-            onClick={() => {
-              mutateFunction();
-            }}
+    <Link
+      onClick={() => {
+        window.gtag("event", "프로젝트 클릭", { project_id: project.id });
+        mutateFunction({
+          variables: { id: project.id, count: project.view_count + 1 },
+        });
+      }}
+    >
+      <Card className={classes.card}>
+        <CardMedia>
+          <img
+            src={project.thumbnail_url}
+            alt={project.thumbnail_url}
+            width="100%"
+            height="100%"
           />
-        </div>
-      </CardContent>
-    </Card>
-    // </Link>
+        </CardMedia>
+        <CardContent>
+          <div>
+            <Typography variant="h4">
+              <strong>{project.title}</strong>
+            </Typography>
+            <p>
+              {project.description.length > 150
+                ? project.description.substring(0, 150) + "..."
+                : project.description}
+            </p>
+            {project.tech_stacks.map((stack) => (
+              <Tag key={stack.name} label={stack.name} />
+            ))}
+          </div>
+          <div className={classes.cardFooter}>
+            <IconLabel icon={<GitHubIcon />} label={project.owner_name} />
+            <IconLabel icon={<VisibilityIcon />} label={project.view_count} />
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
   );
 };
 
