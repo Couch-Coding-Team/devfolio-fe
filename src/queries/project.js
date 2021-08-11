@@ -16,6 +16,12 @@ const PROJECT_QUERY = gql`
       readme_code
       published_at
       view_count
+      reactions {
+        id
+        user_id {
+          id
+        }
+      }
     }
   }
 `;

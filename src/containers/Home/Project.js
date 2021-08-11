@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import VisibilityIcon from "@material-ui/icons/Visibility";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import Tag from "../../components/Tag";
 import IconLabel from "../../components/IconLabel";
 
@@ -46,7 +47,13 @@ const Project = ({ project }) => {
           </div>
           <div className={classes.cardFooter}>
             <IconLabel icon={<GitHubIcon />} label={project.owner_name} />
-            <IconLabel icon={<VisibilityIcon />} label={project.view_count} />
+            <div>
+              <IconLabel
+                icon={<FavoriteIcon />}
+                label={project.reactions.length}
+              />
+              <IconLabel icon={<VisibilityIcon />} label={project.view_count} />
+            </div>
           </div>
         </CardContent>
       </Card>
