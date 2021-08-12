@@ -5,7 +5,7 @@ import "firebase/auth";
 import { UserContext } from "../AppContext";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA2JUFD_lKXy0xbb8A1nBB0RWTaOGkFtaI",
+  apiKey: process.env.FIREBASE_API_KEY,
   authDomain: "couchcoding-3f4cd.firebaseapp.com",
   databaseURL: "https://couchcoding-3f4cd.firebaseio.com",
   projectId: "couchcoding-3f4cd",
@@ -26,6 +26,9 @@ const Auth = ({ children }) => {
     .signInAnonymously()
     .then(() => {
       console.log("signed in");
+      // uid를 받아와서
+      // strapi에 유저 생성
+
       // Signed in..
       // localStorage.setItem(
       //   "toekn",
