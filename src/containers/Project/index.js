@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useParams } from "react-router";
 
 import moment from "moment";
-import { Button, Container, makeStyles } from "@material-ui/core";
+import { Button, Chip, Container, makeStyles } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import FavoriteIcon from "@material-ui/icons/Favorite";
@@ -20,16 +20,10 @@ import CREATE_REACTION from "../../mutations/reaction";
 import DELETE_REACTION from "../../mutations/delete";
 
 import Query from "../../components/Query";
-import Tag from "../../components/Tag";
 import IconLabel from "../../components/IconLabel";
 import PageNotFound from "../../components/PageNotFound";
 
-import { UserContext } from "../../AppContext";
-
 const Project = () => {
-  // const themes = useContext(UserContext);
-  // console.log("context value", themes);
-
   const userId = 1; // 진짜 userId로 대체
   const { id } = useParams();
   const classes = useStyles();
@@ -93,7 +87,7 @@ const Project = () => {
             />
             <h1>{project.title}</h1>
             {project.tech_stacks.map((stack) => (
-              <Tag key={stack.name} label={stack.name} />
+              <Chip key={stack.name} label={stack.name} color="primary" />
             ))}
             <div className={classes.details}>
               <div className={classes.detailsLeft}>

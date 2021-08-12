@@ -6,11 +6,11 @@ import {
   CardContent,
   CardMedia,
   Typography,
+  Chip,
 } from "@material-ui/core";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import Tag from "../../components/Tag";
 import IconLabel from "../../components/IconLabel";
 
 const Project = ({ project }) => {
@@ -42,7 +42,7 @@ const Project = ({ project }) => {
                 : project.description}
             </p>
             {project.tech_stacks.map((stack, index) => (
-              <Tag key={index} label={stack.name} />
+              <Chip key={index} label={stack.name} color="primary" />
             ))}
           </div>
           <div className={classes.cardFooter}>
