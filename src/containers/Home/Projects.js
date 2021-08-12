@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core";
 import { Tabs, Tab } from "@material-ui/core";
 import { orderBy } from "lodash";
 import Project from "./Project";
+import Search from "../../components/Search";
 
 const ORDER_BY = [
   { label: "최신순", value: "published_at" },
@@ -12,31 +13,42 @@ const ORDER_BY = [
 const Projects = ({ projects }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(ORDER_BY[0].value);
-  const [orderedProjects, setProjects] = React.useState(projects);
+  const [data, setData] = React.useState(projects);
 
   const handleChange = (event, newValue) => {
-    const orderedList = orderBy(projects, newValue, "desc");
+    const orderedList = orderBy(data, newValue, "desc");
     setValue(newValue);
-    setProjects(orderedList);
+    setData(orderedList);
   };
+
+  const handleFilter = (arr) => {
+    const list = arr.map((id) => projects.find((proj) => proj.id === id));
+    setData(list);
+  };
+
+  const handleReset = () => {
+    setData(projects);
+  };
+
   return (
     <>
-      <div className={classes.banner}>
-        매주 새로운 포트폴리오가 업데이트 됩니다 👇👇👇
+      <div className={classes.bar}>
+        <Tabs
+          value={value}
+          indicatorColor="primary"
+          textColor="primary"
+          onChange={handleChange}
+          aria-label="project list order"
+          className={classes.tabs}
+        >
+          {ORDER_BY.map((order) => (
+            <Tab key={order.value} label={order.label} value={order.value} />
+          ))}
+        </Tabs>
+        <Search handleFilter={handleFilter} handleReset={handleReset} />
       </div>
-      <Tabs
-        value={value}
-        indicatorColor="primary"
-        textColor="primary"
-        onChange={handleChange}
-        aria-label="project list order"
-        className={classes.tabs}
-      >
-        {ORDER_BY.map((order) => (
-          <Tab key={order.value} label={order.label} value={order.value} />
-        ))}
-      </Tabs>
-      {orderedProjects.map((project, i) => {
+
+      {data.map((project, i) => {
         return <Project project={project} key={`project__${project.id}`} />;
       })}
     </>
@@ -46,17 +58,12 @@ const Projects = ({ projects }) => {
 export default Projects;
 
 const useStyles = makeStyles((theme) => ({
-  banner: {
-    padding: "20px 0",
-    margin: "20px -15% 80px -15%",
-    backgroundColor: "black",
-    color: "white",
-    textAlign: "center",
-    [theme.breakpoints.down("sm")]: {
-      margin: "40px -10% 80px -10%",
-    },
+  bar: {
+    display: "flex",
+    justifyContent: "space-between",
+    gap: "180px",
   },
   tabs: {
-    margin: "36px auto",
+    margin: "36px 0",
   },
 }));
