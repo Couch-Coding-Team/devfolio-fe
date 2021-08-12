@@ -8,6 +8,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.60",
     "apollo-boost": "^0.4.9",
+    "firebase": "^8.9.0",
     "graphql": "^15.5.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",

@@ -8,6 +8,7 @@ import Home from "./containers/Home";
 import Project from "./containers/Project";
 import Footer from "./components/Footer";
 import PageNotFound from "./components/PageNotFound";
+import Auth from "./components/Auth";
 
 const ROUTES = [
   { path: "/", component: Home, exact: true },
@@ -18,21 +19,23 @@ const ROUTES = [
 function App() {
   return (
     <div className="App">
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Nav />
-        <Switch>
-          {ROUTES.map((route) => (
-            <Route
-              key={route.path}
-              path={route.path}
-              component={route.component}
-              exact={route.exact}
-            />
-          ))}
-        </Switch>
-        <Footer />
-      </ThemeProvider>
+      <Auth>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Nav />
+          <Switch>
+            {ROUTES.map((route) => (
+              <Route
+                key={route.path}
+                path={route.path}
+                component={route.component}
+                exact={route.exact}
+              />
+            ))}
+          </Switch>
+          <Footer />
+        </ThemeProvider>
+      </Auth>
     </div>
   );
 }
