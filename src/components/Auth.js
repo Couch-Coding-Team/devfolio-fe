@@ -16,12 +16,13 @@ const Auth = ({ children }) => {
         // 회원가입
         const timestamp = Date.now();
         const username = fbUid.slice(0, 5) + timestamp.toString().slice(-5);
-        const user = await registerUser({
+        const newUser = {
           email: username + "@gmail.com",
-          password: "anonymous",
+          password: username,
           username,
           firebase_uid: fbUid,
-        });
+        };
+        const user = await registerUser(newUser);
         setUserId(user.id);
       }
     };
@@ -29,35 +30,41 @@ const Auth = ({ children }) => {
   }, []);
 
   const firebaseSignIn = async () => {
-    const { user } = await firebaseAuth.signInAnonymously();
-    return user.uid;
+    try {
+      const { user } = await firebaseAuth.signInAnonymously();
+      return user.uid;
+    } catch (e) {
+      console.error("error signing in firebase");
+    }
   };
 
   const fetchUser = async (fbUid) => {
-    const res = await axios.get("https://devfolio.link:1337/users", {
-      headers: {
-        Authorization: `Bearer ${process.env.REACT_APP_ADMIN_JWT}`,
-      },
-      params: {
-        firebase_uid: fbUid,
-      },
-    });
-    return res.data[0];
+    try {
+      const res = await axios.get("https://devfolio.link:1337/users", {
+        headers: {
+          Authorization: `Bearer ${process.env.REACT_APP_ADMIN_JWT}`,
+        },
+        params: {
+          firebase_uid: fbUid,
+        },
+      });
+      return res.data[0];
+    } catch (e) {
+      console.error("error fetching strapi user");
+    }
   };
 
   const registerUser = async (data) => {
-    const res = await axios.post(
-      "https://devfolio.link:1337/auth/local/register",
-      data
-    );
-    return res;
+    try {
+      const res = await axios.post(
+        "https://devfolio.link:1337/auth/local/register",
+        data
+      );
+      return res;
+    } catch (e) {
+      console.error("error resgistering strapi user");
+    }
   };
-
-  // .catch((error) => {
-  //   var errorCode = error.code;
-  //   var errorMessage = error.message;
-  //   // ...
-  // });
 
   return <UserContext.Provider value={userId}>{children}</UserContext.Provider>;
 };
