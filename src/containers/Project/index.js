@@ -1,19 +1,25 @@
 import React from "react";
 import { useParams } from "react-router";
+import { useMutation } from "@apollo/react-hooks";
 
-import moment from "moment";
-import { Button, Chip, Container, makeStyles } from "@material-ui/core";
+import {
+  Button,
+  Container,
+  makeStyles,
+  Tooltip,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 
+import moment from "moment";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import format from "rehype-format";
 
-import { useMutation } from "@apollo/react-hooks";
 import PROJECT_QUERY from "../../queries/project";
 import PROJECT_MUTATION from "../../mutations/project";
 import CREATE_REACTION from "../../mutations/reaction";
@@ -22,14 +28,43 @@ import DELETE_REACTION from "../../mutations/delete";
 import Query from "../../components/Query";
 import IconLabel from "../../components/IconLabel";
 import PageNotFound from "../../components/PageNotFound";
+import { UserContext } from "../../AppContext";
 
 const Project = () => {
-  const userId = 1; // 진짜 userId로 대체
-  const { id } = useParams();
   const classes = useStyles();
+  const theme = useTheme();
+  const isSmScreen = useMediaQuery(theme.breakpoints.down("sm"), {
+    defaultMatches: true,
+  });
+
+  const LIKE_BUTTON_STYLE = isSmScreen
+    ? {
+        position: "initial",
+      }
+    : {
+        position: "fixed",
+        top: 240,
+        right: 270,
+        flexDirection: "column",
+      };
+
+  const LIKE_ICON_STYLE = {
+    border: "1px solid #9D9D9D",
+    borderRadius: "100px",
+    padding: "4px",
+    cursor: "pointer",
+  };
+
+  const userId = useContext(UserContext);
+  const { id: projectId } = useParams();
+
   const [updateProject, { error }] = useMutation(PROJECT_MUTATION);
-  const [createReaction] = useMutation(CREATE_REACTION);
-  const [deleteReaction] = useMutation(DELETE_REACTION);
+  const [createReaction] = useMutation(CREATE_REACTION, {
+    refetchQueries: [{ query: PROJECT_QUERY, variables: { slug: projectId } }],
+  });
+  const [deleteReaction] = useMutation(DELETE_REACTION, {
+    refetchQueries: [{ query: PROJECT_QUERY, variables: { slug: projectId } }],
+  });
 
   const createLike = (projectId) => {
     createReaction({
@@ -53,11 +88,11 @@ const Project = () => {
   return (
     <Query
       query={PROJECT_QUERY}
-      slug={id}
+      slug={projectId}
       onCompleted={({ projects }) => {
         if (projects.length) {
           updateProject({
-            variables: { id, count: projects[0].view_count + 1 },
+            variables: { id: projectId, count: projects[0].view_count + 1 },
           });
         }
       }}
@@ -66,41 +101,50 @@ const Project = () => {
         if (!projects.length) return <PageNotFound />;
         const project = projects[0];
         const liked = project.reactions.find(
-          (reaction) => reaction.user_id[0].id === userId.toString()
+          (reaction) => reaction.user_id[0].id === userId?.toString()
         );
         return (
-          <Container
-            maxWidth="sm"
-            className={classes.root}
-            style={{ position: "relative" }}
-          >
-            <IconLabel
-              label={project.reactions.length}
-              icon={
-                !!liked ? (
-                  <FavoriteIcon onClick={() => deleteLike(liked.id)} />
-                ) : (
-                  <FavoriteBorderIcon onClick={() => createLike(project.id)} />
-                )
-              }
-              style={{ position: "fixed", top: 100, right: 100 }}
-            />
+          <Container maxWidth="sm" className={classes.root}>
             <h1>{project.title}</h1>
             {project.tech_stacks.map((stack) => (
               <Chip key={stack.name} label={stack.name} color="primary" />
             ))}
             <div className={classes.details}>
-              <div className={classes.detailsLeft}>
-                <a
-                  href={project.owner_github_url}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <IconLabel icon={<GitHubIcon />} label={project.owner_name} />
-                </a>
-                <span className={classes.date}>
-                  {moment(project.published_at).format("MMM Do YYYY")}
-                </span>
+              <div className={classes.stats}>
+                <div className={classes.author}>
+                  <a
+                    href={project.owner_github_url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <IconLabel
+                      icon={<GitHubIcon />}
+                      label={project.owner_name}
+                    />
+                  </a>
+                  <span className={classes.date}>
+                    {moment(project.published_at).format("MMM Do YYYY")}
+                  </span>
+                </div>
+
+                <IconLabel
+                  style={LIKE_BUTTON_STYLE}
+                  label={project.reactions.length}
+                  icon={
+                    <Tooltip arrow title="프로젝트 응원하기" placement="top">
+                      <FavoriteIcon
+                        color={!!liked ? "secondary" : "disabled"}
+                        fontSize="large"
+                        onClick={
+                          !!liked
+                            ? () => deleteLike(liked.id)
+                            : () => createLike(projectId)
+                        }
+                        style={LIKE_ICON_STYLE}
+                      />
+                    </Tooltip>
+                  }
+                />
               </div>
               <div>
                 {project.demo_site_url && (
@@ -111,7 +155,7 @@ const Project = () => {
                     target="_blank"
                     onClick={() =>
                       window.gtag("event", "데모사이트 보러가기 클릭", {
-                        project_id: project.id,
+                        project_id: projectId,
                       })
                     }
                     className={classes.button}
@@ -126,7 +170,7 @@ const Project = () => {
                   target="_blank"
                   onClick={() =>
                     window.gtag("event", "소스 보러가기 클릭", {
-                      project_id: project.id,
+                      project_id: projectId,
                     })
                   }
                   className={classes.button}
@@ -156,6 +200,9 @@ const Project = () => {
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    padding: "32px",
+    position: "relative",
+
     "& .MuiChip-root": {
       marginRight: "8px",
       marginBottom: "8px",
@@ -223,7 +270,11 @@ const useStyles = makeStyles((theme) => ({
       gap: "28px",
     },
   },
-  detailsLeft: {
+  stats: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  author: {
     display: "flex",
     alignItems: "center",
     gap: "16px",
