@@ -6,6 +6,7 @@ import {
   Button,
   Container,
   makeStyles,
+  Tooltip,
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
@@ -126,25 +127,23 @@ const Project = () => {
                     {moment(project.published_at).format("MMM Do YYYY")}
                   </span>
                 </div>
+
                 <IconLabel
                   style={LIKE_BUTTON_STYLE}
                   label={project.reactions.length}
                   icon={
-                    !!liked ? (
+                    <Tooltip arrow title="프로젝트 응원하기" placement="top">
                       <FavoriteIcon
-                        color="secondary"
+                        color={!!liked ? "secondary" : "disabled"}
                         fontSize="large"
-                        onClick={() => deleteLike(liked.id)}
+                        onClick={
+                          !!liked
+                            ? () => deleteLike(liked.id)
+                            : () => createLike(projectId)
+                        }
                         style={LIKE_ICON_STYLE}
                       />
-                    ) : (
-                      <FavoriteIcon
-                        color="disabled"
-                        fontSize="large"
-                        onClick={() => createLike(projectId)}
-                        style={LIKE_ICON_STYLE}
-                      />
-                    )
+                    </Tooltip>
                   }
                 />
               </div>
