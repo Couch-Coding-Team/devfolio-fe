@@ -1,6 +1,12 @@
 import React from "react";
-import { FormControl, makeStyles, TextField } from "@material-ui/core";
+import {
+  FormControl,
+  InputAdornment,
+  makeStyles,
+  TextField,
+} from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
+import SearchIcon from "@material-ui/icons/Search";
 import Query from "./Query";
 import TECH_STACKS_QUERY from "../queries/techStacks";
 
@@ -36,6 +42,14 @@ const Search = ({ handleFilter, handleReset }) => {
                   {...params}
                   variant="outlined"
                   placeholder="기술스택으로 검색해보세요"
+                  InputProps={{
+                    ...params.InputProps,
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <SearchIcon />
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               )}
               ChipProps={{ color: "primary" }}
@@ -54,9 +68,13 @@ const useStyles = makeStyles((theme) => ({
     flex: "1 1 auto",
     "& .MuiOutlinedInput-root": {
       borderRadius: "100px",
+      paddingLeft: "24px",
     },
     "& .MuiAutocomplete-endAdornment": {
       display: "none",
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
     },
   },
 }));

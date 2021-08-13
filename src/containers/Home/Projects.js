@@ -60,10 +60,19 @@ export default Projects;
 const useStyles = makeStyles((theme) => ({
   bar: {
     display: "flex",
-    justifyContent: "space-between",
     gap: "180px",
+    justifyContent: "space-between",
+    alignItems: "center",
+    [theme.breakpoints.down("sm")]: {
+      gap: "0",
+      flexDirection: "column-reverse",
+    },
   },
   tabs: {
     margin: "36px 0",
+    [theme.breakpoints.down("sm")]: {
+      margin: "24px",
+      width: "100%",
+    },
   },
 }));

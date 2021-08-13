@@ -86,6 +86,7 @@ const theme = createTheme({
     MuiContainer: {
       root: {
         maxWidth: "1140px",
+        padding: "24px",
       },
     },
     MuiButton: {
