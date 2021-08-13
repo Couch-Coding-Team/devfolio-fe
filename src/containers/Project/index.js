@@ -4,7 +4,9 @@ import { useMutation } from "@apollo/react-hooks";
 
 import {
   Button,
+  Chip,
   Container,
+  Link,
   makeStyles,
   Tooltip,
   useMediaQuery,
@@ -26,7 +28,6 @@ import CREATE_REACTION from "../../mutations/reaction";
 import DELETE_REACTION from "../../mutations/delete";
 
 import Query from "../../components/Query";
-import Tag from "../../components/Tag";
 import IconLabel from "../../components/IconLabel";
 import PageNotFound from "../../components/PageNotFound";
 import { UserContext } from "../../AppContext";
@@ -108,7 +109,7 @@ const Project = () => {
           <Container maxWidth="sm" className={classes.root}>
             <h1>{project.title}</h1>
             {project.tech_stacks.map((stack) => (
-              <Tag key={stack.name} label={stack.name} />
+              <Chip key={stack.name} label={stack.name} color="primary" />
             ))}
             <div className={classes.details}>
               <div className={classes.stats}>
@@ -180,6 +181,14 @@ const Project = () => {
                 </Button>
               </div>
             </div>
+            {project.reference_url && (
+              <div className={classes.textBlock}>
+                💡{" "}
+                <Link href={project.reference_url} target="_blank">
+                  프로젝트 개발자가 직접 작성한 후기 글 보러 가기
+                </Link>
+              </div>
+            )}
             <ReactMarkdown
               className="readme-markdown"
               remarkPlugins={[gfm]} // styling table, strikethrough, link, checkbox
@@ -289,6 +298,11 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
       marginBottom: "12px",
     },
+  },
+  textBlock: {
+    backgroundColor: "#F7F7F7",
+    padding: "24px 36px",
+    margin: "48px 0",
   },
 }));
 

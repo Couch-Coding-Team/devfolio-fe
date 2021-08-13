@@ -15,6 +15,16 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#f9f9f9",
     paddingBottom: "36px",
   },
+  banner: {
+    padding: "20px 0",
+    margin: "20px -15% 80px -15%",
+    backgroundColor: "black",
+    color: "white",
+    textAlign: "center",
+    [theme.breakpoints.down("sm")]: {
+      margin: "40px -10%",
+    },
+  },
 }));
 
 const Home = () => {
@@ -26,6 +36,9 @@ const Home = () => {
       </Container>
       <div className={classes.projectsBg}>
         <Container>
+          <div className={classes.banner}>
+            매주 새로운 포트폴리오가 업데이트 됩니다 👇👇👇
+          </div>
           <Query query={PROJECTS_QUERY}>
             {({ data: { projects } }) => <Projects projects={projects} />}
           </Query>
