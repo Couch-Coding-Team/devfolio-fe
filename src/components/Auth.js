@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { CircularProgress } from "@material-ui/core";
 import { firebaseAuth } from "../utils/firebaseAuth";
 import { UserContext } from "../AppContext";
 
 const Auth = ({ children }) => {
   const [userId, setUserId] = useState(undefined);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (userId) setLoading(false);
+  }, [userId]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,7 +72,19 @@ const Auth = ({ children }) => {
     }
   };
 
-  return <UserContext.Provider value={userId}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={userId}>
+      {loading ? (
+        <CircularProgress
+          variant="indeterminate"
+          disableShrink
+          style={{ position: "fixed", top: "50%", left: "50%" }}
+        />
+      ) : (
+        children
+      )}
+    </UserContext.Provider>
+  );
 };
 
 export default Auth;
