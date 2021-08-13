@@ -19,6 +19,7 @@ const Projects = ({ projects }) => {
     setValue(newValue);
     setProjects(orderedList);
   };
+
   return (
     <>
       <div className={classes.banner}>
@@ -53,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     textAlign: "center",
     [theme.breakpoints.down("sm")]: {
-      margin: "40px -10% 80px -10%",
+      margin: "40px -13% 80px -13%",
     },
   },
   tabs: {

@@ -2,11 +2,16 @@ import React, { useContext } from "react";
 import { useParams } from "react-router";
 import { useMutation } from "@apollo/react-hooks";
 
-import { Button, Container, makeStyles } from "@material-ui/core";
+import {
+  Button,
+  Container,
+  makeStyles,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 
 import moment from "moment";
 import ReactMarkdown from "react-markdown";
@@ -27,6 +32,29 @@ import { UserContext } from "../../AppContext";
 
 const Project = () => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isSmScreen = useMediaQuery(theme.breakpoints.down("sm"), {
+    defaultMatches: true,
+  });
+
+  const LIKE_BUTTON_STYLE = isSmScreen
+    ? {
+        position: "initial",
+      }
+    : {
+        position: "fixed",
+        top: 240,
+        right: 270,
+        flexDirection: "column",
+      };
+
+  const LIKE_ICON_STYLE = {
+    border: "1px solid #9D9D9D",
+    borderRadius: "100px",
+    padding: "4px",
+    cursor: "pointer",
+  };
+
   const userId = useContext(UserContext);
   const { id: projectId } = useParams();
 
@@ -76,38 +104,49 @@ const Project = () => {
           (reaction) => reaction.user_id[0].id === userId?.toString()
         );
         return (
-          <Container
-            maxWidth="sm"
-            className={classes.root}
-            style={{ position: "relative" }}
-          >
-            <IconLabel
-              label={project.reactions.length}
-              icon={
-                !!liked ? (
-                  <FavoriteIcon onClick={() => deleteLike(liked.id)} />
-                ) : (
-                  <FavoriteBorderIcon onClick={() => createLike(projectId)} />
-                )
-              }
-              style={{ position: "fixed", top: 100, right: 100 }}
-            />
+          <Container maxWidth="sm" className={classes.root}>
             <h1>{project.title}</h1>
             {project.tech_stacks.map((stack) => (
               <Tag key={stack.name} label={stack.name} />
             ))}
             <div className={classes.details}>
-              <div className={classes.detailsLeft}>
-                <a
-                  href={project.owner_github_url}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <IconLabel icon={<GitHubIcon />} label={project.owner_name} />
-                </a>
-                <span className={classes.date}>
-                  {moment(project.published_at).format("MMM Do YYYY")}
-                </span>
+              <div className={classes.stats}>
+                <div className={classes.author}>
+                  <a
+                    href={project.owner_github_url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <IconLabel
+                      icon={<GitHubIcon />}
+                      label={project.owner_name}
+                    />
+                  </a>
+                  <span className={classes.date}>
+                    {moment(project.published_at).format("MMM Do YYYY")}
+                  </span>
+                </div>
+                <IconLabel
+                  style={LIKE_BUTTON_STYLE}
+                  label={project.reactions.length}
+                  icon={
+                    !!liked ? (
+                      <FavoriteIcon
+                        color="secondary"
+                        fontSize="large"
+                        onClick={() => deleteLike(liked.id)}
+                        style={LIKE_ICON_STYLE}
+                      />
+                    ) : (
+                      <FavoriteIcon
+                        color="disabled"
+                        fontSize="large"
+                        onClick={() => createLike(projectId)}
+                        style={LIKE_ICON_STYLE}
+                      />
+                    )
+                  }
+                />
               </div>
               <div>
                 {project.demo_site_url && (
@@ -163,6 +202,9 @@ const Project = () => {
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    padding: "32px",
+    position: "relative",
+
     "& .MuiChip-root": {
       marginRight: "8px",
       marginBottom: "8px",
@@ -230,7 +272,11 @@ const useStyles = makeStyles((theme) => ({
       gap: "28px",
     },
   },
-  detailsLeft: {
+  stats: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  author: {
     display: "flex",
     alignItems: "center",
     gap: "16px",

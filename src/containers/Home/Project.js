@@ -47,7 +47,7 @@ const Project = ({ project }) => {
           </div>
           <div className={classes.cardFooter}>
             <IconLabel icon={<GitHubIcon />} label={project.owner_name} />
-            <div>
+            <div className={classes.cardStats}>
               <IconLabel
                 icon={<FavoriteIcon />}
                 label={project.reactions.length}
@@ -112,6 +112,10 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       marginTop: "24px",
     },
+  },
+  cardStats: {
+    display: "flex",
+    gap: "24px",
   },
 }));
 
