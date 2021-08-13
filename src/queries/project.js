@@ -11,6 +11,7 @@ const PROJECT_QUERY = gql`
       owner_name
       owner_github_url
       project_github_url
+      reference_url
       demo_site_url
       thumbnail_url
       readme_code

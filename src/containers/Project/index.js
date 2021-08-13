@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useParams } from "react-router";
 import { useMutation } from "@apollo/react-hooks";
 
 import {
   Button,
+  Chip,
   Container,
+  Link,
   makeStyles,
   Tooltip,
   useMediaQuery,
@@ -179,6 +181,14 @@ const Project = () => {
                 </Button>
               </div>
             </div>
+            {project.reference_url && (
+              <div className={classes.textBlock}>
+                💡{" "}
+                <Link href={project.reference_url} target="_blank">
+                  프로젝트 개발자가 직접 작성한 후기 글 보러 가기
+                </Link>
+              </div>
+            )}
             <ReactMarkdown
               className="readme-markdown"
               remarkPlugins={[gfm]} // styling table, strikethrough, link, checkbox
@@ -288,6 +298,11 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
       marginBottom: "12px",
     },
+  },
+  textBlock: {
+    backgroundColor: "#F7F7F7",
+    padding: "24px 36px",
+    margin: "48px 0",
   },
 }));
 
