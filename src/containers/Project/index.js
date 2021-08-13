@@ -1,19 +1,19 @@
 import React, { useContext } from "react";
 import { useParams } from "react-router";
+import { useMutation } from "@apollo/react-hooks";
 
-import moment from "moment";
 import { Button, Container, makeStyles } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 
+import moment from "moment";
 import ReactMarkdown from "react-markdown";
 import gfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import format from "rehype-format";
 
-import { useMutation } from "@apollo/react-hooks";
 import PROJECT_QUERY from "../../queries/project";
 import PROJECT_MUTATION from "../../mutations/project";
 import CREATE_REACTION from "../../mutations/reaction";
@@ -23,19 +23,20 @@ import Query from "../../components/Query";
 import Tag from "../../components/Tag";
 import IconLabel from "../../components/IconLabel";
 import PageNotFound from "../../components/PageNotFound";
-
 import { UserContext } from "../../AppContext";
 
 const Project = () => {
-  // const themes = useContext(UserContext);
-  // console.log("context value", themes);
-
-  const userId = 1; // 진짜 userId로 대체
-  const { id } = useParams();
   const classes = useStyles();
+  const userId = useContext(UserContext);
+  const { id: projectId } = useParams();
+
   const [updateProject, { error }] = useMutation(PROJECT_MUTATION);
-  const [createReaction] = useMutation(CREATE_REACTION);
-  const [deleteReaction] = useMutation(DELETE_REACTION);
+  const [createReaction] = useMutation(CREATE_REACTION, {
+    refetchQueries: [{ query: PROJECT_QUERY, variables: { slug: projectId } }],
+  });
+  const [deleteReaction] = useMutation(DELETE_REACTION, {
+    refetchQueries: [{ query: PROJECT_QUERY, variables: { slug: projectId } }],
+  });
 
   const createLike = (projectId) => {
     createReaction({
@@ -59,11 +60,11 @@ const Project = () => {
   return (
     <Query
       query={PROJECT_QUERY}
-      slug={id}
+      slug={projectId}
       onCompleted={({ projects }) => {
         if (projects.length) {
           updateProject({
-            variables: { id, count: projects[0].view_count + 1 },
+            variables: { id: projectId, count: projects[0].view_count + 1 },
           });
         }
       }}
@@ -72,7 +73,7 @@ const Project = () => {
         if (!projects.length) return <PageNotFound />;
         const project = projects[0];
         const liked = project.reactions.find(
-          (reaction) => reaction.user_id[0].id === userId.toString()
+          (reaction) => reaction.user_id[0].id === userId?.toString()
         );
         return (
           <Container
@@ -86,7 +87,7 @@ const Project = () => {
                 !!liked ? (
                   <FavoriteIcon onClick={() => deleteLike(liked.id)} />
                 ) : (
-                  <FavoriteBorderIcon onClick={() => createLike(project.id)} />
+                  <FavoriteBorderIcon onClick={() => createLike(projectId)} />
                 )
               }
               style={{ position: "fixed", top: 100, right: 100 }}
@@ -117,7 +118,7 @@ const Project = () => {
                     target="_blank"
                     onClick={() =>
                       window.gtag("event", "데모사이트 보러가기 클릭", {
-                        project_id: project.id,
+                        project_id: projectId,
                       })
                     }
                     className={classes.button}
@@ -132,7 +133,7 @@ const Project = () => {
                   target="_blank"
                   onClick={() =>
                     window.gtag("event", "소스 보러가기 클릭", {
-                      project_id: project.id,
+                      project_id: projectId,
                     })
                   }
                   className={classes.button}
