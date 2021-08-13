@@ -1,12 +1,12 @@
 import React from "react";
 import {
   FormControl,
-  InputAdornment,
+  // InputAdornment,
   makeStyles,
   TextField,
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
-import SearchIcon from "@material-ui/icons/Search";
+// import SearchIcon from "@material-ui/icons/Search";
 import Query from "./Query";
 import TECH_STACKS_QUERY from "../queries/techStacks";
 
@@ -42,14 +42,15 @@ const Search = ({ handleFilter, handleReset }) => {
                   {...params}
                   variant="outlined"
                   placeholder="기술스택으로 검색해보세요"
-                  InputProps={{
-                    ...params.InputProps,
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <SearchIcon />
-                      </InputAdornment>
-                    ),
-                  }}
+                  // 이슈: https://github.com/mui-org/material-ui/issues/18650
+                  // InputProps={{
+                  //   ...params.InputProps,
+                  //   startAdornment: (
+                  //     <InputAdornment position="start">
+                  //       <SearchIcon />
+                  //     </InputAdornment>
+                  //   ),
+                  // }}
                 />
               )}
               ChipProps={{ color: "primary" }}

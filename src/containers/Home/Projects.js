@@ -47,10 +47,15 @@ const Projects = ({ projects }) => {
         </Tabs>
         <Search handleFilter={handleFilter} handleReset={handleReset} />
       </div>
-
-      {data.map((project, i) => {
-        return <Project project={project} key={`project__${project.id}`} />;
-      })}
+      {!data.length ? (
+        <div>결과가없습니다</div>
+      ) : (
+        <>
+          {data.map((project, i) => (
+            <Project project={project} key={`project__${project.id}`} />
+          ))}
+        </>
+      )}
     </>
   );
 };
