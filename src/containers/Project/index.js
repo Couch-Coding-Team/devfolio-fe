@@ -57,7 +57,8 @@ const Project = () => {
     cursor: "pointer",
   };
 
-  const userId = useContext(UserContext);
+  // const userId = useContext(UserContext);
+  const userId = 1;
   const { id: projectId } = useParams();
 
   const [updateProject, { error }] = useMutation(PROJECT_MUTATION);
@@ -129,7 +130,7 @@ const Project = () => {
                   </span>
                 </div>
 
-                <IconLabel
+                {/* <IconLabel
                   style={LIKE_BUTTON_STYLE}
                   label={project.reactions.length}
                   icon={
@@ -146,7 +147,7 @@ const Project = () => {
                       />
                     </Tooltip>
                   }
-                />
+                /> */}
               </div>
               <div>
                 {project.demo_site_url && (

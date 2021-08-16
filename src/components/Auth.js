@@ -40,7 +40,7 @@ const Auth = ({ children }) => {
       const { user } = await firebaseAuth.signInAnonymously();
       return user.uid;
     } catch (e) {
-      console.error("error signing in firebase");
+      console.error("error signing in firebase: ", e);
     }
   };
 
@@ -56,7 +56,7 @@ const Auth = ({ children }) => {
       });
       return res.data[0];
     } catch (e) {
-      console.error("error fetching strapi user");
+      console.error("error fetching strapi user: ", e);
     }
   };
 
@@ -68,7 +68,7 @@ const Auth = ({ children }) => {
       );
       return res;
     } catch (e) {
-      console.error("error resgistering strapi user");
+      console.error("error resgistering strapi user: ", e);
     }
   };
 
