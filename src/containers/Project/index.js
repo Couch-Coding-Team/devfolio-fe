@@ -57,8 +57,7 @@ const Project = () => {
     cursor: "pointer",
   };
 
-  // const userId = useContext(UserContext);
-  const userId = 1;
+  const userId = useContext(UserContext);
   const { id: projectId } = useParams();
 
   const [updateProject, { error }] = useMutation(PROJECT_MUTATION);

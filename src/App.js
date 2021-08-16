@@ -19,23 +19,23 @@ const ROUTES = [
 function App() {
   return (
     <div className="App">
-      {/* <Auth> */}
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Nav />
-        <Switch>
-          {ROUTES.map((route) => (
-            <Route
-              key={route.path}
-              path={route.path}
-              component={route.component}
-              exact={route.exact}
-            />
-          ))}
-        </Switch>
-        <Footer />
-      </ThemeProvider>
-      {/* </Auth> */}
+      <Auth>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Nav />
+          <Switch>
+            {ROUTES.map((route) => (
+              <Route
+                key={route.path}
+                path={route.path}
+                component={route.component}
+                exact={route.exact}
+              />
+            ))}
+          </Switch>
+          <Footer />
+        </ThemeProvider>
+      </Auth>
     </div>
   );
 }

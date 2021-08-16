@@ -66,7 +66,7 @@ const Auth = ({ children }) => {
         "https://devfolio.link:1337/auth/local/register",
         data
       );
-      return res;
+      return res.data.user;
     } catch (e) {
       console.error("error resgistering strapi user: ", e);
     }
