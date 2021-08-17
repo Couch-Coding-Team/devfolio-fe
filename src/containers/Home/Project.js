@@ -86,6 +86,7 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     "& .MuiCardContent-root": {
+      flex: "1 1 100%",
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",

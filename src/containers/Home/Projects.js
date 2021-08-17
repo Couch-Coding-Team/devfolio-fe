@@ -16,6 +16,8 @@ const Projects = ({ projects }) => {
   const [data, setData] = React.useState(projects);
 
   const handleChange = (event, newValue) => {
+    const newLabel = ORDER_BY.find((el) => el.value === newValue).label;
+    window.gtag("event", `${newLabel} 클릭`);
     const orderedList = orderBy(data, newValue, "desc");
     setValue(newValue);
     setData(orderedList);

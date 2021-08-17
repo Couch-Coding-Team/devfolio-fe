@@ -9,6 +9,7 @@ import Project from "./containers/Project";
 import Footer from "./components/Footer";
 import PageNotFound from "./components/PageNotFound";
 import Auth from "./components/Auth";
+import ScrollToTop from "./components/ScrollToTop";
 
 const ROUTES = [
   { path: "/", component: Home, exact: true },
@@ -19,9 +20,10 @@ const ROUTES = [
 function App() {
   return (
     <div className="App">
-      <Auth>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
+      <ScrollToTop />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Auth>
           <Nav />
           <Switch>
             {ROUTES.map((route) => (
@@ -34,8 +36,8 @@ function App() {
             ))}
           </Switch>
           <Footer />
-        </ThemeProvider>
-      </Auth>
+        </Auth>
+      </ThemeProvider>
     </div>
   );
 }
