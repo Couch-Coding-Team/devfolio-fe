@@ -103,14 +103,21 @@ const Project = () => {
       {({ data: { projects } }) => {
         if (!projects.length) return <PageNotFound />;
         const project = projects[0];
+
         const liked = project.reactions.find(
           (reaction) => reaction.user_id[0].id === userId?.toString()
         );
+
+        const techStackStr = project.tech_stacks.map((el) => el.name).join("･");
+        const metaDescription = `${techStackStr}(으)로 만든 프로젝트 | ${project.title} | ${project.description}`;
+
         return (
           <Container maxWidth="sm" className={classes.root}>
             <Meta
               title={project.title}
-              description={project.owner_github_url} // TODO: DB에서 별도의 필드 정의하기
+              description={metaDescription}
+              image={project.thumbnail_url}
+              canonical={`https://devfolio.kr/project/${projectId}`}
             />
             <h1>{project.title}</h1>
             {project.tech_stacks.map((stack) => (

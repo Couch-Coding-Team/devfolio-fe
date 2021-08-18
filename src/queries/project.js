@@ -5,6 +5,7 @@ const PROJECT_QUERY = gql`
     projects(where: { id: $slug }) {
       id
       title
+      description
       tech_stacks {
         name
       }
