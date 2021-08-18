@@ -27,12 +27,12 @@
     </script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-1W81K7RMHF"></script>
     <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
       // 로컬서버가 아닌 실서버에서만 구글애널리틱스 트래킹 활성화
       if (document.location.hostname !== 'localhost') {
-        window.dataLayer = window.dataLayer || [];
-        function gtag() {
-          dataLayer.push(arguments);
-        }
         gtag('js', new Date());
         gtag('config', 'G-1W81K7RMHF');
       }
