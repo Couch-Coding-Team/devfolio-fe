@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { CircularProgress } from "@material-ui/core";
 import { firebaseAuth } from "../utils/firebaseAuth";
 import { UserContext } from "../AppContext";
+import BlankPage from "./BlankPage";
 
 const Auth = ({ children }) => {
   const [userId, setUserId] = useState(undefined);
@@ -74,15 +74,7 @@ const Auth = ({ children }) => {
 
   return (
     <UserContext.Provider value={userId}>
-      {loading ? (
-        <CircularProgress
-          variant="indeterminate"
-          disableShrink
-          style={{ position: "fixed", top: "50%", left: "50%" }}
-        />
-      ) : (
-        children
-      )}
+      {loading ? <BlankPage content="Loading..." /> : children}
     </UserContext.Provider>
   );
 };
