@@ -32,6 +32,24 @@ import Query from "../../components/Query";
 import IconLabel from "../../components/IconLabel";
 import PageNotFound from "../../components/PageNotFound";
 import Meta from "../../components/Meta";
+import Comments from "./Comments";
+
+const comments = [
+  {
+    id: 1,
+    user_id: [{ id: "1", name: "user1" }],
+    projectId: 1,
+    comment: "test 1",
+    published_at: "2021-08-18T09:35:58.637Z",
+  },
+  {
+    id: 2,
+    user_id: [{ id: "2", name: "user2" }],
+    projectId: 2,
+    comment: "test 2",
+    published_at: "2021-08-17T09:35:58.637Z",
+  },
+];
 
 const Project = () => {
   const classes = useStyles();
@@ -213,6 +231,7 @@ const Project = () => {
                 ),
               }}
             />
+            <Comments data={comments} />
           </Container>
         );
       }}
