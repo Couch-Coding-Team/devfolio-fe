@@ -27,10 +27,11 @@ import PROJECT_MUTATION from "../../mutations/project";
 import CREATE_REACTION from "../../mutations/reaction";
 import DELETE_REACTION from "../../mutations/delete";
 
+import { UserContext } from "../../AppContext";
 import Query from "../../components/Query";
 import IconLabel from "../../components/IconLabel";
 import PageNotFound from "../../components/PageNotFound";
-import { UserContext } from "../../AppContext";
+import Meta from "../../components/Meta";
 
 const Project = () => {
   const classes = useStyles();
@@ -107,6 +108,10 @@ const Project = () => {
         );
         return (
           <Container maxWidth="sm" className={classes.root}>
+            <Meta
+              title={project.title}
+              description={project.owner_github_url} // TODO: DB에서 별도의 필드 정의하기
+            />
             <h1>{project.title}</h1>
             {project.tech_stacks.map((stack) => (
               <Chip key={stack.name} label={stack.name} color="primary" />
