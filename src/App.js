@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import PageNotFound from "./components/PageNotFound";
 import Auth from "./components/Auth";
 import ScrollToTop from "./components/ScrollToTop";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 const ROUTES = [
   { path: "/", component: Home, exact: true },
@@ -20,24 +21,26 @@ const ROUTES = [
 function App() {
   return (
     <div className="App">
-      <ScrollToTop />
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Auth>
-          <Nav />
-          <Switch>
-            {ROUTES.map((route) => (
-              <Route
-                key={route.path}
-                path={route.path}
-                component={route.component}
-                exact={route.exact}
-              />
-            ))}
-          </Switch>
-          <Footer />
-        </Auth>
-      </ThemeProvider>
+      <ErrorBoundary>
+        <ScrollToTop />
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Auth>
+            <Nav />
+            <Switch>
+              {ROUTES.map((route) => (
+                <Route
+                  key={route.path}
+                  path={route.path}
+                  component={route.component}
+                  exact={route.exact}
+                />
+              ))}
+            </Switch>
+            <Footer />
+          </Auth>
+        </ThemeProvider>
+      </ErrorBoundary>
     </div>
   );
 }
