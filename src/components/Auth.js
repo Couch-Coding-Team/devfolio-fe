@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { firebaseAuth } from "../utils/firebaseAuth";
+import { generateRandomAvatarUrl } from "../utils/avatarGenerator";
 import { UserContext } from "../AppContext";
 import BlankPage from "./BlankPage";
 
 const Auth = ({ children }) => {
-  const [userId, setUserId] = useState(undefined);
+  const [user, setUser] = useState(undefined);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (userId) setLoading(false);
-  }, [userId]);
+    if (user) setLoading(false);
+  }, [user]);
 
   useEffect(() => {
     const fetchData = async () => {
       const fbUid = await firebaseSignIn();
       const strapiUser = await fetchUser(fbUid);
       if (strapiUser) {
-        setUserId(strapiUser.id);
+        setUser({ id: strapiUser.id, avatarUrl: strapiUser.avatar_url });
       } else {
         // 회원가입
         const timestamp = Date.now();
@@ -27,9 +28,10 @@ const Auth = ({ children }) => {
           password: username,
           username,
           firebase_uid: fbUid,
+          avatar_url: generateRandomAvatarUrl(),
         };
         const user = await registerUser(newUser);
-        setUserId(user.id);
+        setUser({ id: user.id, avatarUrl: user.avatar_url });
       }
     };
     fetchData();
@@ -73,7 +75,7 @@ const Auth = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={userId}>
+    <UserContext.Provider value={user}>
       {loading ? <BlankPage content="Loading..." /> : children}
     </UserContext.Provider>
   );
