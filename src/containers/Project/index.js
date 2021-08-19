@@ -24,8 +24,9 @@ import format from "rehype-format";
 
 import PROJECT_QUERY from "../../queries/project";
 import PROJECT_MUTATION from "../../mutations/project";
-import CREATE_REACTION from "../../mutations/reaction";
-import DELETE_REACTION from "../../mutations/delete";
+import CREATE_REACTION from "../../mutations/createReaction";
+import DELETE_REACTION from "../../mutations/deleteReaction";
+import CREATE_COMMENT from "../../mutations/comment";
 
 import { UserContext } from "../../AppContext";
 import Query from "../../components/Query";
@@ -33,23 +34,6 @@ import IconLabel from "../../components/IconLabel";
 import PageNotFound from "../../components/PageNotFound";
 import Meta from "../../components/Meta";
 import Comments from "./Comments";
-
-const comments = [
-  {
-    id: 1,
-    user_id: [{ id: "1", name: "user1" }],
-    projectId: 1,
-    comment: "test 1",
-    published_at: "2021-08-18T09:35:58.637Z",
-  },
-  {
-    id: 2,
-    user_id: [{ id: "2", name: "user2" }],
-    projectId: 2,
-    comment: "test 2",
-    published_at: "2021-08-17T09:35:58.637Z",
-  },
-];
 
 const Project = () => {
   const classes = useStyles();
@@ -79,11 +63,25 @@ const Project = () => {
   const userId = useContext(UserContext);
   const { id: projectId } = useParams();
 
-  const [updateProject, { error }] = useMutation(PROJECT_MUTATION);
-  const [createReaction] = useMutation(CREATE_REACTION, {
-    refetchQueries: [{ query: PROJECT_QUERY, variables: { slug: projectId } }],
-  });
-  const [deleteReaction] = useMutation(DELETE_REACTION, {
+  const [updateProject, { error: projUpdateErr }] =
+    useMutation(PROJECT_MUTATION);
+  const [createReaction, { error: likeCreateErr }] = useMutation(
+    CREATE_REACTION,
+    {
+      refetchQueries: [
+        { query: PROJECT_QUERY, variables: { slug: projectId } },
+      ],
+    }
+  );
+  const [deleteReaction, { error: likeDeleteErr }] = useMutation(
+    DELETE_REACTION,
+    {
+      refetchQueries: [
+        { query: PROJECT_QUERY, variables: { slug: projectId } },
+      ],
+    }
+  );
+  const [createComment, { error: commentErr }] = useMutation(CREATE_COMMENT, {
     refetchQueries: [{ query: PROJECT_QUERY, variables: { slug: projectId } }],
   });
 
@@ -103,8 +101,9 @@ const Project = () => {
     });
   };
 
-  if (error)
+  if (projUpdateErr || likeCreateErr || likeDeleteErr || commentErr) {
     return <Alert severity="error">예기치 못한 에러가 발생했습니다.</Alert>;
+  }
 
   return (
     <Query
@@ -231,7 +230,12 @@ const Project = () => {
                 ),
               }}
             />
-            <Comments data={comments} />
+            <Comments
+              data={project.comments}
+              submitData={createComment}
+              userId={userId}
+              projectId={projectId}
+            />
           </Container>
         );
       }}

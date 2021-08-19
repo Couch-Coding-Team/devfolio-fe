@@ -24,6 +24,16 @@ const PROJECT_QUERY = gql`
           id
         }
       }
+      comments {
+        id
+        comment
+        updated_at
+        users_permissions_user {
+          id
+          username
+          avatar_url
+        }
+      }
     }
   }
 `;

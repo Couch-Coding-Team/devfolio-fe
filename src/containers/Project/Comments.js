@@ -1,36 +1,49 @@
-import React from "react";
-import { useMutation } from "@apollo/react-hooks";
+import React, { useState } from "react";
 import { Divider, TextField, Button, makeStyles } from "@material-ui/core";
 import Comment from "./Comment";
 
-const Comments = ({ data }) => {
+const Comments = ({ data, submitData, projectId, userId }) => {
   const classes = useStyles();
+  const [value, setValue] = useState("");
+
   const handleSubmit = () => {
-    // useMutation(CREATE_COMMENT);
+    submitData({
+      variables: {
+        input: {
+          data: {
+            project: projectId,
+            users_permissions_user: userId,
+            comment: value,
+          },
+        },
+      },
+    });
   };
+
   return (
     <div className={classes.root}>
       <h3>Comments</h3>
       <Divider />
       {data.map((el, index) => (
-        <div className={classes.commentRow}>
+        <div key={index} className={classes.commentRow}>
           <Comment data={el} />
           {index + 1 !== data.length && <Divider variant="fullWidth" />}
         </div>
       ))}
-      <div className={classes.inputRow}>
+      <form className={classes.inputRow} noValidate autoComplete="off">
         <TextField
           fullWidth
           multiline
           rows="3"
           variant="outlined"
-          // defaultValue="Default Value"
           placeholder="응원의 메세지나 궁금한 점을 남겨주세요."
+          onChange={(e) => setValue(e.target.value)}
+          // defaultValue="Default Value"
         />
         <Button color="secondary" variant="contained" onClick={handleSubmit}>
           댓글달기
         </Button>
-      </div>
+      </form>
     </div>
   );
 };
