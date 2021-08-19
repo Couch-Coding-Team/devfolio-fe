@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { firebaseAuth } from "../utils/firebaseAuth";
-import { generateRandomAvatarUrl } from "../utils/avatarGenerator";
+import { firebaseAuth, generateRandomAvatarUrl } from "../utils";
 import { UserContext } from "../AppContext";
 import BlankPage from "./BlankPage";
 
