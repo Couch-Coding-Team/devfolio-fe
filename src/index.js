@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
 import { ApolloProvider } from "@apollo/react-hooks";
-import client from "./utils/apolloClient";
+import { apolloClient as client } from "./utils";
 import App from "./App";
 
 Sentry.init({
