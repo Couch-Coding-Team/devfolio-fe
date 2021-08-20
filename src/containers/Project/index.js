@@ -24,14 +24,18 @@ import format from "rehype-format";
 
 import PROJECT_QUERY from "../../queries/project";
 import PROJECT_MUTATION from "../../mutations/project";
-import CREATE_REACTION from "../../mutations/reaction";
-import DELETE_REACTION from "../../mutations/delete";
+import CREATE_REACTION from "../../mutations/createReaction";
+import DELETE_REACTION from "../../mutations/deleteReaction";
+import CREATE_COMMENT from "../../mutations/comment";
+import DELETE_COMMENT from "../../mutations/comment/delete";
+import UPDATE_COMMENT from "../../mutations/comment/update";
 
 import { UserContext } from "../../AppContext";
 import Query from "../../components/Query";
 import IconLabel from "../../components/IconLabel";
 import PageNotFound from "../../components/PageNotFound";
 import Meta from "../../components/Meta";
+import Comments from "./Comments";
 
 const Project = () => {
   const classes = useStyles();
@@ -61,13 +65,49 @@ const Project = () => {
   const userId = useContext(UserContext).id;
   const { id: projectId } = useParams();
 
-  const [updateProject, { error }] = useMutation(PROJECT_MUTATION);
-  const [createReaction] = useMutation(CREATE_REACTION, {
-    refetchQueries: [{ query: PROJECT_QUERY, variables: { slug: projectId } }],
-  });
-  const [deleteReaction] = useMutation(DELETE_REACTION, {
-    refetchQueries: [{ query: PROJECT_QUERY, variables: { slug: projectId } }],
-  });
+  // TODO: REFACTOR to redux actions
+  const [updateProject, { error: projUpdateErr }] =
+    useMutation(PROJECT_MUTATION);
+  const [createReaction, { error: likeCreateErr }] = useMutation(
+    CREATE_REACTION,
+    {
+      refetchQueries: [
+        { query: PROJECT_QUERY, variables: { slug: projectId } },
+      ],
+    }
+  );
+  const [deleteReaction, { error: likeDeleteErr }] = useMutation(
+    DELETE_REACTION,
+    {
+      refetchQueries: [
+        { query: PROJECT_QUERY, variables: { slug: projectId } },
+      ],
+    }
+  );
+  const [createComment, { error: commCreateErr }] = useMutation(
+    CREATE_COMMENT,
+    {
+      refetchQueries: [
+        { query: PROJECT_QUERY, variables: { slug: projectId } },
+      ],
+    }
+  );
+  const [deleteComment, { error: commDeleteErr }] = useMutation(
+    DELETE_COMMENT,
+    {
+      refetchQueries: [
+        { query: PROJECT_QUERY, variables: { slug: projectId } },
+      ],
+    }
+  );
+  const [updateComment, { error: commUpdateErr }] = useMutation(
+    UPDATE_COMMENT,
+    {
+      refetchQueries: [
+        { query: PROJECT_QUERY, variables: { slug: projectId } },
+      ],
+    }
+  );
 
   const createLike = (projectId) => {
     createReaction({
@@ -85,8 +125,16 @@ const Project = () => {
     });
   };
 
-  if (error)
+  if (
+    projUpdateErr ||
+    likeCreateErr ||
+    likeDeleteErr ||
+    commCreateErr ||
+    commDeleteErr ||
+    commUpdateErr
+  ) {
     return <Alert severity="error">예기치 못한 에러가 발생했습니다.</Alert>;
+  }
 
   return (
     <Query
@@ -212,6 +260,12 @@ const Project = () => {
                   <img style={{ maxWidth: "100%" }} {...props} /> // Resizing images inside README to fit container
                 ),
               }}
+            />
+            <Comments
+              data={project.comments}
+              submitData={createComment}
+              deleteComment={deleteComment}
+              updateComment={updateComment}
             />
           </Container>
         );
