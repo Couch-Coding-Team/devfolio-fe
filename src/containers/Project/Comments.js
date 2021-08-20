@@ -47,6 +47,7 @@ const Comments = ({ data, submitData, deleteComment, updateComment }) => {
           variant="outlined"
           placeholder="응원의 메세지나 궁금한 점을 남겨주세요."
           onChange={(e) => setValue(e.target.value)}
+          value={value}
         />
         <Button color="secondary" variant="contained" onClick={handleSubmit}>
           댓글달기

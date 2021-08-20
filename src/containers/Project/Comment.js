@@ -1,12 +1,22 @@
 import React, { useContext, useState } from "react";
 import moment from "moment";
-import { Grid, Avatar, TextField, Button, makeStyles } from "@material-ui/core";
+import {
+  Grid,
+  Avatar,
+  TextField,
+  Button,
+  makeStyles,
+  Dialog,
+  DialogActions,
+  DialogTitle,
+} from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import { UserContext } from "../../AppContext";
 
 const Comment = ({ data, deleteComment, updateComment }) => {
   const classes = useStyles();
+
   const userId = useContext(UserContext).id;
   const {
     users_permissions_user: { id: authorId, username, avatar_url },
@@ -14,11 +24,23 @@ const Comment = ({ data, deleteComment, updateComment }) => {
     updated_at,
     id: commentId,
   } = data;
+
   const [edit, setEdit] = useState(false);
+  const [open, setOpen] = useState(false);
   const [value, setValue] = useState(undefined);
+
   const handleEdit = () => {
     setEdit(!edit);
   };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const handleSubmit = () => {
     updateComment({
       variables: {
@@ -28,6 +50,7 @@ const Comment = ({ data, deleteComment, updateComment }) => {
     });
     handleEdit();
   };
+
   const handleDelete = () => {
     deleteComment({
       variables: {
@@ -35,13 +58,14 @@ const Comment = ({ data, deleteComment, updateComment }) => {
       },
     });
   };
+
   return (
     <Grid container wrap="nowrap" spacing={2}>
       <Grid item>
         <Avatar alt={username} src={avatar_url} />
       </Grid>
       <Grid item xs zeroMinWidth>
-        <h4 style={{ margin: 0 }}>{username}</h4>
+        <h4 className={classes.username}>{username}</h4>
         {edit ? (
           <form className={classes.inputRow} noValidate autoComplete="off">
             <TextField
@@ -73,9 +97,27 @@ const Comment = ({ data, deleteComment, updateComment }) => {
       {userId.toString() === authorId && (
         <Grid item>
           <EditIcon onClick={handleEdit} />
-          <DeleteIcon onClick={handleDelete} />
+          <DeleteIcon onClick={handleOpen} />
         </Grid>
       )}
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          댓글을 삭제하시겠습니까?
+        </DialogTitle>
+        <DialogActions>
+          <Button onClick={handleDelete} color="secondary" autoFocus>
+            삭제
+          </Button>
+          <Button onClick={handleClose} color="primary">
+            취소
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Grid>
   );
 };
@@ -83,6 +125,7 @@ const Comment = ({ data, deleteComment, updateComment }) => {
 export default Comment;
 
 const useStyles = makeStyles({
+  username: { margin: 0 },
   inputRow: { margin: "1em 0" },
   input: { marginBottom: "1em" },
   date: { color: "gray" },
