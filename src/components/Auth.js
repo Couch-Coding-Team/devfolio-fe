@@ -103,7 +103,7 @@ const Auth = ({ children }) => {
           tryCount++;
           instance();
         } else {
-          console.error("error resgistering strapi user: ", err);
+          console.error("error retry resgistering strapi user: ", err);
         }
       }
     );
