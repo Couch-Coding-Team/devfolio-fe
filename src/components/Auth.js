@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import {
   firebaseAuth,
   generateRandomAvatarUrl,
@@ -7,6 +6,7 @@ import {
 } from "../utils";
 import { UserContext } from "../AppContext";
 import BlankPage from "./BlankPage";
+import api from "../utils/api";
 
 const Auth = ({ children }) => {
   const [user, setUser] = useState(undefined);
@@ -60,7 +60,7 @@ const Auth = ({ children }) => {
 
   const fetchUser = async (fbUid) => {
     try {
-      const res = await axios.get("https://devfolio.link:1337/users", {
+      const res = await api.get("/users", {
         headers: {
           Authorization: `Bearer ${process.env.REACT_APP_ADMIN_JWT}`,
         },
@@ -79,37 +79,38 @@ const Auth = ({ children }) => {
     const timestamp = Date.now();
     const username = fbUid.slice(0, 5) + timestamp.toString().slice(-5);
 
-    const instance = axios.create({
-      baseURL: "https://devfolio.link:1337/auth/local/register",
-      method: "POST",
-      data: {
+    // TODO: REFACTOR!!!
+    try {
+      const res = await api.post("/auth/local/register", {
         email: `${username}@gmail.com`,
         password: username,
         firebase_uid: fbUid,
         username: generateRandomName(),
         avatar_url: generateRandomAvatarUrl(),
-      },
-    });
-    // 랜덤 생성된 이름이 중복되서 생성 실패한 경우 2번까지 재시도
-    instance.interceptors.response.use(
-      (res) => {
-        return res.data.user;
-      },
-      (err) => {
-        const {
-          response: { status },
-        } = err;
-        if (status === 400 && tryCount < 3) {
-          tryCount++;
-          instance();
-        } else {
-          console.error("error retry resgistering strapi user: ", err);
+      });
+      // 랜덤 생성된 이름이 중복되서 생성 실패한 경우 2번까지 재시도
+      api.interceptors.response.use(
+        (res) => res.data.user,
+        async (err) => {
+          // const {
+          //   response: { status },
+          // } = err;
+          if (err.response?.status === 400 && tryCount < 3) {
+            tryCount++;
+            const res = await api.post("/auth/local/register", {
+              email: `${username}@gmail.com`,
+              password: username,
+              firebase_uid: fbUid,
+              username: generateRandomName(),
+              avatar_url: generateRandomAvatarUrl(),
+            });
+            return res.data.user;
+          } else {
+            console.error("error retry resgistering strapi user: ", err);
+          }
         }
-      }
-    );
-
-    try {
-      instance();
+      );
+      return res;
     } catch (e) {
       console.error("error resgistering strapi user: ", e);
     }
@@ -117,8 +118,8 @@ const Auth = ({ children }) => {
 
   const updateUserName = async (userId) => {
     try {
-      const res = await axios.put(
-        `https://devfolio.link:1337/users/${userId}`,
+      const res = await api.put(
+        `/users/${userId}`,
         {
           username: generateRandomName(),
           avatar_url: generateRandomAvatarUrl(),
