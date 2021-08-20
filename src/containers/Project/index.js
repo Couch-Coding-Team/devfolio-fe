@@ -142,9 +142,9 @@ const Project = () => {
       slug={projectId}
       onCompleted={({ projects }) => {
         if (projects.length) {
-          // updateProject({
-          //   variables: { id: projectId, count: projects[0].view_count + 1 },
-          // });
+          updateProject({
+            variables: { id: projectId, count: projects[0].view_count + 1 },
+          });
         }
       }}
     >
