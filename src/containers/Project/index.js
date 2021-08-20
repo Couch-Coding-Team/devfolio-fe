@@ -28,6 +28,7 @@ import CREATE_REACTION from "../../mutations/createReaction";
 import DELETE_REACTION from "../../mutations/deleteReaction";
 import CREATE_COMMENT from "../../mutations/comment";
 import DELETE_COMMENT from "../../mutations/comment/delete";
+import UPDATE_COMMENT from "../../mutations/comment/update";
 
 import { UserContext } from "../../AppContext";
 import Query from "../../components/Query";
@@ -83,7 +84,7 @@ const Project = () => {
       ],
     }
   );
-  const [createComment, { error: commentCreateErr }] = useMutation(
+  const [createComment, { error: commCreateErr }] = useMutation(
     CREATE_COMMENT,
     {
       refetchQueries: [
@@ -91,8 +92,16 @@ const Project = () => {
       ],
     }
   );
-  const [deleteComment, { error: commentDeleteErr }] = useMutation(
+  const [deleteComment, { error: commDeleteErr }] = useMutation(
     DELETE_COMMENT,
+    {
+      refetchQueries: [
+        { query: PROJECT_QUERY, variables: { slug: projectId } },
+      ],
+    }
+  );
+  const [updateComment, { error: commUpdateErr }] = useMutation(
+    UPDATE_COMMENT,
     {
       refetchQueries: [
         { query: PROJECT_QUERY, variables: { slug: projectId } },
@@ -120,8 +129,9 @@ const Project = () => {
     projUpdateErr ||
     likeCreateErr ||
     likeDeleteErr ||
-    commentCreateErr ||
-    commentDeleteErr
+    commCreateErr ||
+    commDeleteErr ||
+    commUpdateErr
   ) {
     return <Alert severity="error">예기치 못한 에러가 발생했습니다.</Alert>;
   }
@@ -132,9 +142,9 @@ const Project = () => {
       slug={projectId}
       onCompleted={({ projects }) => {
         if (projects.length) {
-          updateProject({
-            variables: { id: projectId, count: projects[0].view_count + 1 },
-          });
+          // updateProject({
+          //   variables: { id: projectId, count: projects[0].view_count + 1 },
+          // });
         }
       }}
     >
@@ -255,6 +265,7 @@ const Project = () => {
               data={project.comments}
               submitData={createComment}
               deleteComment={deleteComment}
+              updateComment={updateComment}
             />
           </Container>
         );

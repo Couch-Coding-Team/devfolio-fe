@@ -4,7 +4,7 @@ import { Divider, TextField, Button, makeStyles } from "@material-ui/core";
 import Comment from "./Comment";
 import { UserContext } from "../../AppContext";
 
-const Comments = ({ data, submitData, deleteComment }) => {
+const Comments = ({ data, submitData, deleteComment, updateComment }) => {
   const classes = useStyles();
   const [value, setValue] = useState("");
   const userId = useContext(UserContext).id;
@@ -31,7 +31,11 @@ const Comments = ({ data, submitData, deleteComment }) => {
       <Divider />
       {data.map((el, index) => (
         <div key={index} className={classes.commentRow}>
-          <Comment data={el} deleteComment={deleteComment} />
+          <Comment
+            data={el}
+            deleteComment={deleteComment}
+            updateComment={updateComment}
+          />
           {index + 1 !== data.length && <Divider variant="fullWidth" />}
         </div>
       ))}
@@ -43,7 +47,6 @@ const Comments = ({ data, submitData, deleteComment }) => {
           variant="outlined"
           placeholder="응원의 메세지나 궁금한 점을 남겨주세요."
           onChange={(e) => setValue(e.target.value)}
-          // defaultValue="Default Value"
         />
         <Button color="secondary" variant="contained" onClick={handleSubmit}>
           댓글달기
