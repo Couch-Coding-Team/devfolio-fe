@@ -3,10 +3,10 @@ import {
   firebaseAuth,
   generateRandomAvatarUrl,
   generateRandomName,
+  api,
 } from "../utils";
 import { UserContext } from "../AppContext";
 import BlankPage from "./BlankPage";
-import api from "../utils/api";
 
 const Auth = ({ children }) => {
   const [user, setUser] = useState(undefined);
