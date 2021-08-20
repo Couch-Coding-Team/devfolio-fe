@@ -21,11 +21,29 @@ const Auth = ({ children }) => {
       const fbUid = await firebaseSignIn();
       const strapiUser = await fetchUser(fbUid);
       if (strapiUser) {
-        setUser({ id: strapiUser.id, avatarUrl: strapiUser.avatar_url });
+        if (!strapiUser.avatar_url) {
+          // 기존 유저 이름 및 아바타 랜덤생성
+          const user = await updateUserName(strapiUser.id);
+          setUser({
+            id: user.id,
+            username: user.username,
+            avatarUrl: user.avatar_url,
+          });
+        } else {
+          setUser({
+            id: strapiUser.id,
+            username: strapiUser.username,
+            avatarUrl: strapiUser.avatar_url,
+          });
+        }
       } else {
         // 회원가입
         const user = await registerUser(fbUid);
-        setUser({ id: user.id, avatarUrl: user.avatar_url });
+        setUser({
+          id: user.id,
+          username: user.username,
+          avatarUrl: user.avatar_url,
+        });
       }
     };
     fetchData();
@@ -94,6 +112,26 @@ const Auth = ({ children }) => {
       instance();
     } catch (e) {
       console.error("error resgistering strapi user: ", e);
+    }
+  };
+
+  const updateUserName = async (userId) => {
+    try {
+      const res = await axios.put(
+        `https://devfolio.link:1337/users/${userId}`,
+        {
+          username: generateRandomName(),
+          avatar_url: generateRandomAvatarUrl(),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.REACT_APP_ADMIN_JWT}`,
+          },
+        }
+      );
+      return res.data;
+    } catch (e) {
+      console.error("error fetching strapi user: ", e);
     }
   };
 
