@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { useParams } from "react-router-dom";
 import { Divider, TextField, Button, makeStyles } from "@material-ui/core";
 import Comment from "./Comment";
+import { UserContext } from "../../AppContext";
 
-const Comments = ({ data, submitData, projectId, userId }) => {
+const Comments = ({ data, submitData, deleteComment }) => {
   const classes = useStyles();
   const [value, setValue] = useState("");
+  const userId = useContext(UserContext).id;
+  const { id: projectId } = useParams();
 
   const handleSubmit = () => {
     submitData({
@@ -18,6 +22,7 @@ const Comments = ({ data, submitData, projectId, userId }) => {
         },
       },
     });
+    setValue("");
   };
 
   return (
@@ -26,7 +31,7 @@ const Comments = ({ data, submitData, projectId, userId }) => {
       <Divider />
       {data.map((el, index) => (
         <div key={index} className={classes.commentRow}>
-          <Comment data={el} />
+          <Comment data={el} deleteComment={deleteComment} />
           {index + 1 !== data.length && <Divider variant="fullWidth" />}
         </div>
       ))}

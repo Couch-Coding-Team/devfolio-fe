@@ -27,6 +27,7 @@ import PROJECT_MUTATION from "../../mutations/project";
 import CREATE_REACTION from "../../mutations/createReaction";
 import DELETE_REACTION from "../../mutations/deleteReaction";
 import CREATE_COMMENT from "../../mutations/comment";
+import DELETE_COMMENT from "../../mutations/comment/delete";
 
 import { UserContext } from "../../AppContext";
 import Query from "../../components/Query";
@@ -63,6 +64,7 @@ const Project = () => {
   const userId = useContext(UserContext).id;
   const { id: projectId } = useParams();
 
+  // TODO: REFACTOR to redux actions
   const [updateProject, { error: projUpdateErr }] =
     useMutation(PROJECT_MUTATION);
   const [createReaction, { error: likeCreateErr }] = useMutation(
@@ -81,9 +83,22 @@ const Project = () => {
       ],
     }
   );
-  const [createComment, { error: commentErr }] = useMutation(CREATE_COMMENT, {
-    refetchQueries: [{ query: PROJECT_QUERY, variables: { slug: projectId } }],
-  });
+  const [createComment, { error: commentCreateErr }] = useMutation(
+    CREATE_COMMENT,
+    {
+      refetchQueries: [
+        { query: PROJECT_QUERY, variables: { slug: projectId } },
+      ],
+    }
+  );
+  const [deleteComment, { error: commentDeleteErr }] = useMutation(
+    DELETE_COMMENT,
+    {
+      refetchQueries: [
+        { query: PROJECT_QUERY, variables: { slug: projectId } },
+      ],
+    }
+  );
 
   const createLike = (projectId) => {
     createReaction({
@@ -101,7 +116,13 @@ const Project = () => {
     });
   };
 
-  if (projUpdateErr || likeCreateErr || likeDeleteErr || commentErr) {
+  if (
+    projUpdateErr ||
+    likeCreateErr ||
+    likeDeleteErr ||
+    commentCreateErr ||
+    commentDeleteErr
+  ) {
     return <Alert severity="error">예기치 못한 에러가 발생했습니다.</Alert>;
   }
 
@@ -233,8 +254,7 @@ const Project = () => {
             <Comments
               data={project.comments}
               submitData={createComment}
-              userId={userId}
-              projectId={projectId}
+              deleteComment={deleteComment}
             />
           </Container>
         );
