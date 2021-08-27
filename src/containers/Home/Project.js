@@ -11,6 +11,7 @@ import {
 import GitHubIcon from "@material-ui/icons/GitHub";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import IconLabel from "../../components/IconLabel";
 
 const Project = ({ project }) => {
@@ -46,13 +47,25 @@ const Project = ({ project }) => {
             ))}
           </div>
           <div className={classes.cardFooter}>
-            <IconLabel icon={<GitHubIcon />} label={project.owner_name} />
+            <IconLabel
+              icon={<GitHubIcon fontSize="small" />}
+              label={project.owner_name}
+            />
             <div className={classes.cardStats}>
               <IconLabel
-                icon={<FavoriteIcon />}
+                icon={<FavoriteIcon fontSize="small" />}
                 label={project.reactions.length}
               />
-              <IconLabel icon={<VisibilityIcon />} label={project.view_count} />
+              <IconLabel
+                icon={<VisibilityIcon fontSize="small" />}
+                label={project.view_count}
+              />
+              {!!project.comments.length && (
+                <IconLabel
+                  icon={<ChatBubbleIcon fontSize="small" />}
+                  label={project.comments.length}
+                />
+              )}
             </div>
           </div>
         </CardContent>
@@ -116,7 +129,7 @@ const useStyles = makeStyles((theme) => ({
   },
   cardStats: {
     display: "flex",
-    gap: "24px",
+    gap: "1rem",
   },
 }));
 

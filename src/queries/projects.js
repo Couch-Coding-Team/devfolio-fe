@@ -20,6 +20,9 @@ const PROJECTS_QUERY = gql`
       reactions {
         id
       }
+      comments {
+        id
+      }
     }
   }
 `;
