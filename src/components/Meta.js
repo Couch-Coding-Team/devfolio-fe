@@ -1,13 +1,15 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 
-const Meta = ({ title, description, image, canonical }) => {
+const Meta = ({ title, description, image, canonical, keywords }) => {
   return (
     <Helmet titleTemplate="%s">
       <html lang="ko_KR" />
       <title>{title} - Devfolio</title>
-      <meta name="description" content={description} />
       <link rel="canonical" href={canonical} />
+      <meta name="description" content={description} />
+      {/* TODO: fetch from DB */}
+      <meta name="keywords" content={keywords} />
 
       <meta property="og:site_name" content="Devfolio" />
       <meta property="og:title" content={`${title} - Devfolio`} />

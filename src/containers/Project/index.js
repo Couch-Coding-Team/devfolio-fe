@@ -35,6 +35,7 @@ import Query from "../../components/Query";
 import IconLabel from "../../components/IconLabel";
 import PageNotFound from "../../components/PageNotFound";
 import Meta from "../../components/Meta";
+import BlankPage from "../../components/BlankPage";
 import Comments from "./Comments";
 
 const Project = () => {
@@ -62,7 +63,7 @@ const Project = () => {
     cursor: "pointer",
   };
 
-  const userId = useContext(UserContext).id;
+  const userId = useContext(UserContext)?.id;
   const { id: projectId } = useParams();
 
   // TODO: REFACTOR to redux actions
@@ -125,16 +126,7 @@ const Project = () => {
     });
   };
 
-  if (
-    projUpdateErr ||
-    likeCreateErr ||
-    likeDeleteErr ||
-    commCreateErr ||
-    commDeleteErr ||
-    commUpdateErr
-  ) {
-    return <Alert severity="error">예기치 못한 에러가 발생했습니다.</Alert>;
-  }
+  if (!userId) return <BlankPage content="Loading..." />;
 
   return (
     <Query
@@ -156,8 +148,11 @@ const Project = () => {
           (reaction) => reaction.user_id[0].id === userId?.toString()
         );
 
-        const techStackStr = project.tech_stacks.map((el) => el.name).join("･");
-        const metaDescription = `${techStackStr}(으)로 만든 프로젝트 | ${project.title} | ${project.description}`;
+        const techStackNames = project.tech_stacks.map((el) => el.name);
+        const metaDescription = `${techStackNames.join(
+          "･"
+        )}(으)로 만든 프로젝트 | ${project.title} | ${project.description}`;
+        const metaKeywords = techStackNames.join(",");
 
         return (
           <Container maxWidth="sm" className={classes.root}>
@@ -166,7 +161,16 @@ const Project = () => {
               description={metaDescription}
               image={project.thumbnail_url}
               canonical={`https://devfolio.kr/project/${projectId}`}
+              keywords={metaKeywords}
             />
+            {(projUpdateErr ||
+              likeCreateErr ||
+              likeDeleteErr ||
+              commCreateErr ||
+              commDeleteErr ||
+              commUpdateErr) && (
+              <Alert severity="error">예기치 못한 에러가 발생했습니다.</Alert>
+            )}
             <h1>{project.title}</h1>
             {project.tech_stacks.map((stack) => (
               <Chip key={stack.name} label={stack.name} color="primary" />
