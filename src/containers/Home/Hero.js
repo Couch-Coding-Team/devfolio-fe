@@ -26,7 +26,7 @@ const Hero = () => {
           onClick={() => window.gtag("event", "새 포트폴리오 알림받기 클릭")}
           className={classes.button}
         >
-          메일로 알림 받기
+          뉴스레터 구독하기
         </Button>
         <Button
           color="secondary"
