@@ -6,15 +6,9 @@ import {
   api,
 } from "../utils";
 import { UserContext } from "../AppContext";
-import BlankPage from "./BlankPage";
 
 const Auth = ({ children }) => {
   const [user, setUser] = useState(undefined);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (user) setLoading(false);
-  }, [user]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -136,11 +130,7 @@ const Auth = ({ children }) => {
     }
   };
 
-  return (
-    <UserContext.Provider value={user}>
-      {loading ? <BlankPage content="Loading..." /> : children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 };
 
 export default Auth;
