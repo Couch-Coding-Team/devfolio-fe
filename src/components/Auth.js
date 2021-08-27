@@ -104,7 +104,7 @@ const Auth = ({ children }) => {
           }
         }
       );
-      return res;
+      return res.data.user;
     } catch (e) {
       console.error("error resgistering strapi user: ", e);
     }
