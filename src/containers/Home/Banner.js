@@ -52,14 +52,12 @@ const Banner = () => {
               fontSize: isSm ? "10px" : "16px",
               cursor: el.link ? "pointer" : "initial",
             }}
-            onClick={
-              el.link
-                ? () => {
-                    window.gtag("event", el.eventName);
-                    window.open(el.link, "_blank");
-                  }
-                : () => {}
-            }
+            onClick={() => {
+              if (el.link) {
+                window.gtag("event", el.eventName);
+                window.open(el.link, "_blank");
+              }
+            }}
           >
             {el.title}
             {el.link && (
