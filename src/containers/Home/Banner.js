@@ -2,8 +2,8 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import ArrowForwardOutlinedIcon from "@material-ui/icons/ArrowForwardOutlined";
 import { useMediaQuery, useTheme } from "@material-ui/core";
+import ArrowCircle from "../../components/ArrowCircle";
 
 const data = [
   {
@@ -60,12 +60,7 @@ const Banner = () => {
             }}
           >
             {el.title}
-            {el.link && (
-              <ArrowForwardOutlinedIcon
-                fontSize="inherit"
-                style={{ marginLeft: "4px" }}
-              />
-            )}
+            {el.link && <ArrowCircle style={{ marginLeft: "8px" }} />}
           </div>
         </div>
       ))}
