@@ -45,21 +45,27 @@ const Banner = () => {
             style={{
               backgroundColor: el.bgColor,
               color: el.color,
-              padding: "20px 0",
+              padding: "12px 0",
               display: "flex",
               justifyContent: "center",
-              fontSize: isSm ? "12px" : "18px",
+              alignItems: "center",
+              fontSize: isSm ? "10px" : "16px",
+              cursor: el.link ? "pointer" : "initial",
             }}
+            onClick={
+              el.link
+                ? () => {
+                    window.gtag("event", el.eventName);
+                    window.open(el.link, "_blank");
+                  }
+                : () => {}
+            }
           >
             {el.title}
             {el.link && (
               <ArrowForwardOutlinedIcon
-                fontSize="small"
-                onClick={() => {
-                  window.gtag("event", el.eventName);
-                  window.open(el.link, "_blank");
-                }}
-                style={{ cursor: "pointer", marginLeft: "4px" }}
+                fontSize="inherit"
+                style={{ marginLeft: "4px" }}
               />
             )}
           </div>
