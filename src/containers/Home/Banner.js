@@ -14,7 +14,7 @@ const data = [
     ),
     color: "black",
     bgColor: "#0ACF83",
-    link: "https://couchcoding.kr/portfolio/?utm_medium=referral&utm_source=devfolio",
+    link: "https://couchcoding.kr/portfolio?utm_source=devfolio&utm_medium=banner",
     eventName: "포트폴리오 멘토링 문의 클릭",
   },
   {
@@ -33,7 +33,7 @@ const data = [
 
 const Banner = () => {
   return (
-    <Slider speed={500} slidesToShow={1} slidesToScroll={1}>
+    <Slider autoplay speed={500} slidesToShow={1} slidesToScroll={1}>
       {data.map((el, idx) => (
         <div key={idx}>
           <div
@@ -49,7 +49,6 @@ const Banner = () => {
             {el.link && (
               <ArrowForwardOutlinedIcon
                 fontSize="small"
-                color="black"
                 onClick={() => {
                   window.gtag("event", el.eventName);
                   window.open(el.link, "_blank");

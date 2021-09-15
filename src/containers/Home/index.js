@@ -36,9 +36,6 @@ const Home = () => {
       </Container>
       <div className={classes.projectsBg}>
         <Container>
-          <div className={classes.banner}>
-            매주 새로운 포트폴리오가 업데이트 됩니다 👇👇👇
-          </div>
           <Query query={PROJECTS_QUERY}>
             {({ data: { projects } }) => <Projects projects={projects} />}
           </Query>
