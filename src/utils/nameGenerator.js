@@ -1,17 +1,17 @@
 import { sample } from "lodash";
 
-// const CITIES = [
-//   "서울",
-//   "상하이",
-//   "쿠알라룸푸르",
-//   "이스탄불",
-//   "베를린",
-//   "런던",
-//   "라고스",
-//   "뉴욕",
-//   "상파울로",
-//   "시드니",
-// ];
+const CITIES = [
+  "서울",
+  "상하이",
+  "쿠알라룸푸르",
+  "이스탄불",
+  "베를린",
+  "런던",
+  "라고스",
+  "뉴욕",
+  "상파울로",
+  "시드니",
+];
 
 const COLORS = [
   "하얀",
@@ -55,4 +55,4 @@ const ANIMALS = [
 ];
 
 export const generateRandomName = () =>
-  `${sample(ACTIONS)} ${sample(COLORS)} ${sample(ANIMALS)}`;
+  `${sample(CITIES)}의 ${sample(ACTIONS)} ${sample(COLORS)} ${sample(ANIMALS)}`;
