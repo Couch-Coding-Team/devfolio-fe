@@ -13,7 +13,7 @@ const Nav = () => {
             style={{ height: "20px", width: "auto" }}
           />
         </Link>
-        <a href="https://velog.io/@devfolio" target="_blank">
+        <a href="https://velog.io/@devfolio" target="_blank" rel="noreferrer">
           <VelogLogo />
         </a>
       </Toolbar>

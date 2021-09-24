@@ -7,13 +7,18 @@ import Search from "../../components/Search";
 
 const ORDER_BY = [
   { label: "최신순", value: "published_at" },
-  { label: "인기순", value: "view_count" },
+  { label: "좋아요순", value: "like_count" },
+  { label: "조회순", value: "view_count" },
 ];
 
 const Projects = ({ projects }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(ORDER_BY[0].value);
-  const [data, setData] = React.useState(projects);
+  const [data, setData] = React.useState(
+    projects.map((prj) => {
+      return { ...prj, like_count: prj.reactions.length };
+    })
+  );
 
   const handleChange = (event, newValue) => {
     const newLabel = ORDER_BY.find((el) => el.value === newValue).label;
