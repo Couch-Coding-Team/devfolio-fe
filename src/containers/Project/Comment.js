@@ -17,7 +17,7 @@ import { UserContext } from "../../AppContext";
 const Comment = ({ data, deleteComment, updateComment }) => {
   const classes = useStyles();
 
-  const userId = useContext(UserContext).id;
+  const userId = useContext(UserContext)?.id;
   const {
     users_permissions_user: { id: authorId, username, avatar_url },
     comment,
@@ -94,7 +94,7 @@ const Comment = ({ data, deleteComment, updateComment }) => {
           </>
         )}
       </Grid>
-      {userId.toString() === authorId && (
+      {userId?.toString() === authorId && (
         <Grid item>
           <EditIcon onClick={handleEdit} />
           <DeleteIcon onClick={handleOpen} />
