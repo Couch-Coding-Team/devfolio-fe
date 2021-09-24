@@ -35,7 +35,6 @@ import Query from "../../components/Query";
 import IconLabel from "../../components/IconLabel";
 import PageNotFound from "../../components/PageNotFound";
 import Meta from "../../components/Meta";
-import BlankPage from "../../components/BlankPage";
 import Comments from "./Comments";
 
 const Project = () => {
@@ -126,7 +125,14 @@ const Project = () => {
     });
   };
 
-  if (!userId) return <BlankPage content="Loading..." />;
+  const handleLikeClick = (liked) => {
+    if (!userId) return;
+    if (liked) {
+      deleteLike(liked.id);
+    } else {
+      createLike(projectId);
+    }
+  };
 
   return (
     <Query
@@ -201,11 +207,7 @@ const Project = () => {
                       <FavoriteIcon
                         color={!!liked ? "secondary" : "disabled"}
                         fontSize="large"
-                        onClick={
-                          !!liked
-                            ? () => deleteLike(liked.id)
-                            : () => createLike(projectId)
-                        }
+                        onClick={() => handleLikeClick(liked)}
                         style={LIKE_ICON_STYLE}
                       />
                     </Tooltip>

@@ -7,10 +7,11 @@ import { UserContext } from "../../AppContext";
 const Comments = ({ data, submitData, deleteComment, updateComment }) => {
   const classes = useStyles();
   const [value, setValue] = useState("");
-  const userId = useContext(UserContext).id;
+  const userId = useContext(UserContext)?.id;
   const { id: projectId } = useParams();
 
   const handleSubmit = () => {
+    if (!userId) return;
     submitData({
       variables: {
         input: {
