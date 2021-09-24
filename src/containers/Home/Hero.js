@@ -36,7 +36,7 @@ const Hero = () => {
           onClick={() => window.gtag("event", "프로젝트 공유 클릭")}
           className={classes.button}
         >
-          포트폴리오 공유하기
+          프로젝트 공유하기
         </Button>
         <p className={classes.mdHidden}>
           선배・동료 개발자들의 개인 프로젝트를 한눈에 모아보고, 좋은 프로젝트는
