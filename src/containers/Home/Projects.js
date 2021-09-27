@@ -3,42 +3,66 @@ import { makeStyles } from "@material-ui/core";
 import { Tabs, Tab } from "@material-ui/core";
 import { orderBy } from "lodash";
 import Project from "./Project";
+import Search from "../../components/Search";
 
 const ORDER_BY = [
   { label: "최신순", value: "published_at" },
-  { label: "인기순", value: "view_count" },
+  { label: "좋아요순", value: "like_count" },
+  { label: "조회순", value: "view_count" },
 ];
 
 const Projects = ({ projects }) => {
   const classes = useStyles();
   const [value, setValue] = React.useState(ORDER_BY[0].value);
-  const [orderedProjects, setProjects] = React.useState(projects);
+  const [data, setData] = React.useState(
+    projects.map((prj) => {
+      return { ...prj, like_count: prj.reactions.length };
+    })
+  );
 
   const handleChange = (event, newValue) => {
-    const orderedList = orderBy(projects, newValue, "desc");
+    const newLabel = ORDER_BY.find((el) => el.value === newValue).label;
+    window.gtag("event", `${newLabel} 클릭`);
+    const orderedList = orderBy(data, newValue, "desc");
     setValue(newValue);
-    setProjects(orderedList);
+    setData(orderedList);
   };
+
+  const handleFilter = (arr) => {
+    const list = arr.map((id) => projects.find((proj) => proj.id === id));
+    setData(list);
+  };
+
+  const handleReset = () => {
+    setData(projects);
+  };
+
   return (
     <>
-      <div className={classes.banner}>
-        매주 새로운 포트폴리오가 업데이트 됩니다 👇👇👇
+      <div className={classes.bar}>
+        <Tabs
+          value={value}
+          indicatorColor="primary"
+          textColor="primary"
+          onChange={handleChange}
+          aria-label="project list order"
+          className={classes.tabs}
+        >
+          {ORDER_BY.map((order) => (
+            <Tab key={order.value} label={order.label} value={order.value} />
+          ))}
+        </Tabs>
+        <Search handleFilter={handleFilter} handleReset={handleReset} />
       </div>
-      <Tabs
-        value={value}
-        indicatorColor="primary"
-        textColor="primary"
-        onChange={handleChange}
-        aria-label="project list order"
-        className={classes.tabs}
-      >
-        {ORDER_BY.map((order) => (
-          <Tab key={order.value} label={order.label} value={order.value} />
-        ))}
-      </Tabs>
-      {orderedProjects.map((project, i) => {
-        return <Project project={project} key={`project__${project.id}`} />;
-      })}
+      {!data.length ? (
+        <div>결과가없습니다</div>
+      ) : (
+        <>
+          {data.map((project, i) => (
+            <Project project={project} key={`project__${project.id}`} />
+          ))}
+        </>
+      )}
     </>
   );
 };
@@ -46,17 +70,21 @@ const Projects = ({ projects }) => {
 export default Projects;
 
 const useStyles = makeStyles((theme) => ({
-  banner: {
-    padding: "20px 0",
-    margin: "20px -50% 80px -50%",
-    backgroundColor: "black",
-    color: "white",
-    textAlign: "center",
+  bar: {
+    display: "flex",
+    gap: "180px",
+    justifyContent: "space-between",
+    alignItems: "center",
     [theme.breakpoints.down("sm")]: {
-      margin: "40px -50% 80px -50%",
+      gap: "0",
+      flexDirection: "column-reverse",
     },
   },
   tabs: {
-    margin: "36px auto",
+    margin: "36px 0",
+    [theme.breakpoints.down("sm")]: {
+      margin: "24px",
+      width: "100%",
+    },
   },
 }));

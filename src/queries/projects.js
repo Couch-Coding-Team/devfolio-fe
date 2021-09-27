@@ -17,6 +17,12 @@ const PROJECTS_QUERY = gql`
       thumbnail_url
       view_count
       published_at
+      reactions {
+        id
+      }
+      comments {
+        id
+      }
     }
   }
 `;

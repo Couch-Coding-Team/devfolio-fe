@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
-import { Container } from "@material-ui/core";
+import BlankPage from "./BlankPage";
 
 const Query = ({ children, query, slug, onCompleted }) => {
   const { data, loading, error } = useQuery(query, {
@@ -8,13 +8,8 @@ const Query = ({ children, query, slug, onCompleted }) => {
     onCompleted,
   });
 
-  if (loading)
-    return (
-      <Container style={{ height: "800px", textAlign: "center" }}>
-        Loading...
-      </Container>
-    );
-  if (error) return <Container>Error: {JSON.stringify(error)}</Container>;
+  if (loading) return <BlankPage content="Loading..." />;
+  if (error) return <BlankPage content={`Error: ${JSON.stringify(error)}`} />;
   return children({ data });
 };
 

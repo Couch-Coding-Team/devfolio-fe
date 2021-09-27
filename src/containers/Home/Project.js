@@ -6,10 +6,12 @@ import {
   CardContent,
   CardMedia,
   Typography,
+  Chip,
 } from "@material-ui/core";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import VisibilityIcon from "@material-ui/icons/Visibility";
-import Tag from "../../components/Tag";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import IconLabel from "../../components/IconLabel";
 
 const Project = ({ project }) => {
@@ -41,12 +43,30 @@ const Project = ({ project }) => {
                 : project.description}
             </p>
             {project.tech_stacks.map((stack, index) => (
-              <Tag key={index} label={stack.name} />
+              <Chip key={index} label={stack.name} color="primary" />
             ))}
           </div>
           <div className={classes.cardFooter}>
-            <IconLabel icon={<GitHubIcon />} label={project.owner_name} />
-            <IconLabel icon={<VisibilityIcon />} label={project.view_count} />
+            <IconLabel
+              icon={<GitHubIcon fontSize="small" />}
+              label={project.owner_name}
+            />
+            <div className={classes.cardStats}>
+              <IconLabel
+                icon={<FavoriteIcon fontSize="small" />}
+                label={project.reactions.length}
+              />
+              <IconLabel
+                icon={<VisibilityIcon fontSize="small" />}
+                label={project.view_count}
+              />
+              {!!project.comments.length && (
+                <IconLabel
+                  icon={<ChatBubbleIcon fontSize="small" />}
+                  label={project.comments.length}
+                />
+              )}
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -79,6 +99,7 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     "& .MuiCardContent-root": {
+      flex: "1 1 100%",
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
@@ -105,6 +126,10 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       marginTop: "24px",
     },
+  },
+  cardStats: {
+    display: "flex",
+    gap: "1rem",
   },
 }));
 

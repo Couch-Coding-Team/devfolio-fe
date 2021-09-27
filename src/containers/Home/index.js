@@ -15,6 +15,16 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#f9f9f9",
     paddingBottom: "36px",
   },
+  banner: {
+    padding: "20px 0",
+    margin: "20px -15% 80px -15%",
+    backgroundColor: "black",
+    color: "white",
+    textAlign: "center",
+    [theme.breakpoints.down("sm")]: {
+      margin: "40px -10%",
+    },
+  },
 }));
 
 const Home = () => {
