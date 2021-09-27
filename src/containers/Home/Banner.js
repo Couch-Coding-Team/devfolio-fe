@@ -15,14 +15,16 @@ const data = [
     ),
     color: "black",
     bgColor: "#0ACF83",
-    link: "https://couchcoding.kr/portfolio?utm_source=devfolio&utm_medium=banner",
+    link:
+      "https://couchcoding.kr/portfolio?utm_source=devfolio&utm_medium=banner",
     eventName: "포트폴리오 멘토링 문의 클릭",
   },
   {
-    title: <strong>DevFolio 팀에게 서비스 의견을 들려주세요.</strong>,
+    title: <strong>DevFoliOh! 팀에게 서비스 의견을 들려주세요.</strong>,
     color: "white",
     bgColor: "#1302F4",
-    link: "https://docs.google.com/forms/d/e/1FAIpQLSdUywHRLDyQyskS8rD5aDn9T5n8WemqvJG6qnFngf2AjmPL0A/viewform",
+    link:
+      "https://docs.google.com/forms/d/e/1FAIpQLSdUywHRLDyQyskS8rD5aDn9T5n8WemqvJG6qnFngf2AjmPL0A/viewform",
     eventName: "서비스 의견 보내기 클릭",
   },
   {
