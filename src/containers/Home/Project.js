@@ -21,6 +21,7 @@ const Project = ({ project }) => {
       to={`/project/${project.id}`}
       onClick={() => {
         window.gtag("event", "프로젝트 클릭", { project_id: project.id });
+        sessionStorage.setItem("scrollTo", window.pageYOffset);
       }}
     >
       <Card className={classes.card}>

@@ -6,7 +6,7 @@ const Nav = () => {
   return (
     <AppBar position="sticky" color="inherit" elevation={0}>
       <Toolbar style={{ display: "flex", justifyContent: "space-between" }}>
-        <Link to="/">
+        <Link to="/" onClick={() => window.scrollTo(0, 0)}>
           <img
             alt="logo"
             src="/assets/logo.png"
