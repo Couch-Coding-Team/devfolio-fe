@@ -7,11 +7,16 @@ import ArrowCircle from "../../components/ArrowCircle";
 
 const data = [
   {
-    title: <strong>일주일 동안 React 협업 프로젝트 맛보기</strong>,
+    title: (
+      <span>
+        포트폴리오 제작에 어려움을 겪고 계신가요?{" "}
+        <strong>포트폴리오 멘토링 문의</strong>
+      </span>
+    ),
     color: "black",
     bgColor: "#0ACF83",
-    link: "https://eunbeelee.notion.site/React-2e2088b4797d4167af547f17a71abfc3",
-    eventName: "일주일 협업 프로젝트 클릭",
+    link: "https://couchcoding.kr/portfolio?utm_source=devfolio&utm_medium=banner",
+    eventName: "포트폴리오 멘토링 문의 클릭",
   },
   {
     title: <strong>DevFoliOh! 팀에게 서비스 의견을 들려주세요.</strong>,
