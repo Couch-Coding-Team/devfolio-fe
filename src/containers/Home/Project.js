@@ -35,17 +35,26 @@ const Project = ({ project }) => {
         </CardMedia>
         <CardContent>
           <div>
-            <Typography variant="h4">
+            <Typography variant="body">
               <strong>{project.title}</strong>
             </Typography>
             <p>
-              {project.description.length > 150
-                ? project.description.substring(0, 150) + "..."
+              {project.description.length > 80
+                ? project.description.substring(0, 80) + "..."
                 : project.description}
             </p>
-            {project.tech_stacks.map((stack, index) => (
-              <Chip key={index} label={stack.name} color="primary" />
-            ))}
+            <div>
+              {project.tech_stacks.slice(0, 3).map((stack, index) => (
+                <Chip
+                  key={index}
+                  label={stack.name}
+                  color="primary"
+                  size="small"
+                />
+              ))}
+              {project.tech_stacks.length > 3 &&
+                ` + ${project.tech_stacks.length - 3}`}
+            </div>
           </div>
           <div className={classes.cardFooter}>
             <IconLabel
@@ -78,36 +87,36 @@ const Project = ({ project }) => {
 const useStyles = makeStyles((theme) => ({
   card: {
     height: "430px",
-    padding: "48px",
     marginBottom: "36px",
     display: "flex",
-    gap: "72px",
     borderRadius: "10px",
     boxShadow: "15px 15px 30px rgba(0, 0, 0, 0.1)",
+    flexDirection: "column",
     [theme.breakpoints.down("sm")]: {
       height: "100%",
-      padding: "18px",
-      flexDirection: "column",
+      padding: "24px",
       gap: "24px",
     },
     "& .MuiCardMedia-root": {
-      flex: "0 0 50%",
+      overflow: "hidden",
       "& img": {
         objectFit: "cover",
       },
-      [theme.breakpoints.down("sm")]: {
-        height: "50%",
-      },
     },
     "& .MuiCardContent-root": {
-      flex: "1 1 100%",
+      flex: "1 0 60%",
       display: "flex",
+      gap: "8px",
+      padding: "18px",
       flexDirection: "column",
       justifyContent: "space-between",
-      padding: 0,
+      [theme.breakpoints.down("sm")]: {
+        padding: 0,
+      },
       "& .MuiTypography-h4": {
         [theme.breakpoints.down("sm")]: {
           marginBottom: "12px",
+          padding: "18px",
         },
       },
     },
@@ -115,10 +124,8 @@ const useStyles = makeStyles((theme) => ({
       margin: "auto 4px 4px auto",
     },
     "& p": {
-      margin: "24px 0",
-      [theme.breakpoints.down("sm")]: {
-        display: "none",
-      },
+      margin: "12px 0",
+      fontSize: "14px",
     },
   },
   cardFooter: {

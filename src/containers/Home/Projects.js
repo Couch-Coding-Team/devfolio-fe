@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 import { Tabs, Tab } from "@material-ui/core";
 import { orderBy } from "lodash";
 import Project from "./Project";
@@ -57,11 +57,13 @@ const Projects = ({ projects }) => {
       {!data.length ? (
         <div>결과가없습니다</div>
       ) : (
-        <>
+        <Grid container spacing={2}>
           {data.map((project, i) => (
-            <Project project={project} key={`project__${project.id}`} />
+            <Grid item xs={12} sm={4}>
+              <Project project={project} key={`project__${project.id}`} />
+            </Grid>
           ))}
-        </>
+        </Grid>
       )}
     </>
   );
