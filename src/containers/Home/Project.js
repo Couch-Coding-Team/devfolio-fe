@@ -98,6 +98,7 @@ const useStyles = makeStyles((theme) => ({
       gap: "24px",
     },
     "& .MuiCardMedia-root": {
+      flex: "1 1 100%",
       overflow: "hidden",
       "& img": {
         objectFit: "cover",
