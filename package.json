@@ -37,6 +37,9 @@
     "eject": "react-scripts eject",
     "postbuild": "react-snap"
   },
+  "reactSnap": {
+    "puppeteerArgs": ["--disable-timeouts-for-profiling"]
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
