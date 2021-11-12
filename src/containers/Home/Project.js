@@ -35,7 +35,7 @@ const Project = ({ project }) => {
         </CardMedia>
         <CardContent>
           <div>
-            <Typography variant="body">
+            <Typography variant="subtitle1">
               <strong>{project.title}</strong>
             </Typography>
             <p>
