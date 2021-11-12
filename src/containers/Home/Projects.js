@@ -1,6 +1,6 @@
-import React from "react";
-import { Grid, makeStyles } from "@material-ui/core";
-import { Tabs, Tab } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { makeStyles, Tabs, Tab } from "@material-ui/core";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { orderBy } from "lodash";
 import Project from "./Project";
 import Search from "../../components/Search";
@@ -11,14 +11,29 @@ const ORDER_BY = [
   { label: "조회순", value: "view_count" },
 ];
 
+const ITEMS_PER_PAGE = 12;
+
 const Projects = ({ projects }) => {
   const classes = useStyles();
-  const [value, setValue] = React.useState(ORDER_BY[0].value);
-  const [data, setData] = React.useState(
+  const [value, setValue] = useState(ORDER_BY[0].value); // 탭
+  const [data, setData] = useState(
     projects.map((prj) => {
       return { ...prj, like_count: prj.reactions.length };
     })
-  );
+  ); // 전체 리스트
+  const [items, setItems] = useState(data); // 무한스크롤 렌더링 리스트
+
+  useEffect(() => {
+    setItems(data.slice(0, ITEMS_PER_PAGE));
+  }, [data]);
+
+  const fetchMoreData = () => {
+    // data 중 기존 items에 있는 항목을 제외한 나머지 페이지당 갯수만큼 추가
+    setItems([
+      ...items,
+      ...data.slice(items.length, items.length + ITEMS_PER_PAGE),
+    ]);
+  };
 
   const handleChange = (event, newValue) => {
     const newLabel = ORDER_BY.find((el) => el.value === newValue).label;
@@ -57,13 +72,16 @@ const Projects = ({ projects }) => {
       {!data.length ? (
         <div>결과가없습니다</div>
       ) : (
-        <Grid container spacing={2}>
-          {data.map((project, i) => (
-            <Grid item xs={12} sm={4}>
-              <Project project={project} key={`project__${project.id}`} />
-            </Grid>
+        <InfiniteScroll
+          dataLength={items.length} // This is important field to render the next data
+          next={fetchMoreData}
+          hasMore={items.length !== data.length}
+          className={classes.grid}
+        >
+          {items.map((project, i) => (
+            <Project project={project} key={`project__${project.id}`} />
           ))}
-        </Grid>
+        </InfiniteScroll>
       )}
     </>
   );
@@ -87,6 +105,15 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       margin: "24px",
       width: "100%",
+    },
+  },
+  grid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(3, 1fr)",
+    gap: "1rem",
+    [theme.breakpoints.down("sm")]: {
+      gridTemplateColumns: "repeat(1, 1fr)",
+      gap: "0",
     },
   },
 }));
