@@ -24,7 +24,9 @@ const Projects = ({ projects }) => {
   const [items, setItems] = useState(data); // 무한스크롤 렌더링 리스트
 
   useEffect(() => {
-    setItems(data.slice(0, ITEMS_PER_PAGE));
+    if (window.navigator.userAgent !== "ReactSnap") {
+      setItems(data.slice(0, ITEMS_PER_PAGE));
+    }
   }, [data]);
 
   const fetchMoreData = () => {
