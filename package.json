@@ -40,7 +40,7 @@
   },
   "reactSnap": {
     "puppeteerArgs": [
-      "--disable-timeouts-for-profiling"
+      "--timeout: 0"
     ]
   },
   "eslintConfig": {
