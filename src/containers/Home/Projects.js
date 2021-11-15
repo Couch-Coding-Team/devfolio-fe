@@ -15,7 +15,7 @@ const ITEMS_PER_PAGE = 12;
 
 const Projects = ({ projects }) => {
   const classes = useStyles();
-  const [value, setValue] = useState(ORDER_BY[0].value); // 탭
+  const [value, setValue] = useState(ORDER_BY[0].value); // 탭 선택값
   const [data, setData] = useState(
     projects.map((prj) => {
       return { ...prj, like_count: prj.reactions.length };
@@ -28,7 +28,7 @@ const Projects = ({ projects }) => {
   }, [data]);
 
   const fetchMoreData = () => {
-    // data 중 기존 items에 있는 항목을 제외한 나머지 페이지당 갯수만큼 추가
+    // data에서 기존 items 항목을 제외한 나머지 중 첫 ITEMS_PER_PAGE 개 추가
     setItems([
       ...items,
       ...data.slice(items.length, items.length + ITEMS_PER_PAGE),
@@ -69,11 +69,11 @@ const Projects = ({ projects }) => {
         </Tabs>
         <Search handleFilter={handleFilter} handleReset={handleReset} />
       </div>
-      {!data.length ? (
+      {!items.length ? (
         <div>결과가없습니다</div>
       ) : (
         <InfiniteScroll
-          dataLength={items.length} // This is important field to render the next data
+          dataLength={items.length}
           next={fetchMoreData}
           hasMore={items.length !== data.length}
           className={classes.grid}
