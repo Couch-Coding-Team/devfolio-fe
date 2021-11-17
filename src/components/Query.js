@@ -2,15 +2,33 @@ import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 import BlankPage from "./BlankPage";
 
-const Query = ({ children, query, slug, onCompleted }) => {
-  const { data, loading, error } = useQuery(query, {
-    variables: { slug: slug },
+const Query = ({
+  children,
+  query,
+  slug,
+  start = 0,
+  limit = undefined,
+  onCompleted,
+}) => {
+  const { data, loading, error, fetchMore } = useQuery(query, {
+    variables: { slug, start, limit },
     onCompleted,
   });
 
+  const onLoadMore = (query, start) => {
+    fetchMore({
+      variables: { start },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+        fetchMoreResult[query] = [...prev[query], ...fetchMoreResult[query]];
+        return fetchMoreResult;
+      },
+    });
+  };
+
   if (loading) return <BlankPage content="Loading..." />;
   if (error) return <BlankPage content={`Error: ${JSON.stringify(error)}`} />;
-  return children({ data });
+  return children({ data, onLoadMore });
 };
 
 export default Query;

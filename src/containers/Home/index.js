@@ -37,8 +37,13 @@ const Home = () => {
       </Container>
       <div className={classes.projectsBg}>
         <Container>
-          <Query query={PROJECTS_QUERY}>
-            {({ data: { projects } }) => <Projects projects={projects} />}
+          <Query
+            query={PROJECTS_QUERY}
+            limit={window.navigator.userAgent === "ReactSnap" ? undefined : 12}
+          >
+            {({ data: { projects }, onLoadMore }) => (
+              <Projects projects={projects} onLoadMore={onLoadMore} />
+            )}
           </Query>
         </Container>
       </div>

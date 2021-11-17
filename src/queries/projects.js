@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 
 const PROJECTS_QUERY = gql`
-  query Projects {
-    projects(sort: "published_at:desc") {
+  query Projects($start: Int, $limit: Int) {
+    projects(start: $start, limit: $limit, sort: "published_at:desc") {
       id
       title
       description
