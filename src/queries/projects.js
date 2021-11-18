@@ -7,7 +7,12 @@ const PROJECTS_QUERY = gql`
         count
       }
     }
-    projects(start: $start, limit: $limit, sort: "published_at:desc") {
+    projects(
+      start: $start
+      limit: $limit
+      sort: "published_at:desc"
+      where: { is_hidden: false }
+    ) {
       id
       title
       description
