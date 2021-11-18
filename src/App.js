@@ -13,10 +13,12 @@ import Auth from "./components/Auth";
 import ScrollToTop from "./components/ScrollToTop";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Banner from "./containers/Home/Banner";
+import Group from "./containers/Group";
 
 const ROUTES = [
   { path: "/", component: Home, exact: true },
   { path: "/project/:id", component: Project, exact: true },
+  { path: "/group", component: Group, exact: true },
   { path: "*", component: PageNotFound },
 ];
 
