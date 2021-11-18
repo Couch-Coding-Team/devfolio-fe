@@ -41,8 +41,20 @@ const Home = () => {
             query={PROJECTS_QUERY}
             limit={window.navigator.userAgent === "ReactSnap" ? undefined : 12}
           >
-            {({ data: { projects }, onLoadMore }) => (
-              <Projects projects={projects} onLoadMore={onLoadMore} />
+            {({
+              data: {
+                projects,
+                projectsConnection: {
+                  aggregate: { count },
+                },
+              },
+              onLoadMore,
+            }) => (
+              <Projects
+                projects={projects}
+                count={count}
+                onLoadMore={onLoadMore}
+              />
             )}
           </Query>
         </Container>

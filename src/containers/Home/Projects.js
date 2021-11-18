@@ -11,7 +11,7 @@ const ORDER_BY = [
   { label: "조회순", value: "view_count" },
 ];
 
-const Projects = ({ projects, onLoadMore }) => {
+const Projects = ({ projects, count, onLoadMore }) => {
   const classes = useStyles();
   const [value, setValue] = useState(ORDER_BY[0].value); // 탭 선택값
   const [data, setData] = useState([]); // 전체 리스트
@@ -68,9 +68,9 @@ const Projects = ({ projects, onLoadMore }) => {
         <InfiniteScroll
           dataLength={data.length}
           next={handleLoadMoreData}
-          hasMore={data.length !== 84} // TODO: change to count queried
+          hasMore={data.length !== count}
           className={classes.grid}
-          loader={<h4>Loading...</h4>}
+          loader={<span>Loading...</span>}
         >
           {data.map((project, i) => (
             <Project project={project} key={`project__${project.id}`} />
