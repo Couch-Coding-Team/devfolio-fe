@@ -11,33 +11,20 @@ const ORDER_BY = [
   { label: "조회순", value: "view_count" },
 ];
 
-const ITEMS_PER_PAGE = 12;
-
-const Projects = ({ projects }) => {
+const Projects = ({ projects, count, onLoadMore }) => {
   const classes = useStyles();
   const [value, setValue] = useState(ORDER_BY[0].value); // 탭 선택값
-  const [data, setData] = useState(
-    projects.map((prj) => {
-      return { ...prj, like_count: prj.reactions.length };
-    })
-  ); // 전체 리스트
-  const [items, setItems] = useState(data); // 무한스크롤 렌더링 리스트
+  const [data, setData] = useState([]); // 전체 리스트
 
   useEffect(() => {
-    if (window.navigator.userAgent !== "ReactSnap") {
-      setItems(data.slice(0, ITEMS_PER_PAGE));
-    }
-  }, [data]);
+    setData(
+      projects.map((prj) => {
+        return { ...prj, like_count: prj.reactions.length };
+      })
+    );
+  }, [projects]);
 
-  const fetchMoreData = () => {
-    // data에서 기존 items 항목을 제외한 나머지 중 첫 ITEMS_PER_PAGE 개 추가
-    setItems([
-      ...items,
-      ...data.slice(items.length, items.length + ITEMS_PER_PAGE),
-    ]);
-  };
-
-  const handleChange = (event, newValue) => {
+  const handleTabChange = (event, newValue) => {
     const newLabel = ORDER_BY.find((el) => el.value === newValue).label;
     window.gtag("event", `${newLabel} 클릭`);
     const orderedList = orderBy(data, newValue, "desc");
@@ -50,8 +37,12 @@ const Projects = ({ projects }) => {
     setData(list);
   };
 
-  const handleReset = () => {
+  const handleFilterReset = () => {
     setData(projects);
+  };
+
+  const handleLoadMoreData = () => {
+    onLoadMore("projects", projects.length);
   };
 
   return (
@@ -61,7 +52,7 @@ const Projects = ({ projects }) => {
           value={value}
           indicatorColor="primary"
           textColor="primary"
-          onChange={handleChange}
+          onChange={handleTabChange}
           aria-label="project list order"
           className={classes.tabs}
         >
@@ -69,18 +60,19 @@ const Projects = ({ projects }) => {
             <Tab key={order.value} label={order.label} value={order.value} />
           ))}
         </Tabs>
-        <Search handleFilter={handleFilter} handleReset={handleReset} />
+        <Search handleFilter={handleFilter} handleReset={handleFilterReset} />
       </div>
-      {!items.length ? (
+      {!data.length ? (
         <div>결과가없습니다</div>
       ) : (
         <InfiniteScroll
-          dataLength={items.length}
-          next={fetchMoreData}
-          hasMore={items.length !== data.length}
+          dataLength={data.length}
+          next={handleLoadMoreData}
+          hasMore={data.length !== count}
           className={classes.grid}
+          loader={<span>Loading...</span>}
         >
-          {items.map((project, i) => (
+          {data.map((project, i) => (
             <Project project={project} key={`project__${project.id}`} />
           ))}
         </InfiniteScroll>
