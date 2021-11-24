@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FormControl,
   // InputAdornment,
@@ -10,18 +10,20 @@ import { Autocomplete } from "@material-ui/lab";
 import Query from "./Query";
 import TECH_STACKS_QUERY from "../queries/techStacks";
 
-const Search = ({ handleFilter, handleReset }) => {
+const Search = ({ filterIds, handleFilter, handleReset }) => {
   const classes = useStyles();
+  const [filters, setFilters] = useState(filterIds);
 
-  const handleSelectChange = (event, value) => {
-    if (!value.length) {
+  const handleSelectChange = (event, techStacks) => {
+    if (!techStacks.length) {
       handleReset();
     } else {
-      const projIds = value.flatMap((val) =>
-        val.projects.map((proj) => proj.id)
-      );
-      const filtered = [...new Set([...projIds])]; // remove duplicates
-      handleFilter(filtered);
+      const newFilterIds = techStacks.map((tech) => {
+        window.gtag("event", `${tech.name} 검색`);
+        return parseInt(tech.id, 10);
+      });
+      setFilters(newFilterIds);
+      handleFilter(newFilterIds);
     }
   };
   return (
@@ -36,21 +38,15 @@ const Search = ({ handleFilter, handleReset }) => {
               id="tags-outlined"
               options={techStacks}
               getOptionLabel={(option) => option.name}
+              defaultValue={techStacks.filter((tech) =>
+                filters?.includes(parseInt(tech.id, 10))
+              )}
               onChange={handleSelectChange}
               renderInput={(params) => (
                 <TextField
                   {...params}
                   variant="outlined"
                   placeholder="기술스택으로 검색해보세요"
-                  // 이슈: https://github.com/mui-org/material-ui/issues/18650
-                  // InputProps={{
-                  //   ...params.InputProps,
-                  //   startAdornment: (
-                  //     <InputAdornment position="start">
-                  //       <SearchIcon />
-                  //     </InputAdornment>
-                  //   ),
-                  // }}
                 />
               )}
               ChipProps={{ color: "primary" }}
