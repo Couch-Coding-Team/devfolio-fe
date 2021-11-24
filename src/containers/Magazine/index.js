@@ -1,8 +1,9 @@
 import React from "react";
 import { Container, makeStyles } from "@material-ui/core";
 import Query from "../../components/Query";
-import Groups from "./Groups";
-import GROUPS_QUERY from "../../queries/groups";
+import Articles from "./Articles";
+import ARTICLES_QUERY from "../../queries/articles";
+import Hero from "./Hero";
 
 const useStyles = makeStyles((theme) => ({
   heroContainer: {
@@ -26,17 +27,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Group = () => {
+const Magazine = () => {
   const classes = useStyles();
   return (
-    <Container>
-      <Query query={GROUPS_QUERY}>
-        {({ data: { groups }, fetchMore }) => (
-          <Groups groups={groups} fetchMore={fetchMore} />
-        )}
-      </Query>
-    </Container>
+    <>
+      <Hero />
+      <Container>
+        <Query query={ARTICLES_QUERY}>
+          {({ data: { articles }, fetchMore }) => (
+            <Articles articles={articles} fetchMore={fetchMore} />
+          )}
+        </Query>
+      </Container>
+    </>
   );
 };
 
-export default Group;
+export default Magazine;
