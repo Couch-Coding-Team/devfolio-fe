@@ -8,10 +8,18 @@ const Query = ({
   slug,
   start = 0,
   limit = undefined,
+  sort = "published_at:desc",
+  where = undefined,
   onCompleted,
 }) => {
   const { data, loading, error, fetchMore } = useQuery(query, {
-    variables: { slug, start, limit },
+    variables: {
+      slug,
+      start,
+      limit,
+      sort,
+      where: { is_hidden: false, ...(where && where) },
+    },
     onCompleted,
   });
 
