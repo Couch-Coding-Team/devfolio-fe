@@ -11,10 +11,7 @@ const Hero = () => {
         <div className={classes.heroMessage}>
           개발자 토이프로젝트 모아보기 서비스
         </div>
-        <div className={classes.mdHidden}>
-          <img className={classes.heroImage} src="assets/hero.jpg" alt="hero" />
-        </div>
-        <p className={classes.smHidden}>
+        <p className={classes.heroDescription}>
           선배・동료 개발자들의 토이프로젝트를 한눈에 모아보고, 좋은 프로젝트는
           더 많은 사람들과 공유해보세요.
         </p>
@@ -38,10 +35,6 @@ const Hero = () => {
         >
           프로젝트 공유하기
         </Button>
-        <p className={classes.mdHidden}>
-          선배・동료 개발자들의 개인 프로젝트를 한눈에 모아보고, 좋은 프로젝트는
-          더 많은 사람들과 공유해보세요.
-        </p>
       </Grid>
       <Grid item xs={12} md={6} className={classes.smHidden}>
         <img className={classes.heroImage} src="assets/hero.jpg" alt="hero" />
@@ -52,28 +45,25 @@ const Hero = () => {
 
 const useStyles = makeStyles((theme) => ({
   logo: {
-    width: "100%",
-    margin: "20px auto",
-    [theme.breakpoints.up("md")]: {
+    width: "80%",
+    margin: "40px auto 20px auto",
+    [theme.breakpoints.down("sm")]: {
       width: "80%",
       margin: "40px auto 20px auto",
+      maxWidth: "350px",
     },
   },
   heroMain: {
     "& p": {
       fontSize: "18px",
       margin: 0,
-      [theme.breakpoints.down("sm")]: {
-        marginTop: "40px",
-        textAlign: "center",
-      },
     },
   },
   heroMessage: {
     fontSize: "24px",
     marginBottom: "40px",
     [theme.breakpoints.down("sm")]: {
-      marginBottom: 0,
+      marginBottom: 10,
     },
   },
   heroImage: {
@@ -81,10 +71,6 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     margin: "36px 12px 12px 0",
-    [theme.breakpoints.down("sm")]: {
-      width: "100%",
-      margin: "0 0 12px 0",
-    },
   },
   mdHidden: {
     [theme.breakpoints.up("md")]: {
@@ -94,6 +80,11 @@ const useStyles = makeStyles((theme) => ({
   smHidden: {
     [theme.breakpoints.down("sm")]: {
       display: "none",
+    },
+  },
+  heroDescription: {
+    [theme.breakpoints.down("sm")]: {
+      color: "#999999",
     },
   },
 }));
