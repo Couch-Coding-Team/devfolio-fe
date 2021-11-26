@@ -11,7 +11,7 @@ const Projects = ({ projects, count, onLoadMore }) => {
     setData(
       projects.map((prj) => {
         return { ...prj, like_count: prj.reactions.length };
-      })
+      }),
     );
   }, [projects]);
 
@@ -47,7 +47,15 @@ const useStyles = makeStyles((theme) => ({
     display: "grid",
     gridTemplateColumns: "repeat(3, 1fr)",
     gap: "1rem",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.up("sm")]: {
+      gridTemplateColumns: "repeat(3, 1fr)",
+      gap: "1rem",
+    },
+    [theme.breakpoints.between("xs", "sm")]: {
+      gridTemplateColumns: "repeat(2, 1fr)",
+      gap: "1rem",
+    },
+    [theme.breakpoints.down("xs")]: {
       gridTemplateColumns: "repeat(1, 1fr)",
       gap: "0",
     },
