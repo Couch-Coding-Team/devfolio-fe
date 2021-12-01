@@ -5,6 +5,10 @@ const ARTICLES_QUERY = gql`
     articles {
       id
       title
+      description
+      released_at
+      published_at
+      thumbnail_url
     }
   }
 `;

@@ -1,21 +1,22 @@
 import React from "react";
-import { makeStyles, Button, Grid } from "@material-ui/core";
+import { makeStyles, Grid } from "@material-ui/core";
 
 const Hero = () => {
   const classes = useStyles();
   return (
-    <Grid container spacing={4} style={{ backgroundColor: "#EEECE2" }}>
+    <Grid container spacing={4}>
       <Grid item xs={12} md={6} className={classes.heroMain}>
-        <p>다른 개발자들은 어떤 프로젝트를 만들었을까?</p>
+        <p>토이 프로젝트와 DevFoliOh의 비하인드 스토리</p>
         <div className={classes.heroMessage}>
-          개발자 토이프로젝트 모아보기 서비스
-        </div>
-        <div className={classes.mdHidden}>
-          <img className={classes.heroImage} src="assets/hero.jpg" alt="hero" />
+          DevFoliOh 매거진에서 확인해보세요
         </div>
       </Grid>
       <Grid item xs={12} md={6} className={classes.smHidden}>
-        <img className={classes.heroImage} src="assets/hero.jpg" alt="hero" />
+        <img
+          className={classes.heroImage}
+          src="assets/hero_magazine.jpg"
+          alt="hero"
+        />
       </Grid>
     </Grid>
   );
@@ -31,8 +32,12 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   heroMain: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    gap: "24px",
     "& p": {
-      fontSize: "18px",
+      fontSize: "24px",
       margin: 0,
       [theme.breakpoints.down("sm")]: {
         marginTop: "40px",
@@ -41,7 +46,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   heroMessage: {
-    fontSize: "24px",
+    fontSize: "48px",
+    fontWeight: 700,
     marginBottom: "40px",
     [theme.breakpoints.down("sm")]: {
       marginBottom: 0,

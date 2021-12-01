@@ -6,8 +6,8 @@ import {
   CardContent,
   CardMedia,
   Typography,
-  Chip,
 } from "@material-ui/core";
+import moment from "moment";
 
 const Article = ({ article }) => {
   const classes = useStyles();
@@ -22,24 +22,24 @@ const Article = ({ article }) => {
     <Card className={classes.card}>
       <CardMedia>
         <img
-          src="https://devfolio.kr/assets/hero.jpg"
-          // src={article.thumbnail_url}
-          // alt={article.thumbnail_url}
+          src={article.thumbnail_url}
+          alt={article.thumbnail_url}
           width="100%"
           height="100%"
         />
       </CardMedia>
       <CardContent>
-        <div>
-          <Typography variant="subtitle1">
-            <strong>{article.title}</strong>
-          </Typography>
-          {/* <p>
-            {article.description.length > 80
-              ? article.description.substring(0, 80) + "..."
-              : article.description}
-          </p> */}
-        </div>
+        <Typography color="textSecondary" variant="subtitle2">
+          <strong>
+            {moment(article.released_at || article.published_at).format(
+              "YYYY.MM.DD"
+            )}
+          </strong>
+        </Typography>
+        <Typography variant="h6">
+          <strong>{article.title}</strong>
+        </Typography>
+        <p>{article.description}</p>
       </CardContent>
     </Card>
     // </Link>
@@ -48,13 +48,14 @@ const Article = ({ article }) => {
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    height: "430px",
-    padding: "48px",
-    marginBottom: "36px",
+    height: "222px",
+    padding: "32px",
+    margin: "36px",
     display: "flex",
-    gap: "72px",
+    gap: "36px",
     borderRadius: "10px",
     boxShadow: "15px 15px 30px rgba(0, 0, 0, 0.1)",
+    position: "relative",
     [theme.breakpoints.down("sm")]: {
       height: "100%",
       padding: "18px",
@@ -62,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
       gap: "24px",
     },
     "& .MuiCardMedia-root": {
-      flex: "0 0 50%",
+      flex: "0 0 25%",
       "& img": {
         objectFit: "cover",
       },
@@ -74,8 +75,9 @@ const useStyles = makeStyles((theme) => ({
       flex: "1 1 100%",
       display: "flex",
       flexDirection: "column",
-      justifyContent: "space-between",
+      justifyContent: "center",
       padding: 0,
+      gap: "14px",
       "& .MuiTypography-h4": {
         [theme.breakpoints.down("sm")]: {
           marginBottom: "12px",
@@ -86,7 +88,11 @@ const useStyles = makeStyles((theme) => ({
       margin: "auto 4px 4px auto",
     },
     "& p": {
-      margin: "24px 0",
+      margin: "0",
+      display: "-webkit-box",
+      "-webkit-line-clamp": 2,
+      "-webkit-box-orient": "vertical",
+      overflow: "hidden",
       [theme.breakpoints.down("sm")]: {
         display: "none",
       },
