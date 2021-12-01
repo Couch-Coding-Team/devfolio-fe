@@ -81,6 +81,7 @@ const Comment = ({ data, deleteComment, updateComment }) => {
               color="secondary"
               variant="contained"
               onClick={handleSubmit}
+              disabled={!value}
             >
               수정하기
             </Button>
