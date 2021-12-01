@@ -46,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
   grid: {
     display: "grid",
     gridTemplateColumns: "repeat(3, 1fr)",
-    gap: "1rem",
     [theme.breakpoints.down("sm")]: {
       gridTemplateColumns: "repeat(1, 1fr)",
       gap: "0",
