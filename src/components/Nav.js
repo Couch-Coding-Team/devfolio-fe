@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import {
   AppBar,
@@ -13,16 +13,18 @@ import {
   makeStyles,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import { RoutesContext } from "../AppContext";
-import { Logo, VelogLogo, VELOG_URL } from "../constants";
+import { Logo, VelogLogo, VELOG_URL, PATHS } from "../constants";
+
+const MENU = [
+  { key: "project", label: "탐색" },
+  { key: "magazine", label: "매거진" },
+];
 
 const Nav = () => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const history = useHistory();
   const { pathname } = useLocation();
-  const routes = useContext(RoutesContext);
-  const routesOnMenu = routes.filter((route) => !!route.label);
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -36,8 +38,8 @@ const Nav = () => {
     setAnchorEl(null);
   };
 
-  const handleMobileMenuItemClick = (route) => {
-    history.push(route.path);
+  const handleMobileMenuItemClick = (item) => {
+    history.push(PATHS[item.key].home);
     handleMobileMenuClose();
   };
 
@@ -58,32 +60,33 @@ const Nav = () => {
         horizontal: "center",
       }}
     >
-      {routesOnMenu.map((route, idx) => (
-        <MenuItem key={idx} onClick={() => handleMobileMenuItemClick(route)}>
-          {route.label}
+      {MENU.map((item, idx) => (
+        <MenuItem key={idx} onClick={() => handleMobileMenuItemClick(item)}>
+          {item.label}
         </MenuItem>
       ))}
     </Menu>
   );
 
   const DesktopMenu = () => {
-    return routesOnMenu.map((route, idx) => {
-      const isCurrentLocation = pathname === route.path;
+    return MENU.map((item, idx) => {
+      const isCurrentLocation = pathname.split("/").includes(item.key);
+      const isHome = pathname === "/";
+      const isSelected =
+        isCurrentLocation || (isHome && item.key === "project"); // 경로가 '/' 일때는 메뉴 중에 project를 하이라이트한다
       return (
         <Link
           key={idx}
-          to={route.path}
+          to={PATHS[item.key].home}
           onClick={() => window.scrollTo(0, 0)}
           className={classes.desktopMenu}
         >
           <Typography
             variant="inherit"
-            color={isCurrentLocation ? "textPrimary" : "textSecondary"}
-            className={
-              isCurrentLocation ? classes.selected : classes.deselected
-            }
+            color={isSelected ? "textPrimary" : "textSecondary"}
+            className={isSelected ? classes.selected : classes.deselected}
           >
-            {route.label}
+            {item.label}
           </Typography>
         </Link>
       );
@@ -104,7 +107,7 @@ const Nav = () => {
           ) : (
             <>
               <Link
-                to={routes.home}
+                to={PATHS.project.home}
                 onClick={() => window.scrollTo(0, 0)}
                 className={classes.iconLeft}
               >

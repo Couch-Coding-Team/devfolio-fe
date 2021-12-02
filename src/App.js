@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useLocation } from "react-router";
 import { Switch, Route } from "react-router-dom";
 import { CssBaseline } from "@material-ui/core";
@@ -6,53 +6,40 @@ import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
-import PageNotFound from "./components/PageNotFound";
 import Auth from "./components/Auth";
 import ScrollToTop from "./components/ScrollToTop";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Banner from "./components/Banner";
 
-import Home from "./containers/Home";
-import Project from "./containers/Project";
-import Magazine from "./containers/Magazine";
-import ArticlePage from "./containers/Magazine/ArticlePage";
-
-import { routes } from "./constants";
+import { PATHS } from "./constants";
 import { RoutesContext } from "./AppContext";
-
-const ROUTES = [
-  { path: routes.home, component: Home, exact: true, label: "탐색" },
-  { path: routes.projectDetail, component: Project, exact: true },
-  { path: routes.magazine, component: Magazine, exact: true, label: "매거진" },
-  { path: routes.magazineDetail, component: ArticlePage, exact: true },
-  { path: "*", component: PageNotFound },
-];
 
 const App = () => {
   const { pathname } = useLocation();
+  const routes = useContext(RoutesContext);
   return (
     <div className="App">
       <ErrorBoundary>
         <ScrollToTop />
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <RoutesContext.Provider value={ROUTES}>
-            <Auth>
-              {[routes.home, routes.magazine].includes(pathname) && <Banner />}
-              <Nav />
-              <Switch>
-                {ROUTES.map((route) => (
-                  <Route
-                    key={route.path}
-                    path={route.path}
-                    component={route.component}
-                    exact={route.exact}
-                  />
-                ))}
-              </Switch>
-              <Footer />
-            </Auth>
-          </RoutesContext.Provider>
+          <Auth>
+            {[PATHS.project.home, PATHS.magazine.home].includes(pathname) && (
+              <Banner />
+            )}
+            <Nav />
+            <Switch>
+              {routes.map((route) => (
+                <Route
+                  key={route.path}
+                  path={route.path}
+                  component={route.component}
+                  exact={route.exact}
+                />
+              ))}
+            </Switch>
+            <Footer />
+          </Auth>
         </ThemeProvider>
       </ErrorBoundary>
     </div>

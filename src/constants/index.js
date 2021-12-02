@@ -1,8 +1,12 @@
-const routes = {
-  home: "/",
-  projectDetail: "/project/:id",
-  magazine: "/magazine",
-  magazineDetail: "/magazine/:id",
+const PATHS = {
+  project: {
+    home: "/",
+    detail: "/project/:id",
+  },
+  magazine: {
+    home: "/magazine",
+    detail: "/magazine/:id",
+  },
 };
 
 const Logo = () => <img alt="logo" src="/assets/logo.png" />;
@@ -17,4 +21,4 @@ const VelogLogo = () => (
 );
 const VELOG_URL = "https://velog.io/@devfolio";
 
-export { routes, Logo, VelogLogo, VELOG_URL };
+export { PATHS, Logo, VelogLogo, VELOG_URL };
