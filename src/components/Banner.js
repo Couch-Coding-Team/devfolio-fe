@@ -3,7 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useMediaQuery, useTheme } from "@material-ui/core";
-import ArrowCircle from "../../components/ArrowCircle";
+import ArrowCircle from "./ArrowCircle";
 
 const data = [
   {

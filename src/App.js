@@ -5,16 +5,18 @@ import { CssBaseline } from "@material-ui/core";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 
 import Nav from "./components/Nav";
-import Home from "./containers/Home";
-import Project from "./containers/Project";
 import Footer from "./components/Footer";
 import PageNotFound from "./components/PageNotFound";
 import Auth from "./components/Auth";
 import ScrollToTop from "./components/ScrollToTop";
 import ErrorBoundary from "./components/ErrorBoundary";
-import Banner from "./containers/Home/Banner";
+import Banner from "./components/Banner";
+
+import Home from "./containers/Home";
+import Project from "./containers/Project";
 import Magazine from "./containers/Magazine";
 import ArticlePage from "./containers/Magazine/ArticlePage";
+
 import { routes } from "./constants";
 import { RoutesContext } from "./AppContext";
 
@@ -26,7 +28,7 @@ const ROUTES = [
   { path: "*", component: PageNotFound },
 ];
 
-function App() {
+const App = () => {
   const { pathname } = useLocation();
   return (
     <div className="App">
@@ -55,7 +57,7 @@ function App() {
       </ErrorBoundary>
     </div>
   );
-}
+};
 
 export default App;
 

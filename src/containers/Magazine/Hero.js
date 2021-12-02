@@ -4,7 +4,7 @@ import { makeStyles, Grid } from "@material-ui/core";
 const Hero = () => {
   const classes = useStyles();
   return (
-    <Grid container spacing={4}>
+    <Grid container>
       <Grid item xs={12} md={6} className={classes.heroMain}>
         <p>토이 프로젝트와 DevFoliOh의 비하인드 스토리</p>
         <div className={classes.heroMessage}>
@@ -40,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "24px",
       margin: 0,
       [theme.breakpoints.down("sm")]: {
-        marginTop: "40px",
         textAlign: "center",
       },
     },
@@ -50,7 +49,9 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 700,
     marginBottom: "40px",
     [theme.breakpoints.down("sm")]: {
-      marginBottom: 0,
+      fontSize: "36px",
+      textAlign: "center",
+      wordBreak: "initial",
     },
   },
   heroImage: {

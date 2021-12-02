@@ -8,6 +8,9 @@ import Hero from "./Hero";
 const useStyles = makeStyles((theme) => ({
   heroContainer: {
     paddingLeft: "48px",
+    [theme.breakpoints.down("sm")]: {
+      paddingLeft: "16px",
+    },
   },
   heroBg: {
     backgroundColor: "#EEECE2",

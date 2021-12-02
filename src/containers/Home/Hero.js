@@ -64,7 +64,6 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "18px",
       margin: 0,
       [theme.breakpoints.down("sm")]: {
-        marginTop: "40px",
         textAlign: "center",
       },
     },

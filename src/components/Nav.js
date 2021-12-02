@@ -1,65 +1,126 @@
-import React, { useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { AppBar, Toolbar, Container, Typography } from "@material-ui/core";
+import React, { useContext, useState } from "react";
+import { Link, useLocation, useHistory } from "react-router-dom";
+import {
+  AppBar,
+  Toolbar,
+  Container,
+  Typography,
+  useTheme,
+  useMediaQuery,
+  IconButton,
+  Menu,
+  MenuItem,
+  makeStyles,
+} from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
 import { RoutesContext } from "../AppContext";
+import { Logo, VelogLogo, VELOG_URL } from "../constants";
 
 const Nav = () => {
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const history = useHistory();
   const { pathname } = useLocation();
   const routes = useContext(RoutesContext);
-  const routesWithLabel = routes.filter((route) => !!route.label);
+  const routesOnMenu = routes.filter((route) => !!route.label);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const classes = useStyles();
+
+  const handleMobileMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMobileMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleMobileMenuItemClick = (route) => {
+    history.push(route.path);
+    handleMobileMenuClose();
+  };
+
+  const MobileMenuDropdown = () => (
+    <Menu
+      keepMounted
+      elevation={1}
+      anchorEl={anchorEl}
+      getContentAnchorEl={null}
+      open={Boolean(anchorEl)}
+      onClose={handleMobileMenuClose}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "center",
+      }}
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "center",
+      }}
+    >
+      {routesOnMenu.map((route, idx) => (
+        <MenuItem key={idx} onClick={() => handleMobileMenuItemClick(route)}>
+          {route.label}
+        </MenuItem>
+      ))}
+    </Menu>
+  );
+
+  const DesktopMenu = () => {
+    return routesOnMenu.map((route, idx) => {
+      const isCurrentLocation = pathname === route.path;
+      return (
+        <Link
+          key={idx}
+          to={route.path}
+          onClick={() => window.scrollTo(0, 0)}
+          className={classes.desktopMenu}
+        >
+          <Typography
+            variant="inherit"
+            color={isCurrentLocation ? "textPrimary" : "textSecondary"}
+            className={
+              isCurrentLocation ? classes.selected : classes.deselected
+            }
+          >
+            {route.label}
+          </Typography>
+        </Link>
+      );
+    });
+  };
+
   return (
     <AppBar position="sticky" color="inherit" elevation={0}>
-      <Toolbar
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          position: "relative",
-        }}
-      >
+      <Toolbar className={classes.toolbar}>
         <Container>
-          <Link
-            to="/"
-            onClick={() => window.scrollTo(0, 0)}
-            style={{ position: "absolute", left: 24 }}
-          >
-            <img
-              alt="logo"
-              src="/assets/logo.png"
-              style={{ height: "20px", width: "auto" }}
-            />
-          </Link>
-          {routesWithLabel.map((route, idx) => {
-            const isCurrentLocation = pathname === route.path;
-            return (
+          {isMobile ? (
+            <>
+              <IconButton edge="start" onClick={handleMobileMenuClick}>
+                <MenuIcon />
+              </IconButton>
+              <MobileMenuDropdown />
+            </>
+          ) : (
+            <>
               <Link
-                to={route.path}
+                to={routes.home}
                 onClick={() => window.scrollTo(0, 0)}
-                style={{ margin: "0 24px" }}
-                key={idx}
+                className={classes.iconLeft}
               >
-                <Typography
-                  variant="inherit"
-                  color={isCurrentLocation ? "textPrimary" : "textSecondary"}
-                  style={{
-                    fontWeight: isCurrentLocation ? 700 : 500,
-                    borderBottom: isCurrentLocation
-                      ? "1px solid black"
-                      : "none",
-                  }}
-                >
-                  {route.label}
-                </Typography>
+                <Logo />
               </Link>
-            );
-          })}
-          <a
-            href="https://velog.io/@devfolio"
-            target="_blank"
-            rel="noreferrer"
-            style={{ position: "absolute", right: 24 }}
-          >
-            <VelogLogo />
-          </a>
+              <DesktopMenu />
+              <a
+                href={VELOG_URL}
+                target="_blank"
+                rel="noreferrer"
+                className={classes.iconRight}
+              >
+                <VelogLogo />
+              </a>
+            </>
+          )}
         </Container>
       </Toolbar>
     </AppBar>
@@ -68,12 +129,33 @@ const Nav = () => {
 
 export default Nav;
 
-const VelogLogo = () => (
-  <svg width="24" height="24" viewBox="0 0 192 192" fill="none">
-    <rect width="192" height="192" fill="currentColor" rx="24"></rect>
-    <path
-      d="M49 65.48V57.92C53.8 56.36 59.44 54.68 65.92 52.88C72.4 50.96 76.78 50 79.06 50C84.1 50 87.1 52.4 88.06 57.2L99.76 123.62C103.48 118.7 106.54 114.56 108.94 111.2C112.66 105.92 116.08 99.86 119.2 93.02C122.44 86.18 124.06 80.06 124.06 74.66C124.06 71.42 123.16 68.84 121.36 66.92C119.68 64.88 116.5 62.3 111.82 59.18C116.62 53.06 122.62 50 129.82 50C133.66 50 136.84 51.14 139.36 53.42C142 55.7 143.32 59.06 143.32 63.5C143.32 70.94 140.2 80.24 133.96 91.4C127.84 102.44 116.02 119.06 98.5 141.26L80.68 142.52L67 65.48H49Z"
-      fill="white"
-    ></path>
-  </svg>
-);
+const useStyles = makeStyles({
+  toolbar: {
+    display: "flex",
+    justifyContent: "space-between",
+    position: "relative",
+  },
+  iconLeft: {
+    position: "absolute",
+    left: 24,
+    "& img": {
+      height: "20px",
+      width: "auto",
+    },
+  },
+  iconRight: {
+    position: "absolute",
+    right: 24,
+  },
+  desktopMenu: {
+    margin: "0 24px",
+  },
+  selected: {
+    fontWeight: 700,
+    borderBottom: "1px solid black",
+  },
+  deselected: {
+    fontWeight: "initial",
+    borderBottom: "initial",
+  },
+});
