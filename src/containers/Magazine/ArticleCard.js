@@ -9,40 +9,40 @@ import {
 } from "@material-ui/core";
 import moment from "moment";
 
-const Article = ({ article }) => {
+const ArticleCard = ({ article }) => {
   const classes = useStyles();
   return (
-    // <Link
-    //   to={`/article/${article.id}`}
-    //   onClick={() => {
-    //     window.gtag("event", "프로젝트 클릭", { article_id: article.id });
-    //     sessionStorage.setItem("scrollTo", window.pageYOffset);
-    //   }}
-    // >
-    <Card className={classes.card}>
-      <CardMedia>
-        <img
-          src={article.thumbnail_url}
-          alt={article.thumbnail_url}
-          width="100%"
-          height="100%"
-        />
-      </CardMedia>
-      <CardContent>
-        <Typography color="textSecondary" variant="subtitle2">
-          <strong>
-            {moment(article.released_at || article.published_at).format(
-              "YYYY.MM.DD"
-            )}
-          </strong>
-        </Typography>
-        <Typography variant="h6">
-          <strong>{article.title}</strong>
-        </Typography>
-        <p>{article.description}</p>
-      </CardContent>
-    </Card>
-    // </Link>
+    <Link
+      to={`/magazine/${article.id}`}
+      onClick={() => {
+        window.gtag("event", "매거진 클릭", { article_id: article.id });
+        sessionStorage.setItem("scrollTo", window.pageYOffset);
+      }}
+    >
+      <Card className={classes.card}>
+        <CardMedia>
+          <img
+            src={article.thumbnail_url}
+            alt={article.thumbnail_url}
+            width="100%"
+            height="100%"
+          />
+        </CardMedia>
+        <CardContent>
+          <Typography color="textSecondary" variant="subtitle2">
+            <strong>
+              {moment(article.released_at || article.published_at).format(
+                "YYYY.MM.DD"
+              )}
+            </strong>
+          </Typography>
+          <Typography variant="h6">
+            <strong>{article.title}</strong>
+          </Typography>
+          <p>{article.description}</p>
+        </CardContent>
+      </Card>
+    </Link>
   );
 };
 
@@ -100,4 +100,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Article;
+export default ArticleCard;

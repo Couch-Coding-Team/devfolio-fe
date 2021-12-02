@@ -1,21 +1,66 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { AppBar, Toolbar } from "@material-ui/core";
+import React, { useContext } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { AppBar, Toolbar, Container, Typography } from "@material-ui/core";
+import { RoutesContext } from "../AppContext";
 
 const Nav = () => {
+  const { pathname } = useLocation();
+  const routes = useContext(RoutesContext);
+  const routesWithLabel = routes.filter((route) => !!route.label);
   return (
     <AppBar position="sticky" color="inherit" elevation={0}>
-      <Toolbar style={{ display: "flex", justifyContent: "space-between" }}>
-        <Link to="/" onClick={() => window.scrollTo(0, 0)}>
-          <img
-            alt="logo"
-            src="/assets/logo.png"
-            style={{ height: "20px", width: "auto" }}
-          />
-        </Link>
-        <a href="https://velog.io/@devfolio" target="_blank" rel="noreferrer">
-          <VelogLogo />
-        </a>
+      <Toolbar
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          position: "relative",
+        }}
+      >
+        <Container>
+          <Link
+            to="/"
+            onClick={() => window.scrollTo(0, 0)}
+            style={{ position: "absolute", left: 24 }}
+          >
+            <img
+              alt="logo"
+              src="/assets/logo.png"
+              style={{ height: "20px", width: "auto" }}
+            />
+          </Link>
+          {routesWithLabel.map((route, idx) => {
+            const isCurrentLocation = pathname === route.path;
+            return (
+              <Link
+                to={route.path}
+                onClick={() => window.scrollTo(0, 0)}
+                style={{ margin: "0 24px" }}
+                key={idx}
+              >
+                <Typography
+                  variant="inherit"
+                  color={isCurrentLocation ? "textPrimary" : "textSecondary"}
+                  style={{
+                    fontWeight: isCurrentLocation ? 700 : 500,
+                    borderBottom: isCurrentLocation
+                      ? "1px solid black"
+                      : "none",
+                  }}
+                >
+                  {route.label}
+                </Typography>
+              </Link>
+            );
+          })}
+          <a
+            href="https://velog.io/@devfolio"
+            target="_blank"
+            rel="noreferrer"
+            style={{ position: "absolute", right: 24 }}
+          >
+            <VelogLogo />
+          </a>
+        </Container>
       </Toolbar>
     </AppBar>
   );

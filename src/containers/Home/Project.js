@@ -120,6 +120,7 @@ const useStyles = makeStyles((theme) => ({
     },
     "& .MuiChip-root": {
       margin: "auto 4px 4px auto",
+      fontFamily: "Montserrat",
     },
     "& h6": {
       lineHeight: "1.5rem",

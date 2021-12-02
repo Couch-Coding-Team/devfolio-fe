@@ -14,37 +14,43 @@ import ScrollToTop from "./components/ScrollToTop";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Banner from "./containers/Home/Banner";
 import Magazine from "./containers/Magazine";
+import ArticlePage from "./containers/Magazine/ArticlePage";
+import { routes } from "./constants";
+import { RoutesContext } from "./AppContext";
 
 const ROUTES = [
-  { path: "/", component: Home, exact: true },
-  { path: "/project/:id", component: Project, exact: true },
-  { path: "/magazine", component: Magazine, exact: true },
+  { path: routes.home, component: Home, exact: true, label: "탐색" },
+  { path: routes.projectDetail, component: Project, exact: true },
+  { path: routes.magazine, component: Magazine, exact: true, label: "매거진" },
+  { path: routes.magazineDetail, component: ArticlePage, exact: true },
   { path: "*", component: PageNotFound },
 ];
 
 function App() {
-  const location = useLocation();
+  const { pathname } = useLocation();
   return (
     <div className="App">
       <ErrorBoundary>
         <ScrollToTop />
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Auth>
-            {location.pathname === "/" && <Banner />}
-            <Nav />
-            <Switch>
-              {ROUTES.map((route) => (
-                <Route
-                  key={route.path}
-                  path={route.path}
-                  component={route.component}
-                  exact={route.exact}
-                />
-              ))}
-            </Switch>
-            <Footer />
-          </Auth>
+          <RoutesContext.Provider value={ROUTES}>
+            <Auth>
+              {[routes.home, routes.magazine].includes(pathname) && <Banner />}
+              <Nav />
+              <Switch>
+                {ROUTES.map((route) => (
+                  <Route
+                    key={route.path}
+                    path={route.path}
+                    component={route.component}
+                    exact={route.exact}
+                  />
+                ))}
+              </Switch>
+              <Footer />
+            </Auth>
+          </RoutesContext.Provider>
         </ThemeProvider>
       </ErrorBoundary>
     </div>
@@ -55,7 +61,7 @@ export default App;
 
 const theme = createTheme({
   typography: {
-    fontFamily: "Montserrat, Roboto, sans-serif",
+    fontFamily: "Roboto, sans-serif",
   },
   breakpoints: {
     values: {

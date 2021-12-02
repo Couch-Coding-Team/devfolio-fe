@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Search from "../../components/Search";
-import Article from "./Article";
+import ArticleCard from "./ArticleCard";
 
 const Articles = ({ articles, fetchMore }) => {
   const classes = useStyles();
@@ -16,7 +15,7 @@ const Articles = ({ articles, fetchMore }) => {
       className={classes.grid}
     >
       {data.map((article, i) => (
-        <Article article={article} />
+        <ArticleCard key={i} article={article} />
       ))}
     </InfiniteScroll>
   );

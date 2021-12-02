@@ -82,7 +82,10 @@ const Home = () => {
             query={PROJECTS_QUERY}
             limit={window.navigator.userAgent === "ReactSnap" ? undefined : 12}
             sort={`${tabValue}:desc`}
-            where={{ tech_stacks: { id: filterIds } }}
+            where={{
+              is_hidden: false,
+              ...(filterIds && { tech_stacks: { id: filterIds } }),
+            }}
           >
             {({
               data: {

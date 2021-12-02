@@ -18,7 +18,7 @@ const Query = ({
       start,
       limit,
       sort,
-      where: { is_hidden: false, ...(where && where) },
+      where,
     },
     onCompleted,
   });
