@@ -29,7 +29,6 @@ const Comments = ({ data, submitData, deleteComment, updateComment }) => {
   return (
     <div className={classes.root}>
       <h3>Comments</h3>
-      <Divider />
       {data.map((el, index) => (
         <div key={index} className={classes.commentRow}>
           <Comment
@@ -50,7 +49,12 @@ const Comments = ({ data, submitData, deleteComment, updateComment }) => {
           onChange={(e) => setValue(e.target.value)}
           value={value}
         />
-        <Button color="secondary" variant="contained" onClick={handleSubmit}>
+        <Button
+          color="secondary"
+          variant="contained"
+          onClick={handleSubmit}
+          disabled={!value}
+        >
           댓글달기
         </Button>
       </form>
