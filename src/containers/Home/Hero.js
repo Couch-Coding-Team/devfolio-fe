@@ -4,7 +4,7 @@ import { makeStyles, Button, Grid } from "@material-ui/core";
 const Hero = () => {
   const classes = useStyles();
   return (
-    <Grid container spacing={4}>
+    <Grid container>
       <Grid item xs={12} md={6} className={classes.heroMain}>
         <p>다른 개발자들은 어떤 프로젝트를 만들었을까?</p>
         <img className={classes.logo} src="assets/logo.png" alt="logo" />
@@ -45,13 +45,8 @@ const Hero = () => {
 
 const useStyles = makeStyles((theme) => ({
   logo: {
-    width: "80%",
-    margin: "40px auto 20px auto",
-    [theme.breakpoints.down("sm")]: {
-      width: "80%",
-      margin: "40px auto 20px auto",
-      maxWidth: "350px",
-    },
+    maxWidth: "300px",
+    margin: "20px auto",
   },
   heroMain: {
     "& p": {
@@ -61,13 +56,15 @@ const useStyles = makeStyles((theme) => ({
   },
   heroMessage: {
     fontSize: "24px",
-    marginBottom: "40px",
+    marginBottom: "20px",
     [theme.breakpoints.down("sm")]: {
-      marginBottom: 10,
+      marginBottom: "10px",
     },
   },
   heroImage: {
     width: "100%",
+    maxHeight: "400px",
+    objectFit: "contain",
   },
   button: {
     margin: "36px 12px 12px 0",

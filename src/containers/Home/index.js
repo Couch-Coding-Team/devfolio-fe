@@ -8,11 +8,6 @@ import Hero from "./Hero";
 import Projects from "./Projects";
 
 const useStyles = makeStyles((theme) => ({
-  heroContainer: {
-    [theme.breakpoints.up("md")]: {
-      paddingTop: "60px",
-    },
-  },
   projectsBg: {
     backgroundColor: "#f9f9f9",
     paddingBottom: "36px",
@@ -73,7 +68,7 @@ const Home = () => {
 
   return (
     <>
-      <Container className={classes.heroContainer}>
+      <Container>
         <Hero />
       </Container>
       <div className={classes.projectsBg}>
