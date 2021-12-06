@@ -36,8 +36,12 @@ const Hero = () => {
           프로젝트 공유하기
         </Button>
       </Grid>
-      <Grid item xs={12} md={6} className={classes.smHidden}>
-        <img className={classes.heroImage} src="assets/hero.jpg" alt="hero" />
+      <Grid item xs={12} md={6} className={classes.heroImageContainer}>
+        <img
+          className={classes.heroImage}
+          src="assets/cartoon-coworking-space-illustration.jpg"
+          alt="hero_image"
+        />
       </Grid>
     </Grid>
   );
@@ -62,22 +66,18 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   heroImage: {
-    width: "100%",
+    width: "75%",
     maxHeight: "400px",
     objectFit: "contain",
   },
-  button: {
-    margin: "36px 12px 12px 0",
-  },
-  mdHidden: {
-    [theme.breakpoints.up("md")]: {
-      display: "none",
-    },
-  },
-  smHidden: {
+  heroImageContainer: {
+    textAlign: "center",
     [theme.breakpoints.down("sm")]: {
       display: "none",
     },
+  },
+  button: {
+    margin: "36px 12px 12px 0",
   },
   heroDescription: {
     [theme.breakpoints.down("sm")]: {
