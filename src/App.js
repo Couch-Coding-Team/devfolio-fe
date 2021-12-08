@@ -55,9 +55,9 @@ const theme = createTheme({
   breakpoints: {
     values: {
       xs: 375,
-      sm: 768,
-      md: 1440,
-      lg: 1920,
+      sm: 640,
+      md: 1024,
+      lg: 1280,
       // sm: 640,
       // md: 768,
       // lg: 1024,
@@ -86,11 +86,6 @@ const theme = createTheme({
             color: "initial",
           },
         },
-      },
-    },
-    MuiTypography: {
-      h4: {
-        fontSize: "1.5rem",
       },
     },
     MuiContainer: {

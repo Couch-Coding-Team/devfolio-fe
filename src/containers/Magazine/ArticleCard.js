@@ -6,6 +6,7 @@ import {
   CardContent,
   CardMedia,
   Typography,
+  colors,
 } from "@material-ui/core";
 import moment from "moment";
 
@@ -29,17 +30,17 @@ const ArticleCard = ({ article }) => {
           />
         </CardMedia>
         <CardContent>
-          <Typography color="textSecondary" variant="subtitle2">
-            <strong>
-              {moment(article.released_at || article.published_at).format(
-                "YYYY.MM.DD"
-              )}
-            </strong>
+          <Typography variant="subtitle1" className={classes.date}>
+            {moment(article.released_at || article.published_at).format(
+              "YYYY.MM.DD"
+            )}
           </Typography>
           <Typography variant="h6">
             <strong>{article.title}</strong>
           </Typography>
-          <p>{article.description}</p>
+          <Typography className={classes.description}>
+            {article.description}
+          </Typography>
         </CardContent>
       </Card>
     </Link>
@@ -49,16 +50,15 @@ const ArticleCard = ({ article }) => {
 const useStyles = makeStyles((theme) => ({
   card: {
     height: "222px",
-    padding: "32px",
-    margin: "36px",
+    padding: "24px",
+    margin: "32px",
     display: "flex",
     gap: "36px",
+    position: "relative",
     borderRadius: "10px",
     boxShadow: "15px 15px 30px rgba(0, 0, 0, 0.1)",
-    position: "relative",
     [theme.breakpoints.down("sm")]: {
       height: "100%",
-      padding: "18px",
       flexDirection: "column",
       gap: "24px",
     },
@@ -77,25 +77,20 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: "column",
       justifyContent: "center",
       padding: 0,
-      gap: "14px",
-      "& .MuiTypography-h4": {
-        [theme.breakpoints.down("sm")]: {
-          marginBottom: "12px",
-        },
-      },
     },
-    "& .MuiChip-root": {
-      margin: "auto 4px 4px auto",
-    },
-    "& p": {
-      margin: "0",
-      display: "-webkit-box",
-      "-webkit-line-clamp": 2,
-      "-webkit-box-orient": "vertical",
-      overflow: "hidden",
-      [theme.breakpoints.down("sm")]: {
-        display: "none",
-      },
+  },
+  date: {
+    color: colors.grey[300],
+    fontWeight: 700,
+  },
+  description: {
+    color: colors.grey[600],
+    display: "-webkit-box",
+    "-webkit-line-clamp": 2,
+    "-webkit-box-orient": "vertical",
+    overflow: "hidden",
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
     },
   },
 }));

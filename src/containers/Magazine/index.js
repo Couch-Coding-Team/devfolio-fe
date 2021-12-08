@@ -7,16 +7,16 @@ import Hero from "./Hero";
 
 const useStyles = makeStyles((theme) => ({
   heroContainer: {
-    paddingLeft: "48px",
+    padding: "12px 60px",
     [theme.breakpoints.down("sm")]: {
-      paddingLeft: "16px",
+      padding: "32px",
     },
   },
   heroBg: {
     backgroundColor: "#EEECE2",
   },
   articlesContainer: {
-    marginTop: "-72px",
+    marginTop: "-64px",
     padding: 0,
   },
 }));

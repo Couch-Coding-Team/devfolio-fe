@@ -17,7 +17,7 @@ const ArticlePage = () => {
           const article = articles[0];
           return (
             <>
-              <Typography variant="h3" gutterBottom>
+              <Typography variant="h4" gutterBottom>
                 <strong>{article.title}</strong>
               </Typography>
               <img
@@ -26,12 +26,17 @@ const ArticlePage = () => {
                 style={{ width: "100%", objectFit: "cover", marginTop: "12px" }}
               />
               <ReactMarkdown
-                className="body-markdown"
                 remarkPlugins={[gfm]} // styling table, strikethrough, link, checkbox
                 rehypePlugins={[rehypeRaw, format]}
                 linkTarget="_blank"
                 children={article.body_markdown}
                 components={{
+                  h2: ({ props, children }) => <h1 {...props}>{children}</h1>,
+                  p: ({ props, children }) => (
+                    <p style={{ lineHeight: 1.6 }} {...props}>
+                      {children}
+                    </p>
+                  ),
                   img: ({ node, ...props }) => (
                     <img style={{ maxWidth: "100%" }} {...props} /> // Resizing images inside README to fit container
                   ),
@@ -49,6 +54,7 @@ export default ArticlePage;
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    padding: "32px",
     "& blockquote": {
       margin: "2rem 0px",
       borderLeft: `4px solid ${theme.palette.secondary.main}`,
@@ -57,9 +63,6 @@ const useStyles = makeStyles((theme) => ({
       background: "rgb(248, 249, 250)",
       padding: "1rem 1rem 1rem 2rem",
       color: "rgb(33, 37, 41)",
-    },
-    "& .body-markdown": {
-      padding: "24px",
     },
   },
 }));

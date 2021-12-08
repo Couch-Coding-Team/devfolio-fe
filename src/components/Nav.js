@@ -96,7 +96,7 @@ const Nav = () => {
   return (
     <AppBar position="sticky" color="inherit" elevation={0}>
       <Toolbar className={classes.toolbar}>
-        <Container>
+        <Container className={classes.container}>
           {isMobile ? (
             <>
               <IconButton edge="start" onClick={handleMobileMenuClick}>
@@ -114,14 +114,6 @@ const Nav = () => {
                 <Logo />
               </Link>
               <DesktopMenu />
-              <a
-                href={VELOG_URL}
-                target="_blank"
-                rel="noreferrer"
-                className={classes.iconRight}
-              >
-                <VelogLogo />
-              </a>
             </>
           )}
         </Container>
@@ -133,7 +125,9 @@ const Nav = () => {
 export default Nav;
 
 const useStyles = makeStyles({
+  container: { padding: 0 },
   toolbar: {
+    minHeight: "48px",
     display: "flex",
     justifyContent: "space-between",
     position: "relative",

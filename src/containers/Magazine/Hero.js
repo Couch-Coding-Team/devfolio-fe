@@ -8,7 +8,8 @@ const Hero = () => {
       <Grid item xs={12} md={6} className={classes.heroMain}>
         <p>토이 프로젝트와 DevFoliOh의 비하인드 스토리</p>
         <div className={classes.heroMessage}>
-          DevFoliOh 매거진에서 확인해보세요
+          DevFoliOh 매거진에서
+          <br /> 확인해보세요
         </div>
       </Grid>
       <Grid item xs={12} md={6} className={classes.smHidden}>
@@ -35,9 +36,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    gap: "24px",
+    gap: "18px",
     "& p": {
-      fontSize: "24px",
+      fontSize: "18px",
       margin: 0,
       [theme.breakpoints.down("sm")]: {
         textAlign: "center",
@@ -45,11 +46,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   heroMessage: {
-    fontSize: "48px",
+    fontSize: "36px",
     fontWeight: 700,
-    marginBottom: "40px",
     [theme.breakpoints.down("sm")]: {
-      fontSize: "36px",
+      marginBottom: "32px",
+      fontSize: "24px",
       textAlign: "center",
       wordBreak: "initial",
     },
@@ -62,11 +63,6 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("sm")]: {
       width: "100%",
       margin: "0 0 12px 0",
-    },
-  },
-  mdHidden: {
-    [theme.breakpoints.up("md")]: {
-      display: "none",
     },
   },
   smHidden: {
