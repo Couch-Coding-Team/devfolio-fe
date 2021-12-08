@@ -42,6 +42,7 @@ const Comment = ({ data, deleteComment, updateComment }) => {
   };
 
   const handleSubmit = () => {
+    if (!value) return;
     updateComment({
       variables: {
         id: commentId,
@@ -81,7 +82,6 @@ const Comment = ({ data, deleteComment, updateComment }) => {
               color="secondary"
               variant="contained"
               onClick={handleSubmit}
-              disabled={!value}
             >
               수정하기
             </Button>

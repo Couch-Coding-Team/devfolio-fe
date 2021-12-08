@@ -11,7 +11,7 @@ const Comments = ({ data, submitData, deleteComment, updateComment }) => {
   const { id: projectId } = useParams();
 
   const handleSubmit = () => {
-    if (!userId) return;
+    if (!userId || !value) return;
     submitData({
       variables: {
         input: {
@@ -49,12 +49,7 @@ const Comments = ({ data, submitData, deleteComment, updateComment }) => {
           onChange={(e) => setValue(e.target.value)}
           value={value}
         />
-        <Button
-          color="secondary"
-          variant="contained"
-          onClick={handleSubmit}
-          disabled={!value}
-        >
+        <Button color="secondary" variant="contained" onClick={handleSubmit}>
           댓글달기
         </Button>
       </form>
