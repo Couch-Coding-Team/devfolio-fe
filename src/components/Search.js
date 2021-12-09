@@ -37,7 +37,7 @@ const Search = ({ filterIds, handleFilter, handleReset }) => {
           const listboxNode = event.target;
           // 스크롤 끝에 닿을때
           if (
-            listboxNode.scrollTop + listboxNode.clientHeight ===
+            Math.floor(listboxNode.scrollTop + listboxNode.clientHeight) ===
             listboxNode.scrollHeight
           ) {
             onLoadMore("techStacks", techStacks.length);

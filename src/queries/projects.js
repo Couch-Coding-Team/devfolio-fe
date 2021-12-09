@@ -14,8 +14,6 @@ const PROJECTS_QUERY = gql`
       owner_name
       owner_github_url
       project_github_url
-      title
-      description
       tech_stacks {
         name
       }

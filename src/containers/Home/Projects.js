@@ -1,19 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Project from "./Project";
 
 const Projects = ({ projects, count, onLoadMore }) => {
   const classes = useStyles();
-  const [data, setData] = useState([]); // 전체 리스트
-
-  useEffect(() => {
-    setData(
-      projects.map((prj) => {
-        return { ...prj, like_count: prj.reactions.length };
-      }),
-    );
-  }, [projects]);
 
   const handleLoadMoreData = () => {
     onLoadMore("projects", projects.length);
@@ -21,17 +12,17 @@ const Projects = ({ projects, count, onLoadMore }) => {
 
   return (
     <>
-      {!data.length ? (
+      {!projects.length ? (
         <div>결과가 없습니다</div>
       ) : (
         <InfiniteScroll
-          dataLength={data.length}
+          dataLength={projects.length}
           next={handleLoadMoreData}
-          hasMore={data.length !== count}
+          hasMore={projects.length !== count}
           className={classes.grid}
           loader={<span>Loading...</span>}
         >
-          {data.map((project, i) => (
+          {projects.map((project, i) => (
             <Project project={project} key={`project__${project.id}`} />
           ))}
         </InfiniteScroll>
