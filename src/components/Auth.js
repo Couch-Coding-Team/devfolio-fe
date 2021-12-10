@@ -11,6 +11,8 @@ const Auth = ({ children }) => {
   const [user, setUser] = useState(undefined);
 
   useEffect(() => {
+    if (window.navigator.userAgent === "ReactSnap") return; // 빌드 중일때 회원가입 스킵
+
     const fetchData = async () => {
       const fbUid = await firebaseSignIn();
       const strapiUser = await fetchUser(fbUid);
@@ -76,7 +78,7 @@ const Auth = ({ children }) => {
     // TODO: REFACTOR!!!
     try {
       const res = await api.post("/auth/local/register", {
-        email: `${username}@gmail.com`,
+        email: `${username}5@gmail.com`,
         password: username,
         firebase_uid: fbUid,
         username: generateRandomName(),
