@@ -1,5 +1,7 @@
 import React from "react";
 import { makeStyles, Button, Grid } from "@material-ui/core";
+import logo from "../../assets/logo.png";
+import hero from "../../assets/hero.jpg";
 
 const Hero = () => {
   const classes = useStyles();
@@ -7,12 +9,12 @@ const Hero = () => {
     <Grid container spacing={4}>
       <Grid item xs={12} md={6} className={classes.heroMain}>
         <p>다른 개발자들은 어떤 프로젝트를 만들었을까?</p>
-        <img className={classes.logo} src="assets/logo.png" alt="logo" />
+        <img className={classes.logo} src={logo} alt="logo" />
         <div className={classes.heroMessage}>
           개발자 토이프로젝트 모아보기 서비스
         </div>
         <div className={classes.mdHidden}>
-          <img className={classes.heroImage} src="assets/hero.jpg" alt="hero" />
+          <img className={classes.heroImage} src={hero} alt="hero" />
         </div>
         <p className={classes.smHidden}>
           선배・동료 개발자들의 토이프로젝트를 한눈에 모아보고, 좋은 프로젝트는
@@ -44,7 +46,7 @@ const Hero = () => {
         </p>
       </Grid>
       <Grid item xs={12} md={6} className={classes.smHidden}>
-        <img className={classes.heroImage} src="assets/hero.jpg" alt="hero" />
+        <img className={classes.heroImage} src={hero} alt="hero" />
       </Grid>
     </Grid>
   );

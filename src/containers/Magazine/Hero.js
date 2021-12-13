@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles, Grid } from "@material-ui/core";
+import hero_magazine from "../../assets/hero_magazine.jpg";
 
 const Hero = () => {
   const classes = useStyles();
@@ -15,8 +16,8 @@ const Hero = () => {
       <Grid item xs={12} md={6} className={classes.smHidden}>
         <img
           className={classes.heroImage}
-          src="assets/hero_magazine.jpg"
-          alt="hero"
+          src={hero_magazine}
+          alt="hero_magazine"
         />
       </Grid>
     </Grid>
