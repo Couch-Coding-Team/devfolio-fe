@@ -1,12 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import {
-  AppBar,
-  Toolbar,
-  Container,
-  Typography,
-  makeStyles,
-} from "@material-ui/core";
+import { AppBar, Toolbar, Typography, makeStyles } from "@material-ui/core";
 import { Logo } from "../constants";
 
 const MENU = [
@@ -21,37 +15,34 @@ const Nav = () => {
   return (
     <AppBar position="sticky" color="inherit" elevation={0}>
       <Toolbar className={classes.toolbar}>
-        <Container className={classes.container}>
-          <Link
-            to="/"
-            onClick={() => window.scrollTo(0, 0)}
-            className={classes.iconLeft}
-          >
-            <Logo />
-          </Link>
-          {MENU.map((item, idx) => {
-            const isCurrentLocation = pathname.split("/").includes(item.key);
-            const isHome = pathname === "/";
-            const isSelected =
-              isCurrentLocation || (isHome && item.key === "project"); // 경로가 '/' 일때는 메뉴 중에 project를 하이라이트한다
-            return (
-              <Link
-                key={idx}
-                to={item.path}
-                onClick={() => window.scrollTo(0, 0)}
-                className={classes.desktopMenu}
+        <Link
+          to="/"
+          onClick={() => window.scrollTo(0, 0)}
+          className={classes.iconLeft}
+        >
+          <Logo />
+        </Link>
+        {MENU.map((item, idx) => {
+          const isCurrentLocation = pathname.split("/").includes(item.key);
+          const isHome = pathname === "/";
+          const isSelected =
+            isCurrentLocation || (isHome && item.key === "project"); // 경로가 '/' 일때는 메뉴 중에 project를 하이라이트한다
+          return (
+            <Link
+              key={idx}
+              to={item.path}
+              onClick={() => window.scrollTo(0, 0)}
+            >
+              <Typography
+                variant="inherit"
+                color={isSelected ? "textPrimary" : "textSecondary"}
+                className={isSelected ? classes.selected : classes.deselected}
               >
-                <Typography
-                  variant="inherit"
-                  color={isSelected ? "textPrimary" : "textSecondary"}
-                  className={isSelected ? classes.selected : classes.deselected}
-                >
-                  {item.label}
-                </Typography>
-              </Link>
-            );
-          })}
-        </Container>
+                {item.label}
+              </Typography>
+            </Link>
+          );
+        })}
       </Toolbar>
     </AppBar>
   );
@@ -64,23 +55,20 @@ const useStyles = makeStyles({
   toolbar: {
     minHeight: "48px",
     display: "flex",
-    justifyContent: "space-between",
+    gap: "36px",
+    alignItems: "center",
     position: "relative",
   },
   iconLeft: {
-    position: "absolute",
-    left: 24,
     "& img": {
       height: "20px",
-      width: "auto",
+      width: "100%",
+      verticalAlign: "middle",
     },
   },
   iconRight: {
     position: "absolute",
     right: 24,
-  },
-  desktopMenu: {
-    margin: "0 24px",
   },
   selected: {
     fontWeight: 700,
