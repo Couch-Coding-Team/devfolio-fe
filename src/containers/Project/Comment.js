@@ -42,6 +42,7 @@ const Comment = ({ data, deleteComment, updateComment }) => {
   };
 
   const handleSubmit = () => {
+    if (!value) return;
     updateComment({
       variables: {
         id: commentId,

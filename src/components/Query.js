@@ -18,7 +18,7 @@ const Query = ({
       start,
       limit,
       sort,
-      where,
+      where: { published_at_null: false, ...(where && where) },
     },
     onCompleted,
   });

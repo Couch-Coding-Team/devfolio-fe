@@ -6,17 +6,14 @@ import hero from "../../assets/hero.jpg";
 const Hero = () => {
   const classes = useStyles();
   return (
-    <Grid container spacing={4}>
+    <Grid container>
       <Grid item xs={12} md={6} className={classes.heroMain}>
         <p>다른 개발자들은 어떤 프로젝트를 만들었을까?</p>
         <img className={classes.logo} src={logo} alt="logo" />
         <div className={classes.heroMessage}>
           개발자 토이프로젝트 모아보기 서비스
         </div>
-        <div className={classes.mdHidden}>
-          <img className={classes.heroImage} src={hero} alt="hero" />
-        </div>
-        <p className={classes.smHidden}>
+        <p className={classes.heroDescription}>
           선배・동료 개발자들의 토이프로젝트를 한눈에 모아보고, 좋은 프로젝트는
           더 많은 사람들과 공유해보세요.
         </p>
@@ -40,13 +37,9 @@ const Hero = () => {
         >
           프로젝트 공유하기
         </Button>
-        <p className={classes.mdHidden}>
-          선배・동료 개발자들의 개인 프로젝트를 한눈에 모아보고, 좋은 프로젝트는
-          더 많은 사람들과 공유해보세요.
-        </p>
       </Grid>
-      <Grid item xs={12} md={6} className={classes.smHidden}>
-        <img className={classes.heroImage} src={hero} alt="hero" />
+      <Grid item xs={12} md={6} className={classes.heroImageContainer}>
+        <img className={classes.heroImage} src={hero} alt="hero_image" />
       </Grid>
     </Grid>
   );
@@ -54,12 +47,8 @@ const Hero = () => {
 
 const useStyles = makeStyles((theme) => ({
   logo: {
-    width: "100%",
+    maxWidth: "300px",
     margin: "20px auto",
-    [theme.breakpoints.up("md")]: {
-      width: "80%",
-      margin: "40px auto 20px auto",
-    },
   },
   heroMain: {
     "& p": {
@@ -72,29 +61,28 @@ const useStyles = makeStyles((theme) => ({
   },
   heroMessage: {
     fontSize: "24px",
-    marginBottom: "40px",
+    marginBottom: "20px",
     [theme.breakpoints.down("sm")]: {
-      marginBottom: 0,
+      marginBottom: "10px",
     },
   },
   heroImage: {
-    width: "100%",
+    width: "75%",
+    maxHeight: "400px",
+    objectFit: "contain",
+  },
+  heroImageContainer: {
+    textAlign: "center",
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
   },
   button: {
     margin: "36px 12px 12px 0",
-    [theme.breakpoints.down("sm")]: {
-      width: "100%",
-      margin: "0 0 12px 0",
-    },
   },
-  mdHidden: {
-    [theme.breakpoints.up("md")]: {
-      display: "none",
-    },
-  },
-  smHidden: {
+  heroDescription: {
     [theme.breakpoints.down("sm")]: {
-      display: "none",
+      color: "#999999",
     },
   },
 }));

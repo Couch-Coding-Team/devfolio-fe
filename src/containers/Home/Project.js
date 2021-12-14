@@ -87,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "36px",
     display: "flex",
     borderRadius: "10px",
-    boxShadow: "15px 15px 30px rgba(0, 0, 0, 0.1)",
+    boxShadow: "10px 10px 10px rgba(0, 0, 0, 0.05)",
     flexDirection: "column",
     [theme.breakpoints.down("sm")]: {
       height: "100%",

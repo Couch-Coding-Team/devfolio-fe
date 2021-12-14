@@ -1,18 +1,14 @@
 import React, { useState } from "react";
-import { Container, makeStyles, Tabs, Tab } from "@material-ui/core";
+import { Container, makeStyles } from "@material-ui/core";
+import { sortBy } from "lodash";
 
 import PROJECTS_QUERY from "../../queries/projects";
 import Query from "../../components/Query";
-import Search from "../../components/Search";
 import Hero from "./Hero";
 import Projects from "./Projects";
+import ListHeader from "./ListHeader";
 
 const useStyles = makeStyles((theme) => ({
-  heroContainer: {
-    [theme.breakpoints.up("md")]: {
-      paddingTop: "60px",
-    },
-  },
   projectsBg: {
     backgroundColor: "#f9f9f9",
     paddingBottom: "36px",
@@ -27,30 +23,21 @@ const useStyles = makeStyles((theme) => ({
       margin: "40px -10%",
     },
   },
-  bar: {
-    display: "flex",
-    gap: "180px",
-    justifyContent: "space-between",
-    alignItems: "center",
-    [theme.breakpoints.down("sm")]: {
-      gap: "0",
-      flexDirection: "column-reverse",
-    },
-  },
-  tabs: {
-    margin: "36px 0",
-    [theme.breakpoints.down("sm")]: {
-      margin: "24px",
-      width: "100%",
-    },
-  },
 }));
 
 const ORDER_BY = [
   { label: "최신순", value: "published_at" },
-  // { label: "좋아요순", value: "like_count" },
   { label: "조회순", value: "view_count" },
+  { label: "좋아요순", value: "like_count" },
 ];
+
+const getDataInLikeDesc = (projects) => {
+  const listWithLikeCount = projects.map((proj) => {
+    return { ...proj, like_count: proj.reactions.length };
+  });
+  const orderedList = sortBy(listWithLikeCount, ["like_count"]).reverse();
+  return orderedList;
+};
 
 const Home = () => {
   const classes = useStyles();
@@ -71,22 +58,36 @@ const Home = () => {
     setFilter(undefined);
   };
 
+  const commonProps = {
+    query: PROJECTS_QUERY,
+    where: { tech_stacks: { id: filterIds }, is_hidden: false },
+  };
+
+  // 좋아요순 정렬은 백엔드 방법 찾을때까지 프론트에서 처리
+  const queryProps =
+    tabValue === "like_count"
+      ? commonProps
+      : {
+          limit: window.navigator.userAgent === "ReactSnap" ? undefined : 12,
+          sort: `${tabValue}:desc`,
+          ...commonProps,
+        };
+
   return (
     <>
-      <Container className={classes.heroContainer}>
+      <Container>
         <Hero />
       </Container>
       <div className={classes.projectsBg}>
         <Container>
-          <Query
-            query={PROJECTS_QUERY}
-            limit={window.navigator.userAgent === "ReactSnap" ? undefined : 12}
-            sort={`${tabValue}:desc`}
-            where={{
-              is_hidden: false,
-              ...(filterIds && { tech_stacks: { id: filterIds } }),
-            }}
-          >
+          <ListHeader
+            handleTabChange={handleTabChange}
+            tabValue={tabValue}
+            handleFilter={handleFilter}
+            handleFilterReset={handleFilterReset}
+            filterIds={filterIds}
+          />
+          <Query {...queryProps}>
             {({
               data: {
                 projects,
@@ -95,38 +96,29 @@ const Home = () => {
                 },
               },
               onLoadMore,
-            }) => (
-              <>
-                <div className={classes.bar}>
-                  <Tabs
-                    value={tabValue}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    onChange={handleTabChange}
-                    aria-label="project list order"
-                    className={classes.tabs}
-                  >
-                    {ORDER_BY.map((order) => (
-                      <Tab
-                        key={order.value}
-                        label={order.label}
-                        value={order.value}
-                      />
-                    ))}
-                  </Tabs>
-                  <Search
-                    filterIds={filterIds}
-                    handleFilter={handleFilter}
-                    handleReset={handleFilterReset}
+            }) => {
+              // 좋아요순 정렬은 백엔드 방법 찾을때까지 프론트에서 처리
+              if (tabValue === "like_count") {
+                if (count > projects.length) {
+                  onLoadMore("projects", projects.length);
+                }
+                return (
+                  <Projects
+                    projects={getDataInLikeDesc(projects)}
+                    count={count}
+                    onLoadMore={() => {}} // 무한스크롤 없이 한번에 모든 데이터 쿼리
                   />
-                </div>
-                <Projects
-                  projects={projects}
-                  count={count}
-                  onLoadMore={onLoadMore}
-                />
-              </>
-            )}
+                );
+              } else {
+                return (
+                  <Projects
+                    projects={projects}
+                    count={count}
+                    onLoadMore={onLoadMore}
+                  />
+                );
+              }
+            }}
           </Query>
         </Container>
       </div>

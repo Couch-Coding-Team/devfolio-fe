@@ -1,12 +1,6 @@
 import React, { useState } from "react";
-import {
-  FormControl,
-  // InputAdornment,
-  makeStyles,
-  TextField,
-} from "@material-ui/core";
+import { FormControl, makeStyles, TextField } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
-// import SearchIcon from "@material-ui/icons/Search";
 import Query from "./Query";
 import TECH_STACKS_QUERY from "../queries/techStacks";
 
@@ -20,15 +14,35 @@ const Search = ({ filterIds, handleFilter, handleReset }) => {
     } else {
       const newFilterIds = techStacks.map((tech) => {
         window.gtag("event", `${tech.name} 검색`);
-        return parseInt(tech.id, 10);
+        return tech.id;
       });
       setFilters(newFilterIds);
       handleFilter(newFilterIds);
     }
   };
+
   return (
-    <Query query={TECH_STACKS_QUERY}>
-      {({ data: { techStacks } }) => {
+    <Query query={TECH_STACKS_QUERY} limit={50} sort="name:asc">
+      {({
+        data: {
+          techStacks,
+          techStacksConnection: {
+            aggregate: { count },
+          },
+        },
+        onLoadMore,
+      }) => {
+        const handleScroll = (event) => {
+          if (techStacks.length === count) return;
+          const listboxNode = event.target;
+          // 스크롤 끝에 닿을때
+          if (
+            Math.floor(listboxNode.scrollTop + listboxNode.clientHeight) ===
+            listboxNode.scrollHeight
+          ) {
+            onLoadMore("techStacks", techStacks.length);
+          }
+        };
         return (
           <FormControl variant="outlined" className={classes.formControl}>
             <Autocomplete
@@ -38,8 +52,8 @@ const Search = ({ filterIds, handleFilter, handleReset }) => {
               id="tags-outlined"
               options={techStacks}
               getOptionLabel={(option) => option.name}
-              defaultValue={techStacks.filter((tech) =>
-                filters?.includes(parseInt(tech.id, 10))
+              defaultValue={techStacks.filter(
+                (tech) => filters?.includes(tech.id) // 필터와 id 일치하는 기술스택 객체
               )}
               onChange={handleSelectChange}
               renderInput={(params) => (
@@ -50,6 +64,7 @@ const Search = ({ filterIds, handleFilter, handleReset }) => {
                 />
               )}
               ChipProps={{ color: "primary" }}
+              ListboxProps={{ onScroll: handleScroll }}
             />
           </FormControl>
         );
