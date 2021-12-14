@@ -35,7 +35,7 @@ const ArticleCard = ({ article }) => {
               "YYYY.MM.DD"
             )}
           </Typography>
-          <Typography variant="h6">
+          <Typography variant="h5">
             <strong>{article.title}</strong>
           </Typography>
           <Typography className={classes.description}>
@@ -50,14 +50,15 @@ const ArticleCard = ({ article }) => {
 const useStyles = makeStyles((theme) => ({
   card: {
     height: "222px",
+    maxWidth: "1100px",
     padding: "24px",
-    margin: "32px",
+    margin: "32px auto",
     display: "flex",
     gap: "36px",
     position: "relative",
     borderRadius: "10px",
     boxShadow: "15px 15px 30px rgba(0, 0, 0, 0.1)",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("xs")]: {
       height: "100%",
       flexDirection: "column",
       gap: "24px",
@@ -67,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
       "& img": {
         objectFit: "cover",
       },
-      [theme.breakpoints.down("sm")]: {
+      [theme.breakpoints.down("xs")]: {
         height: "50%",
       },
     },
@@ -80,7 +81,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   date: {
-    color: colors.grey[300],
+    color: "#a9a9a9",
     fontWeight: 700,
   },
   description: {
@@ -89,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
     "-webkit-line-clamp": 2,
     "-webkit-box-orient": "vertical",
     overflow: "hidden",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("xs")]: {
       display: "none",
     },
   },

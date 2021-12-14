@@ -294,6 +294,7 @@ const useStyles = makeStyles((theme) => ({
       "& a": {
         color: "-webkit-link",
         textDecoration: "underline",
+        cursor: "pointer",
       },
       "& blockquote": {
         background: "#f9f9f9",

@@ -11,7 +11,7 @@ const ArticlePage = () => {
   const { id: articleId } = useParams();
   const classes = useStyles();
   return (
-    <Container maxWidth="sm" className={classes.root}>
+    <Container className={classes.root}>
       <Query query={ARTICLES_QUERY} where={{ id: articleId }}>
         {({ data: { articles } }) => {
           const article = articles[0];
@@ -23,7 +23,7 @@ const ArticlePage = () => {
               <img
                 src={article.thumbnail_url}
                 alt={article.thumbnail_url}
-                style={{ width: "100%", objectFit: "cover", marginTop: "12px" }}
+                className={classes.thumbnail}
               />
               <ReactMarkdown
                 remarkPlugins={[gfm]} // styling table, strikethrough, link, checkbox
@@ -54,6 +54,7 @@ export default ArticlePage;
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    maxWidth: "800px",
     padding: "32px",
     "& blockquote": {
       margin: "2rem 0px",
@@ -64,5 +65,15 @@ const useStyles = makeStyles((theme) => ({
       padding: "1rem 1rem 1rem 2rem",
       color: "rgb(33, 37, 41)",
     },
+    "& a:-webkit-any-link": {
+      color: "-webkit-link",
+      cursor: "pointer",
+      textDecoration: "underline",
+    },
+  },
+  thumbnail: {
+    width: "100%",
+    objectFit: "cover",
+    marginTop: "12px",
   },
 }));

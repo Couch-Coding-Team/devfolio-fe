@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
   },
   articlesContainer: {
     marginTop: "-64px",
-    padding: 0,
   },
 }));
 
