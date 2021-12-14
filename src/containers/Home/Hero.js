@@ -1,5 +1,7 @@
 import React from "react";
 import { makeStyles, Button, Grid } from "@material-ui/core";
+import logo from "../../assets/logo.png";
+import hero from "../../assets/hero.jpg";
 
 const Hero = () => {
   const classes = useStyles();
@@ -7,7 +9,7 @@ const Hero = () => {
     <Grid container>
       <Grid item xs={12} md={6} className={classes.heroMain}>
         <p>다른 개발자들은 어떤 프로젝트를 만들었을까?</p>
-        <img className={classes.logo} src="assets/logo.png" alt="logo" />
+        <img className={classes.logo} src={logo} alt="logo" />
         <div className={classes.heroMessage}>
           개발자 토이프로젝트 모아보기 서비스
         </div>
@@ -37,11 +39,7 @@ const Hero = () => {
         </Button>
       </Grid>
       <Grid item xs={12} md={6} className={classes.heroImageContainer}>
-        <img
-          className={classes.heroImage}
-          src="assets/cartoon-coworking-space-illustration.jpg"
-          alt="hero_image"
-        />
+        <img className={classes.heroImage} src={hero} alt="hero_image" />
       </Grid>
     </Grid>
   );
@@ -56,6 +54,9 @@ const useStyles = makeStyles((theme) => ({
     "& p": {
       fontSize: "18px",
       margin: 0,
+      [theme.breakpoints.down("sm")]: {
+        textAlign: "center",
+      },
     },
   },
   heroMessage: {

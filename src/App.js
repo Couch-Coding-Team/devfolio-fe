@@ -1,27 +1,20 @@
-import React from "react";
-import { useLocation } from "react-router";
-import { Switch, Route } from "react-router-dom";
+import React, { useContext } from "react";
+import { Switch, Route, useLocation } from "react-router-dom";
 import { CssBaseline } from "@material-ui/core";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 
 import Nav from "./components/Nav";
-import Home from "./containers/Home";
-import Project from "./containers/Project";
 import Footer from "./components/Footer";
-import PageNotFound from "./components/PageNotFound";
 import Auth from "./components/Auth";
 import ScrollToTop from "./components/ScrollToTop";
 import ErrorBoundary from "./components/ErrorBoundary";
-import Banner from "./containers/Home/Banner";
+import Banner from "./components/Banner";
 
-const ROUTES = [
-  { path: "/", component: Home, exact: true },
-  { path: "/project/:id", component: Project, exact: true },
-  { path: "*", component: PageNotFound },
-];
+import { RoutesContext } from "./AppContext";
 
-function App() {
+const App = () => {
   const location = useLocation();
+  const routes = useContext(RoutesContext);
   return (
     <div className="App">
       <ErrorBoundary>
@@ -32,7 +25,7 @@ function App() {
             {location.pathname === "/" && <Banner />}
             <Nav />
             <Switch>
-              {ROUTES.map((route) => (
+              {routes.map((route) => (
                 <Route
                   key={route.path}
                   path={route.path}
@@ -47,20 +40,20 @@ function App() {
       </ErrorBoundary>
     </div>
   );
-}
+};
 
 export default App;
 
 const theme = createTheme({
   typography: {
-    fontFamily: "Montserrat, Roboto, sans-serif",
+    fontFamily: "Roboto, sans-serif",
   },
   breakpoints: {
     values: {
       xs: 375,
-      sm: 768,
-      md: 1440,
-      lg: 1920,
+      sm: 640,
+      md: 1024,
+      lg: 1280,
       // sm: 640,
       // md: 768,
       // lg: 1024,
@@ -89,11 +82,6 @@ const theme = createTheme({
             color: "initial",
           },
         },
-      },
-    },
-    MuiTypography: {
-      h4: {
-        fontSize: "1.5rem",
       },
     },
     MuiContainer: {

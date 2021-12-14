@@ -49,7 +49,12 @@ const Comments = ({ data, submitData, deleteComment, updateComment }) => {
           onChange={(e) => setValue(e.target.value)}
           value={value}
         />
-        <Button color="secondary" variant="contained" onClick={handleSubmit}>
+        <Button
+          color="secondary"
+          variant="contained"
+          onClick={handleSubmit}
+          disabled={!value}
+        >
           댓글달기
         </Button>
       </form>

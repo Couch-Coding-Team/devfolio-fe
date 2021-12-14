@@ -38,11 +38,7 @@ const Project = ({ project }) => {
             <Typography variant="subtitle1">
               <strong>{project.title}</strong>
             </Typography>
-            <p>
-              {project.description.length > 80
-                ? project.description.substring(0, 80) + "..."
-                : project.description}
-            </p>
+            <p>{project.description}</p>
             <div>
               {project.tech_stacks.slice(0, 3).map((stack, index) => (
                 <Chip
@@ -86,8 +82,9 @@ const Project = ({ project }) => {
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    height: "430px",
+    height: "400px",
     marginBottom: "36px",
+    marginRight: "36px",
     display: "flex",
     borderRadius: "10px",
     boxShadow: "10px 10px 10px rgba(0, 0, 0, 0.05)",
@@ -123,10 +120,18 @@ const useStyles = makeStyles((theme) => ({
     },
     "& .MuiChip-root": {
       margin: "auto 4px 4px auto",
+      fontFamily: "Montserrat",
+    },
+    "& h6": {
+      lineHeight: "1.5rem",
     },
     "& p": {
       margin: "12px 0",
       fontSize: "14px",
+      display: "-webkit-box",
+      "-webkit-line-clamp": 2,
+      "-webkit-box-orient": "vertical",
+      overflow: "hidden",
     },
   },
   cardFooter: {
