@@ -7,7 +7,7 @@ const ARTICLES_QUERY = gql`
         count
       }
     }
-    articles(where: $where) {
+    articles(where: $where, sort: "released_at:desc") {
       id
       title
       description
