@@ -23,7 +23,7 @@ const Nav = () => {
           <Logo />
         </Link>
         {MENU.map((item, idx) => {
-          const isCurrentLocation = pathname.split("/").includes(item.key);
+          const isCurrentLocation = pathname.includes(item.key);
           const isHome = pathname === "/";
           const isSelected =
             isCurrentLocation || (isHome && item.key === "project"); // 경로가 '/' 일때는 메뉴 중에 project를 하이라이트한다
@@ -36,7 +36,7 @@ const Nav = () => {
               <Typography
                 variant="inherit"
                 color={isSelected ? "textPrimary" : "textSecondary"}
-                className={isSelected ? classes.selected : classes.deselected}
+                className={isSelected ? classes.selected : ""}
               >
                 {item.label}
               </Typography>
@@ -62,20 +62,11 @@ const useStyles = makeStyles({
   iconLeft: {
     "& img": {
       height: "20px",
-      width: "100%",
       verticalAlign: "middle",
     },
-  },
-  iconRight: {
-    position: "absolute",
-    right: 24,
   },
   selected: {
     fontWeight: 700,
     borderBottom: "1px solid black",
-  },
-  deselected: {
-    fontWeight: "initial",
-    borderBottom: "initial",
   },
 });

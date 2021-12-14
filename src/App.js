@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
-import { useLocation } from "react-router";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useLocation } from "react-router-dom";
 import { CssBaseline } from "@material-ui/core";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 
@@ -11,11 +10,10 @@ import ScrollToTop from "./components/ScrollToTop";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Banner from "./components/Banner";
 
-import { PATHS } from "./constants";
 import { RoutesContext } from "./AppContext";
 
 const App = () => {
-  const { pathname } = useLocation();
+  const location = useLocation();
   const routes = useContext(RoutesContext);
   return (
     <div className="App">
@@ -24,9 +22,7 @@ const App = () => {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Auth>
-            {[PATHS.project.home, PATHS.magazine.home].includes(pathname) && (
-              <Banner />
-            )}
+            {location.pathname === "/" && <Banner />}
             <Nav />
             <Switch>
               {routes.map((route) => (

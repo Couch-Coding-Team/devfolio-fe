@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#EEECE2",
   },
   articlesContainer: {
-    marginTop: "-64px",
+    marginTop: "-84px",
   },
 }));
 
