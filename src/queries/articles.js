@@ -2,6 +2,11 @@ import gql from "graphql-tag";
 
 const ARTICLES_QUERY = gql`
   query Articles($where: JSON) {
+    articlesConnection(where: $where) {
+      aggregate {
+        count
+      }
+    }
     articles(where: $where) {
       id
       title

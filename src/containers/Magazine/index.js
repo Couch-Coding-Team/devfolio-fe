@@ -7,7 +7,7 @@ import Hero from "./Hero";
 
 const useStyles = makeStyles((theme) => ({
   heroContainer: {
-    padding: "12px 60px",
+    padding: "24px 120px",
     [theme.breakpoints.down("sm")]: {
       padding: "32px",
     },
@@ -32,8 +32,16 @@ const Magazine = () => {
       </div>
       <Container className={classes.articlesContainer}>
         <Query query={ARTICLES_QUERY}>
-          {({ data: { articles }, fetchMore }) => (
-            <Articles articles={articles} fetchMore={fetchMore} />
+          {({
+            data: {
+              articles,
+              articlesConnection: {
+                aggregate: { count },
+              },
+            },
+            fetchMore,
+          }) => (
+            <Articles articles={articles} fetchMore={fetchMore} count={count} />
           )}
         </Query>
       </Container>

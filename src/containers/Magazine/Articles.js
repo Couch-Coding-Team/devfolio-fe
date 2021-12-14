@@ -1,20 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ArticleCard from "./ArticleCard";
 
-const Articles = ({ articles, fetchMore }) => {
+const Articles = ({ articles, fetchMore, count }) => {
   const classes = useStyles();
-  const [data, setData] = useState(articles); // 무한스크롤 렌더링 리스트
 
   return (
     <InfiniteScroll
-      dataLength={data.length}
+      dataLength={articles.length}
       next={fetchMore}
-      hasMore={data.length !== articles.length}
+      hasMore={articles.length !== count}
       className={classes.grid}
     >
-      {data.map((article, i) => (
+      {articles.map((article, i) => (
         <ArticleCard key={i} article={article} />
       ))}
     </InfiniteScroll>
