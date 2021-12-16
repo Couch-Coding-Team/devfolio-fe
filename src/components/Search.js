@@ -13,7 +13,7 @@ const Search = ({ filterIds, handleFilter, handleReset }) => {
       handleReset();
     } else {
       const newFilterIds = techStacks.map((tech) => {
-        window.gtag("event", `${tech.name} 검색`);
+        window.gtag("event", "기술스택 검색", { tech_name: tech.name });
         return tech.id;
       });
       setFilters(newFilterIds);
