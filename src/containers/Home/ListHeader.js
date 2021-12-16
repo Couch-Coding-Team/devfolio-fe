@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles, Tabs, Tab } from "@material-ui/core";
 import Search from "../../components/Search";
+import { ORDER_BY } from "../../constants";
 
 const useStyles = makeStyles((theme) => ({
   bar: {
@@ -21,12 +22,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
-const ORDER_BY = [
-  { label: "최신순", value: "published_at" },
-  { label: "조회순", value: "view_count" },
-  { label: "좋아요순", value: "like_count" },
-];
 
 const ListHeader = ({
   handleTabChange,

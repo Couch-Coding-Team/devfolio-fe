@@ -4,9 +4,12 @@ import { sortBy } from "lodash";
 
 import PROJECTS_QUERY from "../../queries/projects";
 import Query from "../../components/Query";
+import { ORDER_BY } from "../../constants";
+
 import Hero from "./Hero";
 import Projects from "./Projects";
 import ListHeader from "./ListHeader";
+import Explore from "./Explore";
 
 const useStyles = makeStyles((theme) => ({
   projectsBg: {
@@ -24,12 +27,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
-const ORDER_BY = [
-  { label: "최신순", value: "published_at" },
-  { label: "조회순", value: "view_count" },
-  { label: "좋아요순", value: "like_count" },
-];
 
 const getDataInLikeDesc = (projects) => {
   const listWithLikeCount = projects.map((proj) => {
@@ -87,39 +84,43 @@ const Home = () => {
             handleFilterReset={handleFilterReset}
             filterIds={filterIds}
           />
-          <Query {...queryProps}>
-            {({
-              data: {
-                projects,
-                projectsConnection: {
-                  aggregate: { count },
+          {tabValue === "random" ? (
+            <Explore filterIds={filterIds} />
+          ) : (
+            <Query {...queryProps}>
+              {({
+                data: {
+                  projects,
+                  projectsConnection: {
+                    aggregate: { count },
+                  },
                 },
-              },
-              onLoadMore,
-            }) => {
-              // 좋아요순 정렬은 백엔드 방법 찾을때까지 프론트에서 처리
-              if (tabValue === "like_count") {
-                if (count > projects.length) {
-                  onLoadMore("projects", projects.length);
+                onLoadMore,
+              }) => {
+                // 좋아요순 정렬은 백엔드 방법 찾을때까지 프론트에서 처리
+                if (tabValue === "like_count") {
+                  if (count > projects.length) {
+                    onLoadMore("projects", projects.length);
+                  }
+                  return (
+                    <Projects
+                      projects={getDataInLikeDesc(projects)}
+                      count={count}
+                      onLoadMore={() => {}} // 무한스크롤 없이 한번에 모든 데이터 쿼리
+                    />
+                  );
+                } else {
+                  return (
+                    <Projects
+                      projects={projects}
+                      count={count}
+                      onLoadMore={onLoadMore}
+                    />
+                  );
                 }
-                return (
-                  <Projects
-                    projects={getDataInLikeDesc(projects)}
-                    count={count}
-                    onLoadMore={() => {}} // 무한스크롤 없이 한번에 모든 데이터 쿼리
-                  />
-                );
-              } else {
-                return (
-                  <Projects
-                    projects={projects}
-                    count={count}
-                    onLoadMore={onLoadMore}
-                  />
-                );
-              }
-            }}
-          </Query>
+              }}
+            </Query>
+          )}
         </Container>
       </div>
     </>

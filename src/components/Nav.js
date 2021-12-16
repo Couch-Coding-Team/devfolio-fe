@@ -4,7 +4,7 @@ import { AppBar, Toolbar, Typography, makeStyles } from "@material-ui/core";
 import { Logo } from "../constants";
 
 const MENU = [
-  { key: "project", label: "탐색", path: "/" },
+  { key: "project", label: "프로젝트", path: "/" },
   { key: "magazine", label: "매거진", path: "/magazine" },
 ];
 
