@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, makeStyles } from "@material-ui/core";
 import Query from "../../components/Query";
-import Articles from "./Articles";
+import Articles from "./components/Articles";
 import ARTICLES_QUERY from "../../queries/articles";
 import Hero from "./Hero";
 
@@ -30,7 +30,7 @@ const Magazine = () => {
         </Container>
       </div>
       <Container className={classes.articlesContainer}>
-        <Query query={ARTICLES_QUERY}>
+        <Query query={ARTICLES_QUERY} sort="published_at:desc">
           {({
             data: {
               articles,
