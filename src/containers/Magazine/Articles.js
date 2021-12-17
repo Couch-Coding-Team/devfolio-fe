@@ -3,7 +3,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import ArticleCard from "./ArticleCard";
 
 const Articles = ({ articles, fetchMore, count }) => {
-  // TODO: add limit
   return (
     <InfiniteScroll
       dataLength={articles.length}
