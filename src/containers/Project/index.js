@@ -360,13 +360,14 @@ const useStyles = makeStyles((theme) => ({
   author: {
     display: "flex",
     alignItems: "center",
-    gap: "16px",
+    gap: "14px",
+    flexWrap: "wrap",
   },
   date: {
     height: "1.3em",
   },
   button: {
-    marginRight: "24px",
+    margin: "4px",
     [theme.breakpoints.down("sm")]: {
       width: "100%",
       marginBottom: "12px",
