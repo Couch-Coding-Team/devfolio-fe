@@ -93,6 +93,7 @@ const useStyles = makeStyles((theme) => ({
       height: "100%",
       padding: "24px",
       gap: "24px",
+      marginRight: 0
     },
     "& .MuiCardMedia-root": {
       flex: "1 1 100%",

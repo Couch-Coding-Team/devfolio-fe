@@ -8,7 +8,7 @@ const Query = ({
   slug,
   start = 0,
   limit = undefined,
-  sort = "published_at:desc",
+  sort = undefined,
   where = undefined,
   onCompleted,
 }) => {
@@ -23,9 +23,9 @@ const Query = ({
     onCompleted,
   });
 
-  const onLoadMore = (query, start) => {
+  const onLoadMore = (query, start, extraWhere=undefined) => {
     fetchMore({
-      variables: { start },
+      variables: { start, where: { published_at_null: false, ...(where && where), ...(extraWhere&&extraWhere) } },
       updateQuery: (prev, { fetchMoreResult }) => {
         if (!fetchMoreResult) return prev;
         fetchMoreResult[query] = [...prev[query], ...fetchMoreResult[query]];

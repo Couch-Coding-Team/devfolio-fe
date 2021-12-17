@@ -7,7 +7,7 @@ import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import Auth from "./components/Auth";
 import ScrollToTop from "./components/ScrollToTop";
-import ErrorBoundary from "./components/ErrorBoundary";
+// import ErrorBoundary from "./components/ErrorBoundary";
 import Banner from "./components/Banner";
 
 import { RoutesContext } from "./AppContext";
@@ -17,27 +17,27 @@ const App = () => {
   const routes = useContext(RoutesContext);
   return (
     <div className="App">
-      <ErrorBoundary>
-        <ScrollToTop />
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Auth>
-            {location.pathname === "/" && <Banner />}
-            <Nav />
-            <Switch>
-              {routes.map((route) => (
-                <Route
-                  key={route.path}
-                  path={route.path}
-                  component={route.component}
-                  exact={route.exact}
-                />
-              ))}
-            </Switch>
-            <Footer />
-          </Auth>
-        </ThemeProvider>
-      </ErrorBoundary>
+      {/* <ErrorBoundary> */}
+      <ScrollToTop />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Auth>
+          {location.pathname === "/" && <Banner />}
+          <Nav />
+          <Switch>
+            {routes.map((route) => (
+              <Route
+                key={route.path}
+                path={route.path}
+                component={route.component}
+                exact={route.exact}
+              />
+            ))}
+          </Switch>
+          <Footer />
+        </Auth>
+      </ThemeProvider>
+      {/* </ErrorBoundary> */}
     </div>
   );
 };

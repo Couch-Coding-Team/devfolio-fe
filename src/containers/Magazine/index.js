@@ -30,7 +30,7 @@ const Magazine = () => {
         </Container>
       </div>
       <Container className={classes.articlesContainer}>
-        <Query query={ARTICLES_QUERY}>
+        <Query query={ARTICLES_QUERY} sort="published_at:desc">
           {({
             data: {
               articles,

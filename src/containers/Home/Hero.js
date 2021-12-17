@@ -54,9 +54,6 @@ const useStyles = makeStyles((theme) => ({
     "& p": {
       fontSize: "18px",
       margin: 0,
-      [theme.breakpoints.down("sm")]: {
-        textAlign: "center",
-      },
     },
   },
   heroMessage: {

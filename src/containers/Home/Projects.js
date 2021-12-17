@@ -7,7 +7,9 @@ const Projects = ({ projects, count, onLoadMore }) => {
   const classes = useStyles();
 
   const handleLoadMoreData = () => {
-    onLoadMore("projects", projects.length);
+    if (projects.length < count) {
+      onLoadMore('projects', projects.length);
+    }
   };
 
   return (

@@ -22,6 +22,7 @@ const Search = ({ filterIds, handleFilter, handleReset }) => {
   };
 
   return (
+    // TODO: 한번에 다 로드하기
     <Query query={TECH_STACKS_QUERY} limit={50} sort="name:asc">
       {({
         data: {

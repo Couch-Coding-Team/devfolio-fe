@@ -69,7 +69,6 @@ const Home = () => {
           sort: `${tabValue}:desc`,
           ...commonProps,
         };
-
   return (
     <>
       <Container>
