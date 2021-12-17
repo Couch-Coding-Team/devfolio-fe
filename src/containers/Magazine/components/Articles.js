@@ -1,9 +1,8 @@
 import React from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import ArticleCard from "./Article";
+import Article from "./Article";
 
 const Articles = ({ articles, fetchMore, count }) => {
-  // TODO: add limit
   return (
     <InfiniteScroll
       dataLength={articles.length}
@@ -12,7 +11,7 @@ const Articles = ({ articles, fetchMore, count }) => {
       style={{ overflow: "visible" }}
     >
       {articles.map((article, i) => (
-        <ArticleCard key={i} article={article} />
+        <Article key={i} article={article} />
       ))}
     </InfiniteScroll>
   );
