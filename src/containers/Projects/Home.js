@@ -5,7 +5,11 @@ import { Hero, ListHeader, ListBody } from ".";
 
 const Home = () => {
   const classes = useStyles();
-  const [tabValue, setTabValue] = useState(ORDER_BY[0].value); // 탭 선택값
+  const [tabValue, setTabValue] = useState(
+    window.navigator.userAgent === "ReactSnap"
+      ? "like_count" // 빌드에서는 무한스크롤 없이 모든 프로젝트 가져오기
+      : ORDER_BY[0].value
+  );
   const [filterIds, setFilter] = useState(undefined); // 검색값
 
   const handleTabChange = (event, newValue) => {

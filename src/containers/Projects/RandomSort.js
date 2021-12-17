@@ -73,9 +73,7 @@ const RandomSort = ({ filterIds }) => {
   return (
     <Query
       query={PROJECTS_QUERY}
-      limit={
-        window.navigator.userAgent === "ReactSnap" ? undefined : QUERY_LIMIT
-      }
+      limit={QUERY_LIMIT}
       where={{ id: getIdsToQuery(0), ...initialWhere }}
     >
       {({ data: { projects }, onLoadMore }) => {

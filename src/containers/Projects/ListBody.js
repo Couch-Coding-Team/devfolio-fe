@@ -13,9 +13,7 @@ const ListBody = ({ tabValue, filterIds }) => {
   return (
     <Query
       query={PROJECTS_QUERY}
-      limit={
-        window.navigator.userAgent === "ReactSnap" ? undefined : QUERY_LIMIT
-      }
+      limit={QUERY_LIMIT}
       where={{ tech_stacks: { id: filterIds }, is_hidden: false }}
       sort={`${tabValue}:desc`}
     >
