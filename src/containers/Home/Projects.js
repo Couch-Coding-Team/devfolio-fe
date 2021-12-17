@@ -8,7 +8,7 @@ const Projects = ({ projects, count, onLoadMore }) => {
 
   const handleLoadMoreData = () => {
     if (projects.length < count) {
-      onLoadMore('projects', projects.length);
+      onLoadMore("projects", projects.length);
     }
   };
 

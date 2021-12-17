@@ -23,9 +23,16 @@ const Query = ({
     onCompleted,
   });
 
-  const onLoadMore = (query, start, extraWhere=undefined) => {
+  const onLoadMore = (query, start, extraWhere = undefined) => {
     fetchMore({
-      variables: { start, where: { published_at_null: false, ...(where && where), ...(extraWhere&&extraWhere) } },
+      variables: {
+        start,
+        where: {
+          published_at_null: false,
+          ...(where && where),
+          ...(extraWhere && extraWhere),
+        },
+      },
       updateQuery: (prev, { fetchMoreResult }) => {
         if (!fetchMoreResult) return prev;
         fetchMoreResult[query] = [...prev[query], ...fetchMoreResult[query]];

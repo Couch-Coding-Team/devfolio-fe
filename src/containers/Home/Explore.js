@@ -85,7 +85,7 @@ const Explore = ({ filterIds }) => {
       {({ data: { projects }, onLoadMore }) => {
         const handleLoadMoreData = (query, start) => {
           onLoadMore(query, 0, {
-            id: ids.slice(LIMIT * (page), LIMIT * (page+1)),
+            id: ids.slice(LIMIT * page, LIMIT * (page + 1)),
           });
           setPage(page + 1);
         };
