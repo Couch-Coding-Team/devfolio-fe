@@ -12,7 +12,7 @@ import GitHubIcon from "@material-ui/icons/GitHub";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
-import IconLabel from "../../components/IconLabel";
+import IconLabel from "../../../components/IconLabel";
 
 const Project = ({ project }) => {
   const classes = useStyles();
@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
       height: "100%",
       padding: "24px",
       gap: "24px",
-      marginRight: 0
+      marginRight: 0,
     },
     "& .MuiCardMedia-root": {
       flex: "1 1 100%",

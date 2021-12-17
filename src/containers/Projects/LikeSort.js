@@ -2,7 +2,7 @@ import React from "react";
 import { sortBy } from "lodash";
 import PROJECTS_QUERY from "../../queries/projects";
 import Query from "../../components/Query";
-import Projects from "./Projects";
+import Projects from "./components/Projects";
 
 const getDataInLikeDesc = (projects) => {
   const listWithLikeCount = projects.map((proj) => {
@@ -12,7 +12,7 @@ const getDataInLikeDesc = (projects) => {
   return orderedList;
 };
 
-const Like = ({ filterIds }) => {
+const LikeSort = ({ filterIds }) => {
   return (
     <Query
       query={PROJECTS_QUERY}
@@ -42,4 +42,4 @@ const Like = ({ filterIds }) => {
   );
 };
 
-export default Like;
+export default LikeSort;

@@ -6,13 +6,13 @@ import PROJECTS_QUERY from "../../queries/projects";
 import PROJECT_IDS_QUERY from "../../queries/projectIds";
 import Query from "../../components/Query";
 import BlankPage from "../../components/BlankPage";
-import Projects from "./Projects";
+import Projects from "./components/Projects";
 import { QUERY_LIMIT } from "../../constants";
 
 // [KNOWN ISSUE] GraphQL에서 ID 값으로 default sort 해버리는 문제
 // https://forum.strapi.io/t/strapi-graphql-default-sort/3021
 
-const Explore = ({ filterIds }) => {
+const RandomSort = ({ filterIds }) => {
   const [ids, setIds] = useState([]);
   const [page, setPage] = useState(1);
 
@@ -93,4 +93,4 @@ const Explore = ({ filterIds }) => {
   );
 };
 
-export default Explore;
+export default RandomSort;

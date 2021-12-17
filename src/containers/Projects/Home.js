@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { Container, makeStyles } from "@material-ui/core";
 import { ORDER_BY } from "../../constants";
-import Hero from "./Hero";
-import ListHeader from "./ListHeader";
-import ListBody from "./ListBody";
+import { Hero, ListHeader, ListBody } from ".";
 
 const Home = () => {
   const classes = useStyles();

@@ -7,7 +7,7 @@ import gfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import format from "rehype-format";
 
-const ArticlePage = () => {
+const Article = () => {
   const { id: articleId } = useParams();
   const classes = useStyles();
   return (
@@ -50,7 +50,7 @@ const ArticlePage = () => {
   );
 };
 
-export default ArticlePage;
+export default Article;
 
 const useStyles = makeStyles((theme) => ({
   root: {

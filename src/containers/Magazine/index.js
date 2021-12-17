@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, makeStyles } from "@material-ui/core";
 import Query from "../../components/Query";
-import Articles from "./Articles";
+import Articles from "./components/Articles";
 import ARTICLES_QUERY from "../../queries/articles";
 import Hero from "./Hero";
 
