@@ -2,7 +2,7 @@ import { createContext } from "react";
 import PageNotFound from "./components/PageNotFound";
 import { Home } from "./containers/Projects";
 import Project from "./containers/Project";
-import Magazine from "./containers/Articles";
+import Magazine from "./containers/Magazine";
 import Article from "./containers/Article";
 import { PATHS } from "./constants";
 
