@@ -12,13 +12,14 @@ const Query = ({
   where = undefined,
   onCompleted,
 }) => {
+  const initialWhere = { published_at_null: false, ...(where && where) };
   const { data, loading, error, fetchMore } = useQuery(query, {
     variables: {
       slug,
       start,
       limit,
       sort,
-      where: { published_at_null: false, ...(where && where) },
+      where: initialWhere,
     },
     onCompleted,
   });
@@ -28,8 +29,7 @@ const Query = ({
       variables: {
         start,
         where: {
-          published_at_null: false,
-          ...(where && where),
+          ...initialWhere,
           ...(extraWhere && extraWhere),
         },
       },

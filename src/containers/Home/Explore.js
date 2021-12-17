@@ -7,8 +7,7 @@ import PROJECT_IDS_QUERY from "../../queries/projectIds";
 import Query from "../../components/Query";
 import BlankPage from "../../components/BlankPage";
 import Projects from "./Projects";
-
-const LIMIT = 12;
+import { QUERY_LIMIT } from "../../constants";
 
 // [KNOWN ISSUE] GraphQL에서 ID 값으로 default sort 해버리는 문제
 // https://forum.strapi.io/t/strapi-graphql-default-sort/3021
@@ -16,22 +15,26 @@ const LIMIT = 12;
 const Explore = ({ filterIds }) => {
   const [ids, setIds] = useState([]);
   const [page, setPage] = useState(1);
+
+  const getIdsToQuery = (pg) =>
+    ids.slice(QUERY_LIMIT * pg, QUERY_LIMIT * (pg + 1));
+
+  const initialWhere = {
+    tech_stacks: { id: filterIds },
+    is_hidden: false,
+    published_at_null: false,
+  };
+
   const {
     loading,
-    error,
     data: idData,
     fetchMore: fetchMoreIds,
   } = useQuery(PROJECT_IDS_QUERY, {
     variables: {
-      where: {
-        tech_stacks: { id: filterIds },
-        is_hidden: false,
-        published_at_null: false,
-      },
+      where: initialWhere,
     },
   });
 
-  // 프로젝트 순서 셔플
   useEffect(() => {
     if (!idData) return;
     const {
@@ -40,53 +43,42 @@ const Explore = ({ filterIds }) => {
         aggregate: { count },
       },
     } = idData;
+
     if (count > projects.length) {
-      const onLoadMore = (query, start) => {
-        fetchMoreIds({
-          variables: {
-            start,
-            where: {
-              tech_stacks: { id: filterIds },
-              is_hidden: false,
-              published_at_null: false,
-            },
-          },
-          updateQuery: (prev, { fetchMoreResult }) => {
-            if (!fetchMoreResult) return prev;
-            fetchMoreResult[query] = [
-              ...prev[query],
-              ...fetchMoreResult[query],
-            ];
-            return fetchMoreResult;
-          },
-        });
-      };
-      onLoadMore("projects", projects.length);
+      handleFetchMoreId(projects.length);
     }
-    const projectIds = projects.map((proj) => proj.id);
-    const shuffled = shuffle(projectIds);
+    const shuffled = shuffle(projects.map((proj) => proj.id));
     setIds(shuffled);
   }, [idData]);
 
-  if (loading) return <BlankPage content="Loading..." />;
-
-  const initialProps = {
-    limit: window.navigator.userAgent === "ReactSnap" ? undefined : LIMIT,
-    query: PROJECTS_QUERY,
-    where: {
-      id: ids.slice(0, LIMIT),
-      tech_stacks: { id: filterIds },
-      is_hidden: false,
-    },
+  const handleFetchMoreId = (start) => {
+    fetchMoreIds({
+      variables: {
+        start,
+        where: initialWhere,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+        fetchMoreResult.projects = [
+          ...prev.projects,
+          ...fetchMoreResult.projects,
+        ];
+        return fetchMoreResult;
+      },
+    });
   };
 
+  if (loading) return <BlankPage content="Loading..." />;
+
   return (
-    <Query {...initialProps}>
+    <Query
+      query={PROJECTS_QUERY}
+      limit={window.navigator.userAgent !== "ReactSnap" && QUERY_LIMIT}
+      where={{ id: getIdsToQuery(0), ...initialWhere }}
+    >
       {({ data: { projects }, onLoadMore }) => {
         const handleLoadMoreData = (query, start) => {
-          onLoadMore(query, 0, {
-            id: ids.slice(LIMIT * page, LIMIT * (page + 1)),
-          });
+          onLoadMore(query, 0, { id: getIdsToQuery(page) });
           setPage(page + 1);
         };
         return (

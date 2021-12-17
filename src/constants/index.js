@@ -18,4 +18,6 @@ const ORDER_BY = [
   { label: "좋아요순", value: "like_count" },
 ];
 
-export { PATHS, Logo, ORDER_BY };
+const QUERY_LIMIT = 12;
+
+export { PATHS, Logo, ORDER_BY, QUERY_LIMIT };

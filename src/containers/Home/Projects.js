@@ -12,24 +12,20 @@ const Projects = ({ projects, count, onLoadMore }) => {
     }
   };
 
+  if (!projects.length) return <div>결과가 없습니다</div>;
+
   return (
-    <>
-      {!projects.length ? (
-        <div>결과가 없습니다</div>
-      ) : (
-        <InfiniteScroll
-          dataLength={projects.length}
-          next={handleLoadMoreData}
-          hasMore={projects.length !== count}
-          className={classes.grid}
-          loader={<span>Loading...</span>}
-        >
-          {projects.map((project, i) => (
-            <Project project={project} key={`project__${project.id}`} />
-          ))}
-        </InfiniteScroll>
-      )}
-    </>
+    <InfiniteScroll
+      dataLength={projects.length}
+      next={handleLoadMoreData}
+      hasMore={projects.length !== count}
+      className={classes.grid}
+      loader={<span>Loading...</span>}
+    >
+      {projects.map((project, i) => (
+        <Project project={project} key={`project__${project.id}`} />
+      ))}
+    </InfiniteScroll>
   );
 };
 
