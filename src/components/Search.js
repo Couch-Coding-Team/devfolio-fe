@@ -22,7 +22,7 @@ const Search = ({ filterIds, handleFilter, handleReset }) => {
   };
 
   return (
-    <Query query={TECH_STACKS_QUERY} limit={50} sort="name:asc">
+    <Query query={TECH_STACKS_QUERY} sort="name:asc">
       {({
         data: {
           techStacks,
@@ -32,17 +32,9 @@ const Search = ({ filterIds, handleFilter, handleReset }) => {
         },
         onLoadMore,
       }) => {
-        const handleScroll = (event) => {
-          if (techStacks.length === count) return;
-          const listboxNode = event.target;
-          // 스크롤 끝에 닿을때
-          if (
-            Math.floor(listboxNode.scrollTop + listboxNode.clientHeight) ===
-            listboxNode.scrollHeight
-          ) {
-            onLoadMore("techStacks", techStacks.length);
-          }
-        };
+        if (count > techStacks.length) {
+          onLoadMore("techStacks", techStacks.length);
+        }
         return (
           <FormControl variant="outlined" className={classes.formControl}>
             <Autocomplete
@@ -64,7 +56,6 @@ const Search = ({ filterIds, handleFilter, handleReset }) => {
                 />
               )}
               ChipProps={{ color: "primary" }}
-              ListboxProps={{ onScroll: handleScroll }}
             />
           </FormControl>
         );

@@ -38,9 +38,13 @@ const Magazine = () => {
                 aggregate: { count },
               },
             },
-            fetchMore,
+            onLoadMore,
           }) => (
-            <Articles articles={articles} fetchMore={fetchMore} count={count} />
+            <Articles
+              articles={articles}
+              onLoadMore={onLoadMore}
+              count={count}
+            />
           )}
         </Query>
       </Container>
