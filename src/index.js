@@ -17,22 +17,22 @@ Sentry.init({
 
 const rootElement = document.getElementById("root");
 
-if (rootElement.hasChildNodes()) {
-  hydrate(
-    <Router>
-      <ApolloProvider client={client}>
-        <App />
-      </ApolloProvider>
-    </Router>,
-    rootElement
-  );
-} else {
-  render(
-    <Router>
-      <ApolloProvider client={client}>
-        <App />
-      </ApolloProvider>
-    </Router>,
-    rootElement
-  );
-}
+// if (rootElement.hasChildNodes()) {
+//   hydrate(
+//     <Router>
+//       <ApolloProvider client={client}>
+//         <App />
+//       </ApolloProvider>
+//     </Router>,
+//     rootElement
+//   );
+// } else {
+render(
+  <Router>
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
+  </Router>,
+  rootElement
+);
+// }

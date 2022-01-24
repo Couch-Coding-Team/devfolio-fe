@@ -14,13 +14,12 @@ const Auth = ({ children }) => {
     if (window.navigator.userAgent === "ReactSnap") return; // 빌드 중일때 회원가입 스킵
 
     const fetchData = async () => {
-      const jwt = await getToken();
       const fbUid = await firebaseSignIn();
-      const strapiUser = await fetchUser(fbUid, jwt);
+      const strapiUser = await fetchUser(fbUid);
       if (strapiUser) {
         if (!strapiUser.avatar_url) {
           // 기존 유저 이름 및 아바타 랜덤생성
-          const user = await updateUserName(strapiUser.id, jwt);
+          const user = await updateUserName(strapiUser.id);
           setUser({
             id: user.id,
             username: user.username,
@@ -46,18 +45,6 @@ const Auth = ({ children }) => {
     fetchData();
   }, []);
 
-  const getToken = async () => {
-    try {
-      const res = await api.post("/auth/local", {
-        identifier: process.env.REACT_APP_ADMIN_ID,
-        password: process.env.REACT_APP_ADMIN_PW,
-      });
-      return res.data.jwt;
-    } catch (e) {
-      console.error("error fetching strapi user: ", e);
-    }
-  };
-
   const firebaseSignIn = async () => {
     try {
       const { user } = await firebaseAuth.signInAnonymously();
@@ -67,11 +54,11 @@ const Auth = ({ children }) => {
     }
   };
 
-  const fetchUser = async (fbUid, jwt) => {
+  const fetchUser = async (fbUid) => {
     try {
       const res = await api.get("/users", {
         headers: {
-          Authorization: `Bearer ${jwt}`,
+          Authorization: `Bearer ${process.env.REACT_APP_ADMIN_JWT}`,
         },
         params: {
           firebase_uid: fbUid,
@@ -125,7 +112,7 @@ const Auth = ({ children }) => {
     }
   };
 
-  const updateUserName = async (userId, jwt) => {
+  const updateUserName = async (userId) => {
     try {
       const res = await api.put(
         `/users/${userId}`,
@@ -135,7 +122,7 @@ const Auth = ({ children }) => {
         },
         {
           headers: {
-            Authorization: `Bearer ${jwt}`,
+            Authorization: `Bearer ${process.env.REACT_APP_ADMIN_JWT}`,
           },
         }
       );
