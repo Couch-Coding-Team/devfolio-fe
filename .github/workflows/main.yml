@@ -24,10 +24,9 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+        
+      - name: Github Action for Gatsby CLI
+        uses: jzweifel/gatsby-cli-github-action@v1.0.0
 
       # Runs a set of commands using the runners shell
       - name: Build
@@ -37,5 +36,4 @@ jobs:
           
       - name: Firebase Deploy
         run: |
-          sudo yarn add -g firebase-tools
           firebase hosting:channel:deploy preview --token ${{ secrets.FIREBASE_TOKEN }}
