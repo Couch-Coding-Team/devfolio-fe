@@ -33,6 +33,7 @@ jobs:
       - name: Build
         run: |
           yarn
+          sudo yarn add -g gatsby-cli
           gatsby build
           
       - name: Firebase Deploy
