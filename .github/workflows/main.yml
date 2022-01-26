@@ -29,8 +29,10 @@ jobs:
       - name: Build
         run: |
           yarn
+          sudo yarn global add gatsby-cli
           gatsby build
           
       - name: Firebase Deploy
         run: |
+          sudo yarn global add firebase-tools
           firebase hosting:channel:deploy preview --token ${{ secrets.FIREBASE_TOKEN }}
