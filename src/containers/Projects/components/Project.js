@@ -18,7 +18,7 @@ const Project = ({ project }) => {
   const classes = useStyles();
   return (
     <Link
-      to={`/project/${project.strapiId}`}
+      to={`/${project.strapiId}`}
       onClick={() => {
         window.gtag("event", "프로젝트 클릭", { project_id: project.strapiId });
         sessionStorage.setItem("scrollTo", window.pageYOffset);
