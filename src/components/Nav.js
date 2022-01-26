@@ -1,7 +1,6 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
 import { AppBar, Toolbar, Typography, makeStyles } from "@material-ui/core";
-import { Logo } from "../constants";
+import { Link } from "gatsby";
 
 const MENU = [
   { key: "project", label: "프로젝트", path: "/" },
@@ -9,7 +8,7 @@ const MENU = [
 ];
 
 const Nav = () => {
-  const { pathname } = useLocation();
+  // const { pathname } = useLocation();
   const classes = useStyles();
 
   return (
@@ -17,12 +16,13 @@ const Nav = () => {
       <Toolbar className={classes.toolbar}>
         <Link
           to="/"
-          onClick={() => window.scrollTo(0, 0)}
+          // onClick={() => window.scrollTo(0, 0)}
           className={classes.iconLeft}
         >
-          <Logo />
+          <img alt="logo" src="/assets/logo.png" />
         </Link>
-        {MENU.map((item, idx) => {
+        <Link to="/project">PROJECTS</Link>
+        {/* {MENU.map((item, idx) => {
           const isCurrentLocation = pathname.includes(item.key);
           const isHome = pathname === "/";
           const isSelected =
@@ -42,7 +42,7 @@ const Nav = () => {
               </Typography>
             </Link>
           );
-        })}
+        })} */}
       </Toolbar>
     </AppBar>
   );

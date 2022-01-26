@@ -9,8 +9,6 @@ const PATHS = {
   },
 };
 
-const Logo = () => <img alt="logo" src="/assets/logo.png" />;
-
 const ORDER_BY = [
   { label: "탐색", value: "random" },
   { label: "최신순", value: "published_at" },
@@ -20,4 +18,4 @@ const ORDER_BY = [
 
 const QUERY_LIMIT = 12;
 
-export { PATHS, Logo, ORDER_BY, QUERY_LIMIT };
+export { PATHS, ORDER_BY, QUERY_LIMIT };
