@@ -36,5 +36,4 @@ jobs:
           
       - name: Firebase Deploy
         run: |
-          sudo yarn add -g firebase-tools
           firebase hosting:channel:deploy preview --token ${{ secrets.FIREBASE_TOKEN }}
