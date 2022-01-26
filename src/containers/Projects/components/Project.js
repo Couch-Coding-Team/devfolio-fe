@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "gatsby";
 import {
   makeStyles,
   Card,
@@ -18,9 +18,9 @@ const Project = ({ project }) => {
   const classes = useStyles();
   return (
     <Link
-      to={`/project/${project.id}`}
+      to={`/project/${project.strapiId}`}
       onClick={() => {
-        window.gtag("event", "프로젝트 클릭", { project_id: project.id });
+        window.gtag("event", "프로젝트 클릭", { project_id: project.strapiId });
         sessionStorage.setItem("scrollTo", window.pageYOffset);
       }}
     >
@@ -52,28 +52,28 @@ const Project = ({ project }) => {
                 ` + ${project.tech_stacks.length - 3}`}
             </div>
           </div>
-          <div className={classes.cardFooter}>
+          {/* <div className={classes.cardFooter}>
+          <IconLabel
+            icon={<GitHubIcon fontSize="small" />}
+            label={project.owner_name}
+          />
+          <div className={classes.cardStats}>
             <IconLabel
-              icon={<GitHubIcon fontSize="small" />}
-              label={project.owner_name}
+              icon={<FavoriteIcon fontSize="small" />}
+              label={project.reactions.length}
             />
-            <div className={classes.cardStats}>
+            <IconLabel
+              icon={<VisibilityIcon fontSize="small" />}
+              label={project.view_count}
+            />
+            {!!project.comments.length && (
               <IconLabel
-                icon={<FavoriteIcon fontSize="small" />}
-                label={project.reactions.length}
+                icon={<ChatBubbleIcon fontSize="small" />}
+                label={project.comments.length}
               />
-              <IconLabel
-                icon={<VisibilityIcon fontSize="small" />}
-                label={project.view_count}
-              />
-              {!!project.comments.length && (
-                <IconLabel
-                  icon={<ChatBubbleIcon fontSize="small" />}
-                  label={project.comments.length}
-                />
-              )}
-            </div>
+            )}
           </div>
+        </div> */}
         </CardContent>
       </Card>
     </Link>
