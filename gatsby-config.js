@@ -6,7 +6,15 @@ module.exports = {
       "다른 개발자들은 어떤 포트폴리오를 만들었을까? 개발자들의 포트폴리오 혹은 토이 프로젝트를 한눈에 모아보세요.",
   },
   plugins: [
+    "gatsby-plugin-top-layout",
     "gatsby-plugin-react-helmet",
+    // "gatsby-plugin-mui-emotion",
+    {
+      resolve: `gatsby-plugin-google-gtag`,
+      options: {
+        trackingIds: ["G-1W81K7RMHF"],
+      },
+    },
     // {
     //   resolve: `gatsby-source-filesystem`,
     //   options: {
