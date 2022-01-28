@@ -1,63 +1,59 @@
 import React from "react";
 import { Link } from "gatsby";
-import {
-  makeStyles,
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Chip,
-} from "@material-ui/core";
-import GitHubIcon from "@material-ui/icons/GitHub";
-import VisibilityIcon from "@material-ui/icons/Visibility";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
-import IconLabel from "../../../components/IconLabel";
+import { Card, CardContent, CardMedia, Typography, Chip } from "@mui/material";
+import { styled } from "@mui/material/styles";
+// import GitHubIcon from "@mui/icons-material/GitHub";
+// import VisibilityIcon from "@mui/icons-material/Visibility";
+// import FavoriteIcon from "@mui/icons-material/Favorite";
+// import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+// import IconLabel from "../../../components/IconLabel";
 
 const Project = ({ project }) => {
-  const classes = useStyles();
   return (
-    <Link
-      to={`/${project.strapiId}`}
-      onClick={() => {
-        window.gtag("event", "프로젝트 클릭", { project_id: project.strapiId });
-        sessionStorage.setItem("scrollTo", window.pageYOffset);
-      }}
-    >
-      <Card className={classes.card}>
-        <CardMedia>
-          <img
-            src={project.thumbnail_url}
-            alt={project.thumbnail_url}
-            width="100%"
-            height="100%"
-          />
-        </CardMedia>
-        <CardContent>
-          <div>
-            <Typography variant="subtitle1">
-              <strong>{project.title}</strong>
-            </Typography>
-            <p>{project.description}</p>
+    <Root>
+      <Link
+        to={`/${project.strapiId}`}
+        onClick={() => {
+          window.gtag("event", "프로젝트 클릭", {
+            project_id: project.strapiId,
+          });
+          sessionStorage.setItem("scrollTo", window.pageYOffset);
+        }}
+      >
+        <Card className="card">
+          <CardMedia>
+            <img
+              src={project.thumbnail_url}
+              alt={project.thumbnail_url}
+              width="100%"
+              height="100%"
+            />
+          </CardMedia>
+          <CardContent>
             <div>
-              {project.tech_stacks.slice(0, 3).map((stack, index) => (
-                <Chip
-                  key={index}
-                  label={stack.name}
-                  color="primary"
-                  size="small"
-                />
-              ))}
-              {project.tech_stacks.length > 3 &&
-                ` + ${project.tech_stacks.length - 3}`}
+              <Typography variant="subtitle1">
+                <strong>{project.title}</strong>
+              </Typography>
+              <p>{project.description}</p>
+              <div>
+                {project.tech_stacks.slice(0, 3).map((stack, index) => (
+                  <Chip
+                    key={index}
+                    label={stack.name}
+                    color="primary"
+                    size="small"
+                  />
+                ))}
+                {project.tech_stacks.length > 3 &&
+                  ` + ${project.tech_stacks.length - 3}`}
+              </div>
             </div>
-          </div>
-          {/* <div className={classes.cardFooter}>
+            {/* <div className='cardFooter'>
           <IconLabel
             icon={<GitHubIcon fontSize="small" />}
             label={project.owner_name}
           />
-          <div className={classes.cardStats}>
+          <div className='cardStats'>
             <IconLabel
               icon={<FavoriteIcon fontSize="small" />}
               label={project.reactions.length}
@@ -74,14 +70,15 @@ const Project = ({ project }) => {
             )}
           </div>
         </div> */}
-        </CardContent>
-      </Card>
-    </Link>
+          </CardContent>
+        </Card>
+      </Link>
+    </Root>
   );
 };
 
-const useStyles = makeStyles((theme) => ({
-  card: {
+const Root = styled("div")((theme) => ({
+  "&.card": {
     height: "400px",
     marginBottom: "36px",
     marginRight: "36px",
@@ -89,12 +86,12 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "10px",
     boxShadow: "10px 10px 10px rgba(0, 0, 0, 0.05)",
     flexDirection: "column",
-    [theme.breakpoints.down("sm")]: {
-      height: "100%",
-      padding: "24px",
-      gap: "24px",
-      marginRight: 0,
-    },
+    // [theme.breakpoints.down("md")]: {
+    //   height: "100%",
+    //   padding: "24px",
+    //   gap: "24px",
+    //   marginRight: 0,
+    // },
     "& .MuiCardMedia-root": {
       flex: "1 1 100%",
       overflow: "hidden",
@@ -109,14 +106,14 @@ const useStyles = makeStyles((theme) => ({
       padding: "18px",
       flexDirection: "column",
       justifyContent: "space-between",
-      [theme.breakpoints.down("sm")]: {
-        padding: 0,
-      },
+      // [theme.breakpoints.down("md")]: {
+      //   padding: 0,
+      // },
       "& .MuiTypography-h4": {
-        [theme.breakpoints.down("sm")]: {
-          marginBottom: "12px",
-          padding: "18px",
-        },
+        // [theme.breakpoints.down("md")]: {
+        //   marginBottom: "12px",
+        //   padding: "18px",
+        // },
       },
     },
     "& .MuiChip-root": {
@@ -135,14 +132,14 @@ const useStyles = makeStyles((theme) => ({
       overflow: "hidden",
     },
   },
-  cardFooter: {
+  "&.cardFooter": {
     display: "flex",
     justifyContent: "space-between",
-    [theme.breakpoints.down("sm")]: {
-      marginTop: "24px",
-    },
+    // [theme.breakpoints.down("md")]: {
+    //   marginTop: "24px",
+    // },
   },
-  cardStats: {
+  "&.cardStats": {
     display: "flex",
     gap: "1rem",
   },

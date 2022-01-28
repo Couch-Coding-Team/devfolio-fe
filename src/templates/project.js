@@ -5,11 +5,12 @@ import {
   Button,
   Chip,
   Container,
-  makeStyles,
   Tooltip,
   useMediaQuery,
   useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
+
+import { styled } from "@mui/material/styles";
 
 import moment from "moment";
 import ReactMarkdown from "react-markdown";
@@ -24,9 +25,8 @@ const LIKE_ICON_STYLE = {
   cursor: "pointer",
 };
 const ProjectTemplate = ({ data }) => {
-  const classes = useStyles();
   const theme = useTheme();
-  const isSmScreen = useMediaQuery(theme.breakpoints.down("sm"), {
+  const isSmScreen = useMediaQuery(theme.breakpoints.down("md"), {
     defaultMatches: true,
   });
 
@@ -61,27 +61,28 @@ const ProjectTemplate = ({ data }) => {
   const techStackNames = project.tech_stacks.map((el) => el.name);
 
   return (
-    <Layout>
-      <Container maxWidth="sm" className={classes.root}>
-        <h1>{project.title}</h1>
-        {project.tech_stacks.map((stack) => (
-          <Chip key={stack.name} label={stack.name} color="primary" />
-        ))}
-        <div className={classes.details}>
-          <div className={classes.stats}>
-            <div className={classes.author}>
-              <a
-                href={project.owner_github_url}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {/* <IconLabel icon={<GitHubIcon />} label={project.owner_name} /> */}
-              </a>
-              <span className={classes.date}>
-                {moment(project.published_at).format("MMM Do YYYY")}
-              </span>
-            </div>
-            {/* 
+    <Root>
+      <Layout>
+        <Container maxWidth="sm" className="root">
+          <h1>{project.title}</h1>
+          {project.tech_stacks.map((stack) => (
+            <Chip key={stack.name} label={stack.name} color="primary" />
+          ))}
+          <div className="details">
+            <div className="stats">
+              <div className="author">
+                <a
+                  href={project.owner_github_url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {/* <IconLabel icon={<GitHubIcon />} label={project.owner_name} /> */}
+                </a>
+                <span className="date">
+                  {moment(project.published_at).format("MMM Do YYYY")}
+                </span>
+              </div>
+              {/* 
           <IconLabel
             style={LIKE_BUTTON_STYLE}
             label={project.reactions.length}
@@ -96,73 +97,74 @@ const ProjectTemplate = ({ data }) => {
               </Tooltip>
             }
           /> */}
-          </div>
-          <div>
-            {project.demo_site_url && (
+            </div>
+            <div>
+              {project.demo_site_url && (
+                <Button
+                  color="primary"
+                  variant="contained"
+                  href={project.demo_site_url}
+                  target="_blank"
+                  onClick={() =>
+                    window.gtag("event", "데모사이트 보러가기 클릭", {
+                      project_id: project.strapiId,
+                    })
+                  }
+                  className="button"
+                >
+                  데모사이트 보러가기
+                </Button>
+              )}
               <Button
-                color="primary"
+                color="secondary"
                 variant="contained"
-                href={project.demo_site_url}
+                href={project.project_github_url}
                 target="_blank"
                 onClick={() =>
-                  window.gtag("event", "데모사이트 보러가기 클릭", {
+                  window.gtag("event", "소스 보러가기 클릭", {
                     project_id: project.strapiId,
                   })
                 }
-                className={classes.button}
+                className="button"
               >
-                데모사이트 보러가기
+                GitHub 소스 보러가기
               </Button>
-            )}
-            <Button
-              color="secondary"
-              variant="contained"
-              href={project.project_github_url}
-              target="_blank"
-              onClick={() =>
-                window.gtag("event", "소스 보러가기 클릭", {
-                  project_id: project.strapiId,
-                })
-              }
-              className={classes.button}
-            >
-              GitHub 소스 보러가기
-            </Button>
+            </div>
           </div>
-        </div>
-        {project.reference_url && (
-          <div className={classes.textBlock}>
-            💡{" "}
-            <Link href={project.reference_url} target="_blank">
-              프로젝트 개발자가 직접 작성한 후기 글 보러 가기
-            </Link>
-          </div>
-        )}
-        <ReactMarkdown
-          className="readme-markdown"
-          remarkPlugins={[gfm]} // styling table, strikethrough, link, checkbox
-          rehypePlugins={[rehypeRaw, format]}
-          linkTarget="_blank"
-          children={project.readme_code}
-          components={{
-            img: ({ node, ...props }) => (
-              <img style={{ maxWidth: "100%" }} {...props} /> // Resizing images inside README to fit container
-            ),
-          }}
-        />
-        {/* <Comments
+          {project.reference_url && (
+            <div className="textBlock">
+              💡{" "}
+              <Link href={project.reference_url} target="_blank">
+                프로젝트 개발자가 직접 작성한 후기 글 보러 가기
+              </Link>
+            </div>
+          )}
+          <ReactMarkdown
+            className="readme-markdown"
+            remarkPlugins={[gfm]} // styling table, strikethrough, link, checkbox
+            rehypePlugins={[rehypeRaw, format]}
+            linkTarget="_blank"
+            children={project.readme_code}
+            components={{
+              img: ({ node, ...props }) => (
+                <img style={{ maxWidth: "100%" }} {...props} /> // Resizing images inside README to fit container
+              ),
+            }}
+          />
+          {/* <Comments
           data={project.comments}
           submitData={createComment}
           deleteComment={deleteComment}
           updateComment={updateComment}
         /> */}
-      </Container>
-    </Layout>
+        </Container>
+      </Layout>
+    </Root>
   );
 };
 
-const useStyles = makeStyles((theme) => ({
-  root: {
+const Root = styled("div")((theme) => ({
+  "&.root": {
     padding: "32px",
     position: "relative",
 
@@ -210,7 +212,7 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-  imgWrapper: {
+  "&.imgWrapper": {
     height: 0,
     position: "relative",
     paddingBottom: "52.63%" /* 이미지 비율 1900:1000 */,
@@ -224,37 +226,37 @@ const useStyles = makeStyles((theme) => ({
       objectFit: "contain",
     },
   },
-  details: {
+  "&.details": {
     display: "flex",
     justifyContent: "space-between",
     margin: "72px auto",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       margin: "28px auto",
       flexDirection: "column",
       gap: "28px",
     },
   },
-  stats: {
+  "&.stats": {
     display: "flex",
     justifyContent: "space-between",
   },
-  author: {
+  "&.author": {
     display: "flex",
     alignItems: "center",
     gap: "14px",
     flexWrap: "wrap",
   },
-  date: {
+  "&.date": {
     height: "1.3em",
   },
-  button: {
+  "&.button": {
     margin: "4px",
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       width: "100%",
       marginBottom: "12px",
     },
   },
-  textBlock: {
+  "&.textBlock": {
     backgroundColor: "#F7F7F7",
     padding: "24px 36px",
     margin: "48px 0",

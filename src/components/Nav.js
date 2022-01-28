@@ -1,5 +1,6 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, makeStyles } from "@material-ui/core";
+import { AppBar, Toolbar, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { Link } from "gatsby";
 
 const MENU = [
@@ -9,18 +10,16 @@ const MENU = [
 
 const Nav = () => {
   // const { pathname } = useLocation();
-  const classes = useStyles();
 
   return (
     <AppBar position="sticky" color="inherit" elevation={0}>
-      <Toolbar className={classes.toolbar}>
-        <Link
+      <StyledToolbar>
+        <IconLeft
           to="/"
           // onClick={() => window.scrollTo(0, 0)}
-          className={classes.iconLeft}
         >
           <img alt="logo" src="/assets/logo.png" />
-        </Link>
+        </IconLeft>
         <Link to="/project">PROJECTS</Link>
         {/* {MENU.map((item, idx) => {
           const isCurrentLocation = pathname.includes(item.key);
@@ -43,30 +42,26 @@ const Nav = () => {
             </Link>
           );
         })} */}
-      </Toolbar>
+      </StyledToolbar>
     </AppBar>
   );
 };
 
-export default Nav;
-
-const useStyles = makeStyles({
-  container: { padding: 0 },
-  toolbar: {
-    minHeight: "48px",
-    display: "flex",
-    gap: "36px",
-    alignItems: "center",
-    position: "relative",
-  },
-  iconLeft: {
-    "& img": {
-      height: "20px",
-      verticalAlign: "middle",
-    },
-  },
-  selected: {
-    fontWeight: 700,
-    borderBottom: "1px solid black",
+const StyledToolbar = styled(Toolbar)({
+  minHeight: "48px",
+  display: "flex",
+  gap: "36px",
+  alignItems: "center",
+  position: "relative",
+});
+const IconLeft = styled(Link)({
+  "& img": {
+    height: "20px",
+    verticalAlign: "middle",
   },
 });
+// selected: {
+//   fontWeight: 700,
+//   borderBottom: "1px solid black",
+// },
+export default Nav;
