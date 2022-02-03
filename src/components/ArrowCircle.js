@@ -1,6 +1,6 @@
 import React from "react";
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
-import { useMediaQuery, useTheme } from "@material-ui/core";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 const ArrowCircle = ({ style }) => {
   const theme = useTheme();

@@ -25,6 +25,13 @@ const theme = createTheme({
         },
       },
     },
+    MuiContainer: {
+      styleOverrides: {
+        root: {
+          padding: "24px",
+        },
+      },
+    },
     MuiCssBaseline: {
       styleOverrides: `
         body {
@@ -37,7 +44,6 @@ const theme = createTheme({
   //   textDecoration: "none",
   //   color: "initial",
   // },
-
   // MuiChip: {
   //   root: {
   //     padding: "0 12px",
