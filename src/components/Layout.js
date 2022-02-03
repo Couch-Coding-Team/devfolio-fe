@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Nav from "./Nav";
 import Seo from "./Seo";
 import Banner from "./Banner";
+import Footer from "./Footer";
 
 const Layout = ({ children, seo, location }) => (
   <>
@@ -10,6 +11,7 @@ const Layout = ({ children, seo, location }) => (
     {location.pathname === "/" && <Banner />}
     <Nav location={location} />
     <main>{children}</main>
+    <Footer />
   </>
 );
 

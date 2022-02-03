@@ -1,15 +1,10 @@
 import React from "react";
-import { AppBar, makeStyles, Toolbar } from "@material-ui/core";
+import { AppBar, Toolbar } from "@mui/material";
+import { styled } from "@mui/material/styles";
 
-const Footer = () => {
-  const classes = useStyles();
-  return (
-    <AppBar
-      position="static"
-      color="inherit"
-      elevation={0}
-      className={classes.root}
-    >
+const Footer = () => (
+  <Root>
+    <AppBar position="static" color="inherit" elevation={0} className="footer">
       <Toolbar>
         <p>
           <strong>DevFoliOh! 2021</strong>
@@ -18,13 +13,13 @@ const Footer = () => {
         <p>devfolio.help@gmail.com</p>
       </Toolbar>
     </AppBar>
-  );
-};
+  </Root>
+);
 
 export default Footer;
 
-const useStyles = makeStyles({
-  root: {
+const Root = styled("div")(({ theme }) => ({
+  ".footer": {
     padding: "52px 0",
     textAlign: "center",
     "& .MuiToolbar-root": {
@@ -35,4 +30,4 @@ const useStyles = makeStyles({
       },
     },
   },
-});
+}));
