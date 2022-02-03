@@ -32,7 +32,7 @@ const Hero = () => {
             to="https://page.stibee.com/subscriptions/129317"
             target="_blank"
             onClick={handleMainCtaClick}
-            className="button"
+            className="ctaButton"
           >
             뉴스레터 구독하기
           </Button>
@@ -42,7 +42,7 @@ const Hero = () => {
             to="https://docs.google.com/forms/d/e/1FAIpQLSdXQaXRohcJHLI1rh4lNQsCPGTMMplppgg7bCGS6WOlxVCi2Q/viewform"
             target="_blank"
             onClick={handleSubCtaClick}
-            className="button"
+            className="ctaButton"
           >
             프로젝트 공유하기
           </Button>
@@ -55,42 +55,42 @@ const Hero = () => {
   );
 };
 
-const Root = styled("div")((theme) => ({
-  "&.logo": {
+const Root = styled("div")(({ theme }) => ({
+  ".logo": {
     maxWidth: "300px",
     margin: "20px auto",
   },
-  "&.heroMain": {
+  ".heroMain": {
     "& p": {
       fontSize: "18px",
       margin: 0,
     },
   },
-  "&.heroMessage": {
+  ".heroMessage": {
     fontSize: "24px",
     marginBottom: "20px",
-    // [theme.breakpoints.down("md")]: {
-    //   marginBottom: "10px",
-    // },
+    [theme.breakpoints.down("md")]: {
+      marginBottom: "10px",
+    },
   },
-  "&.heroImage": {
+  ".heroImage": {
     width: "75%",
     maxHeight: "400px",
     objectFit: "contain",
   },
-  "&.heroImageContainer": {
+  ".heroImageContainer": {
     textAlign: "center",
-    // [theme.breakpoints.down("md")]: {
-    //   display: "none",
-    // },
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
   },
-  "&.button": {
+  ".ctaButton": {
     margin: "36px 12px 12px 0",
   },
-  "&.heroDescription": {
-    // [theme.breakpoints.down("md")]: {
-    //   color: "#999999",
-    // },
+  ".heroDescription": {
+    [theme.breakpoints.down("md")]: {
+      color: "#999999",
+    },
   },
 }));
 
