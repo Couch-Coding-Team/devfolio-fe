@@ -1,20 +1,23 @@
 import React, { useState } from "react";
-import { FormControl, makeStyles, TextField } from "@material-ui/core";
-import { Autocomplete } from "@material-ui/lab";
-import Query from "./Query";
-import TECH_STACKS_QUERY from "../queries/techStacks";
+import { FormControl, TextField } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { Autocomplete } from "@mui/material";
+import { graphql, useStaticQuery } from "gatsby";
 
 const Search = ({ filterIds, handleFilter, handleReset }) => {
-  const classes = useStyles();
+  const {
+    allStrapiTechStack: { nodes: techStacks },
+  } = useStaticQuery(data);
   const [filters, setFilters] = useState(filterIds);
 
   const handleSelectChange = (event, techStacks) => {
     if (!techStacks.length) {
+      setFilters([]);
       handleReset();
     } else {
       const newFilterIds = techStacks.map((tech) => {
-        window.gtag("event", "기술스택 검색", { tech_name: tech.name });
-        return tech.id;
+        // window.gtag("event", "기술스택 검색", { tech_name: tech.name });
+        return tech.strapiId;
       });
       setFilters(newFilterIds);
       handleFilter(newFilterIds);
@@ -22,52 +25,52 @@ const Search = ({ filterIds, handleFilter, handleReset }) => {
   };
 
   return (
-    <Query query={TECH_STACKS_QUERY} sort="name:asc">
-      {({
-        data: {
-          techStacks,
-          techStacksConnection: {
-            aggregate: { count },
-          },
-        },
-        onLoadMore,
-      }) => {
-        if (count > techStacks.length) {
-          onLoadMore("techStacks", techStacks.length);
-        }
-        return (
-          <FormControl variant="outlined" className={classes.formControl}>
-            <Autocomplete
-              multiple
-              fullWidth
-              filterSelectedOptions
-              id="tags-outlined"
-              options={techStacks}
-              getOptionLabel={(option) => option.name}
-              defaultValue={techStacks.filter(
-                (tech) => filters?.includes(tech.id) // 필터와 id 일치하는 기술스택 객체
-              )}
-              onChange={handleSelectChange}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant="outlined"
-                  placeholder="기술스택으로 검색해보세요"
-                />
-              )}
-              ChipProps={{ color: "primary" }}
+    <Root>
+      <FormControl variant="outlined" className="searchForm">
+        <Autocomplete
+          multiple
+          fullWidth
+          filterSelectedOptions
+          id="tags-outlined"
+          options={techStacks}
+          getOptionLabel={(option) => option.name}
+          value={techStacks.filter(
+            (tech) => filters?.includes(tech.strapiId) // 필터와 id 일치하는 기술스택 객체
+          )}
+          onChange={handleSelectChange}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              variant="outlined"
+              placeholder="기술스택으로 검색해보세요"
             />
-          </FormControl>
-        );
-      }}
-    </Query>
+          )}
+          ChipProps={{ color: "primary" }}
+        />
+      </FormControl>
+    </Root>
   );
 };
 
 export default Search;
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
+const data = graphql`
+  query {
+    allStrapiTechStack {
+      totalCount
+      nodes {
+        strapiId
+        name
+        projects {
+          id
+        }
+      }
+    }
+  }
+`;
+
+const Root = styled("div")(({ theme }) => ({
+  ".searchForm": {
     flex: "1 1 auto",
     "& .MuiOutlinedInput-root": {
       borderRadius: "100px",
@@ -76,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiAutocomplete-endAdornment": {
       display: "none",
     },
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       width: "100%",
     },
   },

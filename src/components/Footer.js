@@ -4,7 +4,7 @@ import { styled } from "@mui/material/styles";
 
 const Footer = () => (
   <Root>
-    <AppBar position="static" color="inherit" elevation={0} className="footer">
+    <AppBar position="static" color="inherit" elevation={0}>
       <Toolbar>
         <p>
           <strong>DevFoliOh! 2021</strong>
@@ -19,15 +19,13 @@ const Footer = () => (
 export default Footer;
 
 const Root = styled("div")(({ theme }) => ({
-  ".footer": {
-    padding: "52px 0",
-    textAlign: "center",
-    "& .MuiToolbar-root": {
-      flexDirection: "column",
-      margin: "auto",
-      "& p": {
-        margin: "initial",
-      },
+  padding: "52px 0",
+  textAlign: "center",
+  "& .MuiToolbar-root": {
+    flexDirection: "column",
+    margin: "auto",
+    "& p": {
+      margin: "initial",
     },
   },
 }));
