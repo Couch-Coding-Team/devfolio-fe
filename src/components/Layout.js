@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import Nav from "./Nav";
 import Seo from "./Seo";
 
-const Layout = ({ children, seo }) => (
+const Layout = ({ children, seo, location }) => (
   <>
     <Seo seo={seo} />
-    <Nav />
+    <Nav location={location} />
     <main>{children}</main>
   </>
 );

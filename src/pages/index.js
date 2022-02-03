@@ -6,10 +6,10 @@ import Hero from "../containers/Projects/Hero";
 import Layout from "../components/Layout";
 import Project from "../containers/Projects/components/Project";
 
-const IndexPage = () => {
+const IndexPage = (props) => {
   const data = useStaticQuery(query);
   return (
-    <Layout>
+    <Layout location={props.location}>
       <Container>
         <Hero />
       </Container>

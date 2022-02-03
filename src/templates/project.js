@@ -24,7 +24,7 @@ const LIKE_ICON_STYLE = {
   padding: "4px",
   cursor: "pointer",
 };
-const ProjectTemplate = ({ data }) => {
+const ProjectTemplate = ({ location, data }) => {
   const theme = useTheme();
   const isSmScreen = useMediaQuery(theme.breakpoints.down("md"), {
     defaultMatches: true,
@@ -62,7 +62,7 @@ const ProjectTemplate = ({ data }) => {
 
   return (
     <Root>
-      <Layout>
+      <Layout location={location}>
         <Container maxWidth="sm" className="root">
           <h1>{project.title}</h1>
           {project.tech_stacks.map((stack) => (
@@ -163,7 +163,7 @@ const ProjectTemplate = ({ data }) => {
   );
 };
 
-const Root = styled("div")((theme) => ({
+const Root = styled("div")(({ theme }) => ({
   "&.root": {
     padding: "32px",
     position: "relative",

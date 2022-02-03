@@ -8,20 +8,18 @@ const MENU = [
   { key: "magazine", label: "매거진", path: "/magazine" },
 ];
 
-const Nav = () => {
-  // const { pathname } = useLocation();
-
+const Nav = ({ location }) => {
+  const { pathname } = location;
   return (
     <AppBar position="sticky" color="inherit" elevation={0}>
       <StyledToolbar>
-        <IconLeft
+        <Link
           to="/"
           // onClick={() => window.scrollTo(0, 0)}
         >
           <img alt="logo" src="/assets/logo.png" />
-        </IconLeft>
-        <Link to="/project">PROJECTS</Link>
-        {/* {MENU.map((item, idx) => {
+        </Link>
+        {MENU.map((item, idx) => {
           const isCurrentLocation = pathname.includes(item.key);
           const isHome = pathname === "/";
           const isSelected =
@@ -30,18 +28,18 @@ const Nav = () => {
             <Link
               key={idx}
               to={item.path}
-              onClick={() => window.scrollTo(0, 0)}
+              // onClick={() => window.scrollTo(0, 0)}
             >
               <Typography
                 variant="inherit"
                 color={isSelected ? "textPrimary" : "textSecondary"}
-                className={isSelected ? classes.selected : ""}
+                className={isSelected ? "selectedMenu" : ""}
               >
                 {item.label}
               </Typography>
             </Link>
           );
-        })} */}
+        })}
       </StyledToolbar>
     </AppBar>
   );
@@ -53,15 +51,13 @@ const StyledToolbar = styled(Toolbar)({
   gap: "36px",
   alignItems: "center",
   position: "relative",
-});
-const IconLeft = styled(Link)({
   "& img": {
     height: "20px",
     verticalAlign: "middle",
   },
+  "& .selectedMenu": {
+    fontWeight: 700,
+    borderBottom: "1px solid black",
+  },
 });
-// selected: {
-//   fontWeight: 700,
-//   borderBottom: "1px solid black",
-// },
 export default Nav;
