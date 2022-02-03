@@ -36,7 +36,7 @@ exports.createPages = ({ actions, graphql }) => {
     // Create pages for each project.
     result.data.allStrapiProject.edges.forEach(({ node }) => {
       createPage({
-        path: `/${node.strapiId}`,
+        path: `/project/${node.strapiId}`,
         component: path.resolve(`src/templates/project.js`),
         context: {
           id: node.strapiId,
