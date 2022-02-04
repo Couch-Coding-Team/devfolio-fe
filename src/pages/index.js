@@ -8,11 +8,7 @@ import { ListBody, ListHeader } from "../containers/Projects";
 import { ORDER_BY } from "../constants";
 
 const IndexPage = (props) => {
-  const {
-    data: {
-      allStrapiProject: { edges: projectEdges },
-    },
-  } = useStaticQuery(query);
+  const { allStrapiProject } = useStaticQuery(query);
   const [tabValue, setTabValue] = useState(ORDER_BY[0].value);
   const [filterIds, setFilter] = useState([]); // 검색값
   const [results, setResults] = useState([]);
@@ -22,7 +18,7 @@ const IndexPage = (props) => {
   }, []);
 
   const setInitialList = () => {
-    setResults(projectEdges.map((edge) => edge.node));
+    setResults(allStrapiProject.edges.map((edge) => edge.node));
   };
 
   const handleTabChange = (event, newValue) => {
@@ -83,7 +79,10 @@ const query = graphql`
         description
       }
     }
-    allStrapiProject(filter: { is_hidden: { eq: true } }) {
+    allStrapiProject(
+      filter: { is_hidden: { eq: false } }
+      sort: { order: DESC, fields: strapiId }
+    ) {
       edges {
         node {
           strapiId

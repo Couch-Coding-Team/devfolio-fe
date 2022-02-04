@@ -22,7 +22,7 @@ const Projects = ({ projects, count, onLoadMore }) => {
         loader={<span>Loading...</span>}
       >
         {projects.map((project, i) => (
-          <Project project={project} key={`project__${project.id}`} />
+          <Project project={project} key={`project__${project.strapiId}`} />
         ))}
       </InfiniteScroll>
     </Root>
