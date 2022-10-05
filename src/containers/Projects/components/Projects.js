@@ -35,13 +35,13 @@ const useStyles = makeStyles((theme) => ({
   grid: {
     overflow: "visible",
     display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
+    gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
     gap: "1rem",
     [theme.breakpoints.between("xs", "sm")]: {
-      gridTemplateColumns: "repeat(2, 1fr)",
+      gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
     },
     [theme.breakpoints.down("xs")]: {
-      gridTemplateColumns: "repeat(1, 1fr)",
+      gridTemplateColumns: "repeat(1, minmax(0, 1fr))",
     },
   },
 }));
